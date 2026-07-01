@@ -1,33 +1,141 @@
-# Mate & Travel - Pruebas para el Equipo
+# 🧉 Mate & Travel — Backend
 
-Chicas, por favor prueben los siguientes flujos para validar que todo esté funcionando bien:
+Aplicación web para conectar viajeros compatibles. Desarrollada con Node.js, Express y MongoDB.
 
-## 1. Landing Page (`index.html`)
-- Probar el botón de modo oscuro/claro (arriba a la derecha).
-- Probar el buscador de provincias y las pestañas por región (NOA, Cuyo, etc.).
-- Hacer clic en "Registrarse".
+---
 
-## 2. Registro (`pantallas/iniciar_sesion.html`)
-- Crear una cuenta de prueba: pongan nombre, correo y elijan un avatar.
-- Verificar que las redirija automáticamente al Dashboard (`inicio.html`).
+## 🚀 Deploy en producción
 
-## 3. Dashboard (`pantallas/inicio.html`)
-- Chequear que arriba a la izquierda aparezca el nombre que usaron en el registro.
-- Probar los botones de paginación ("Siguiente" y "Anterior") al final de la página.
-- Usar la barra de búsqueda (ej: busquen "Playa" o "Sofía").
-- Clic en "Ver perfil" para revisar que abra el modal con la info del viajero.
+**URL pública:** https://mate-travel-backend.onrender.com
 
-## 4. Match y Chat (¡Importante!)
-- Clic en **"Invitar un mate"**. 
-- Revisar la animación (el mate flotando) y que el botón se ponga gris ("Enviado").
-- **Aclaración:** Hay un **30% de probabilidad** de hacer match. Denle a varios hasta que salga.
-- **Cuando hacen match, verificar que pasen 3 cosas:**
-  1. La tarjeta de esa persona desaparece de la lista.
-  2. Sale la pantalla negra "¡Hay Mate!" y se ve la foto que eligieron en el registro junto a la del otro perfil.
-  3. Se abre el chat automáticamente.
-- En el chat: verifiquen que la persona les manda el primer mensaje y que les contesta (algo random) cuando ustedes le escriben.
+> ⚠️ El servidor puede tardar hasta 50 segundos en responder la primera vez si estuvo inactivo (plan gratuito de Render). Después funciona con normalidad.
 
-## 5. Mi Perfil (`pantallas/perfil.html`)
-- Entrar al perfil y tocar algunas opciones.
-- Verificar que la barra de "progreso del perfil" cambie.
-- Probar el botón de Cerrar Sesión para volver al inicio.
+---
+
+## 💻 Correr en local
+
+### Requisitos
+- Node.js instalado
+- MongoDB instalado y corriendo (o usar la URL de Atlas del `.env`)
+
+### Pasos
+
+**1. Clonar el repositorio**
+```bash
+git clone https://github.com/Milia13/mate-travel-backend.git
+cd mate-travel-backend/backend-mate
+```
+
+**2. Instalar dependencias**
+```bash
+npm install
+```
+
+**3. Crear el archivo `.env`** en la raíz de `backend-mate/` con este contenido:
+```
+PORT=3000
+MONGO_URI=mongodb://127.0.0.1:27017/mate_travel
+JWT_SECRET=matetravel_secreto_2026
+JWT_EXPIRES_IN=7d
+```
+
+> Si preferís usar la base de datos en la nube (MongoDB Atlas) en vez de MongoDB local, usá esta URI:
+> ```
+> MONGO_URI=mongodb+srv://milagrosacev40_db_user:travel26@cluster0.waoqib9.mongodb.net/mate_travel?appName=Cluster0
+> ```
+
+**4. Poblar la base de datos** (solo la primera vez)
+```bash
+node seed.js
+```
+Deberías ver:
+```
+✅ MongoDB conectado
+✅ Tomás (tomas@mate.com)
+✅ Sofía (sofia@mate.com)
+...
+🧉 Seed completado: 10 creados, 0 omitidos
+```
+
+**5. Iniciar el servidor**
+```bash
+npm start
+```
+Deberías ver:
+```
+🧉 Servidor corriendo en http://localhost:3000
+✅ MongoDB conectado
+```
+
+**6. Abrir en el navegador**
+```
+http://localhost:3000
+```
+
+---
+
+## 👥 Usuarios de prueba
+
+Todos los usuarios tienen la misma contraseña: **`mate1234`**
+
+| Nombre | Email | Estilo | Presupuesto | Destino |
+|--------|-------|--------|-------------|---------|
+| Tomás | tomas@mate.com | Mochilero | Económico | Tailandia |
+| Sofía | sofia@mate.com | Confort | Medio | Bariloche |
+| Martín | martin@mate.com | Mochilero | Económico | Salta / NOA |
+| Caro | caro@mate.com | Cultural | Económico | Misiones |
+| Juan | juan@mate.com | Confort | Premium | Ushuaia |
+| Lucía | lucia@mate.com | Social | Económico | Costa Atlántica |
+| Nico | nico@mate.com | Mochilero | Económico | Jujuy |
+| Valentina | valentina@mate.com | Confort | Premium | Mendoza |
+| Ana | ana@mate.com | Cultural | Medio | Iberá |
+| Felipe | felipe@mate.com | Social | Medio | Ruta del Vino |
+
+### Para probar el match mutuo
+1. Abrí el navegador normal → logueate con `tomas@mate.com`
+2. Abrí una ventana en **modo incógnito** → logueate con `nico@mate.com`
+3. Desde Tomás → invitá a Nico
+4. Desde Nico → invitá a Tomás
+5. ¡Hay Mate! 🧉
+
+---
+
+## 🗂️ Estructura del proyecto
+
+```
+backend-mate/
+├── config/
+│   └── db.js              # Conexión a MongoDB
+├── middleware/
+│   └── auth.js            # Verificación de JWT
+├── models/
+│   ├── Usuario.js         # Modelo de usuario
+│   └── Match.js           # Modelo de match mutuo
+├── routes/
+│   ├── usuarios.js        # POST /register, POST /login, GET /me
+│   ├── perfiles.js        # GET /perfiles (con afinidad calculada)
+│   └── matches.js         # POST /invitar, GET /matches
+├── pantallas/             # HTML de cada pantalla
+├── js/                    # JavaScript del frontend
+├── images/                # Imágenes
+├── app.js                 # Servidor Express principal
+├── seed.js                # Script para poblar la base de datos
+├── styles.css             # Estilos globales
+└── .env                   # Variables de entorno (crear manualmente)
+```
+
+---
+
+## ⚙️ Tecnologías utilizadas
+
+| Tecnología | Uso |
+|------------|-----|
+| HTML / CSS / JavaScript | Frontend |
+| Bootstrap 5 | Diseño responsive |
+| Node.js + Express | Servidor backend |
+| MongoDB + Mongoose | Base de datos |
+| bcryptjs | Hash de contraseñas |
+| JSON Web Tokens (JWT) | Autenticación |
+| Render | Deploy del servidor |
+| MongoDB Atlas | Base de datos en la nube |
+| GitHub | Control de versiones |
