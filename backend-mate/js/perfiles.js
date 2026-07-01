@@ -43,7 +43,7 @@
   }
 
   try {
-    const response = await fetch("/api/perfiles", {
+    const response = await fetch("https://mate-travel-backend.onrender.com/api/perfiles", {
       headers: { Authorization: `Bearer ${token}` }
     });
 
