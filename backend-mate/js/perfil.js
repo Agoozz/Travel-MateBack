@@ -1,3 +1,14 @@
+(function checkAuth() {
+    if (!localStorage.getItem('user_name')) {
+        window.location.replace('../index.html');
+    }
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted && !localStorage.getItem('user_name')) {
+            window.location.replace('../index.html');
+        }
+    });
+})();
+
 (function() {
     // Select DOM elements (Preview Mode)
     const prevNameText = document.getElementById('prevName');
@@ -44,15 +55,15 @@
     const toastInstance = toastEl ? new bootstrap.Toast(toastEl, { delay: 3000 }) : null;
 
     // Load initial values from localStorage or set defaults
-    let userName = localStorage.getItem('user_name') || 'Viajero Mate';
-    let userAge = localStorage.getItem('user_age') || '26';
+    let userName = localStorage.getItem('user_name') || 'Lucía Martínez';
+    let userAge = localStorage.getItem('user_age') || '24';
     let userHometown = localStorage.getItem('user_hometown') || 'Buenos Aires, Argentina';
-    let userBio = localStorage.getItem('user_bio') || '¡Listo para compartir mates y emprender nuevas rutas!';
+    let userBio = localStorage.getItem('user_bio') || 'Amante de los viajes, la naturaleza y las buenas conversaciones. Siempre lista para una nueva aventura.';
     let userAvatar = localStorage.getItem('user_avatar') || 'https://i.pravatar.cc/150?img=12';
     
-    let userDestination = localStorage.getItem('user_destination') || 'Tailandia';
-    let userStartDate = localStorage.getItem('user_start_date') || '2026-06-01';
-    let userEndDate = localStorage.getItem('user_end_date') || '2026-06-20';
+    let userDestination = localStorage.getItem('user_destination') || 'Bali, Indonesia';
+    let userStartDate = localStorage.getItem('user_start_date') || '2026-08-15';
+    let userEndDate = localStorage.getItem('user_end_date') || '2026-08-30';
     let userInterests = localStorage.getItem('user_interests') || 'Trekking, Fotografía, Comida local';
     let userLanguages = localStorage.getItem('user_languages') || 'Español, Inglés';
     
@@ -149,10 +160,10 @@
     function updateProfileProgress() {
         let score = 0;
         
-        if (userName !== '' && userName !== 'Viajero Mate') score += 10;
+        if (userName !== '' && userName !== 'Lucía Martínez') score += 10;
         if (userAge !== '') score += 10;
         if (userHometown !== '') score += 10;
-        if (userBio !== '' && userBio !== '¡Listo para compartir mates y emprender nuevas rutas!') score += 15;
+        if (userBio !== '' && userBio !== 'Amante de los viajes, la naturaleza y las buenas conversaciones. Siempre lista para una nueva aventura.') score += 15;
         if (userAvatar !== 'https://i.pravatar.cc/150?img=12') score += 15;
         
         let prefStyle = localStorage.getItem('user_travel_style_key') || 'mochilero';
@@ -176,7 +187,7 @@
         if (sidebarProgress) sidebarProgress.style.width = percentage + '%';
         if (sidebarProgressText) sidebarProgressText.innerText = percentage + '% completado';
         
-        if (sidebarNameText) sidebarNameText.innerText = userName || 'Viajero Mate';
+        if (sidebarNameText) sidebarNameText.innerText = userName || 'Lucía Martínez';
         if (sidebarAvatarImg) sidebarAvatarImg.src = userAvatar;
 
         return percentage;
@@ -264,10 +275,10 @@
     if (btnSaveProfileInfo) {
         btnSaveProfileInfo.addEventListener('click', function(e) {
             e.preventDefault();
-            userName = modalProfileName.value.trim() || 'Viajero Mate';
-            userAge = modalProfileAge.value.trim() || '26';
+            userName = modalProfileName.value.trim() || 'Lucía Martínez';
+            userAge = modalProfileAge.value.trim() || '24';
             userHometown = modalProfileHometown.value.trim() || 'Buenos Aires, Argentina';
-            userBio = modalProfileBio.value.trim() || '¡Listo para compartir mates y emprender nuevas rutas!';
+            userBio = modalProfileBio.value.trim() || 'Amante de los viajes, la naturaleza y las buenas conversaciones. Siempre lista para una nueva aventura.';
             userLanguages = modalProfileLanguages.value.trim();
             userInterests = modalProfileInterests.value.trim();
             
@@ -328,7 +339,7 @@
         logoutBtn.addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.clear();
-            window.location.href = '../index.html';
+            window.location.replace('../index.html');
         });
     }
 

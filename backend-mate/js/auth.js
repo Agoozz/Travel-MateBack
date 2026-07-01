@@ -3,7 +3,7 @@
 //  Mate & Travel
 // ============================================================
 
-const API = "https://mate-travel-backend.onrender.com/api/usuarios";
+const API = "/api/usuarios";
 
 // ─── UI: mostrar/ocultar contraseña ─────────────────────────
 window.togglePasswordVisibility = function(fieldId, btn) {

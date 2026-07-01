@@ -454,7 +454,7 @@
 
                 try {
                     const token = localStorage.getItem('token');
-                    const response = await fetch(`https://mate-travel-backend.onrender.com/api/matches/invitar/${targetId}`, {
+                    const response = await fetch(`/api/matches/invitar/${targetId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
