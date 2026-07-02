@@ -9,6 +9,7 @@ const conectarDB    = require("./config/db");
 const usuariosRoutes = require("./routes/usuarios");
 const perfilesRoutes = require("./routes/perfiles");
 const matchesRoutes  = require("./routes/matches");
+const mensajesRoutes = require("./routes/mensajes");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(__dirname));
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/perfiles", perfilesRoutes);
 app.use("/api/matches", matchesRoutes);
+app.use("/api/mensajes", mensajesRoutes);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));

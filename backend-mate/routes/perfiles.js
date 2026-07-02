@@ -68,5 +68,28 @@ router.get("/", verificarToken, async (req, res) => {
     res.status(500).json({ error: "Error al obtener perfiles." });
   }
 });
+// ─── PUT /api/perfiles/me ────────────────────────────────────────
+router.put("/me", verificarToken, async (req, res) => {
+  try {
+    const { nombre, ubicacion, bio, estiloViaje, presupuesto, disponibilidad, fechaInicio, fechaFin } = req.body;
+    
+    // Solo actualizamos campos permitidos
+    if (nombre !== undefined) req.usuario.nombre = nombre;
+    if (ubicacion !== undefined) req.usuario.ubicacion = ubicacion;
+    if (bio !== undefined) req.usuario.bio = bio;
+    if (estiloViaje !== undefined) req.usuario.estiloViaje = estiloViaje;
+    if (presupuesto !== undefined) req.usuario.presupuesto = presupuesto;
+    if (disponibilidad !== undefined) req.usuario.disponibilidad = disponibilidad;
+    if (fechaInicio !== undefined) req.usuario.fechaInicio = fechaInicio;
+    if (fechaFin !== undefined) req.usuario.fechaFin = fechaFin;
+    
+    await req.usuario.save();
+
+    res.json({ message: "Perfil actualizado correctamente", usuario: req.usuario });
+  } catch (error) {
+    console.error("Error en PUT /api/perfiles/me:", error);
+    res.status(500).json({ error: "Error al actualizar el perfil." });
+  }
+});
 
 module.exports = router;
