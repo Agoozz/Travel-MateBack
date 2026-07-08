@@ -11,3 +11,5 @@ const conectarDB = async () => {
 };
 
 module.exports = conectarDB;
+
+// Version sin React
