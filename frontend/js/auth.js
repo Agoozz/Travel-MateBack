@@ -151,14 +151,23 @@ window.handleAuthSubmit = async function(event, type) {
   } catch (err) {
     console.warn("Backend no detectado. Iniciando en modo local (Offline)...");
     
-    // Mock user para el modo offline
+    let mockNombre = type === "login" ? "Viajero Explorador" : (form.querySelector('input[placeholder="Ej: Sofía Rodríguez"]')?.value.trim() || "Nuevo Viajero");
+    let mockBio = "";
+    
+    // Si quiere entrar con la cuenta de prueba "viajero@mate.com"
+    if (email === "viajero@mate.com") {
+      mockNombre = "Mateo";
+      mockBio = "¡Hola! Soy Mateo, probando el perfil completo en modo local.";
+    }
+
     const mockUser = {
       _id: "offline-123",
-      nombre: type === "login" ? "Viajero Explorador" : (form.querySelector('input[placeholder="Ej: Sofía Rodríguez"]')?.value.trim() || "Nuevo Viajero"),
+      nombre: mockNombre,
       email: email,
       edad: 26,
       estiloViaje: "mochilero",
-      progresoPerfil: 45
+      progresoPerfil: 45,
+      bio: mockBio
     };
 
     saveSession("offline-token-xyz", mockUser);
