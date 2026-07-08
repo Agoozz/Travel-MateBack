@@ -22,46 +22,95 @@ const pageChatForm = document.getElementById('pageChatForm');
 const pageChatInput = document.getElementById('pageChatInput');
 
 let currentUserId = null;
+let pollingInterval = null;
 
-function loadContacts() {
-    const chats = ChatManager.getAllChats();
-    const userIds = Object.keys(chats).sort((a, b) => chats[b].lastUpdate - chats[a].lastUpdate);
-    
-    if (userIds.length === 0) {
-        noChatsMsg.classList.remove('d-none');
-        return;
+// Backend API configuration
+const API_BASE = "http://localhost:3000/api";
+const token = localStorage.getItem("token");
+const myId = localStorage.getItem("user_id");
+
+// Estado
+let isBackendOnline = true; // Asumimos online por defecto hasta que falle una petición
+let chatHistory = []; // Almacena historial de chat local si está en fallback
+
+async function loadContacts() {
+    try {
+        if (!token) throw new Error("No token");
+        
+        // 1. Intentar cargar desde el backend
+        const response = await fetch(`${API_BASE}/matches`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!response.ok) throw new Error("Backend no disponible");
+        
+        isBackendOnline = true;
+        const data = await response.json();
+        const matches = data.matches || [];
+        
+        // Filtrar matches confirmados y formatear
+        const validMatches = matches.filter(m => m.estado === 'matched');
+        
+        if (validMatches.length === 0) {
+            noChatsMsg.classList.remove('d-none');
+            contactsList.innerHTML = '';
+            return;
+        }
+
+        noChatsMsg.classList.add('d-none');
+        contactsList.innerHTML = '';
+        
+        validMatches.forEach(m => {
+            const isMeUsuario1 = m.usuario1._id === myId;
+            const otherUser = isMeUsuario1 ? m.usuario2 : m.usuario1;
+            renderContactItem(otherUser._id, otherUser.nombre, otherUser.avatar, "Abre para ver los mensajes");
+        });
+
+    } catch (error) {
+        // 2. Fallback: cargar desde ChatManager (Local)
+        console.warn("Backend offline o error al cargar contactos. Activando modo Fallback local.", error);
+        isBackendOnline = false;
+        
+        const chats = ChatManager.getAllChats();
+        const userIds = Object.keys(chats).sort((a, b) => chats[b].lastUpdate - chats[a].lastUpdate);
+        
+        if (userIds.length === 0) {
+            noChatsMsg.classList.remove('d-none');
+            contactsList.innerHTML = '';
+            return;
+        }
+        
+        noChatsMsg.classList.add('d-none');
+        contactsList.innerHTML = '';
+        
+        userIds.forEach(id => {
+            const chat = chats[id];
+            const lastMsg = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].text : '';
+            renderContactItem(id, chat.name, chat.avatar, lastMsg);
+        });
     }
-    
-    noChatsMsg.classList.add('d-none');
-    contactsList.innerHTML = ''; // Clear previous
+}
 
-    userIds.forEach(id => {
-        const chat = chats[id];
-        const lastMsg = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].text : '';
-        
-        const item = document.createElement('div');
-        // Using Bootstrap list-group-item instead of custom chat-item
-        item.className = `list-group-item list-group-item-action p-3 d-flex align-items-center gap-3 ${currentUserId === id ? 'active' : ''}`;
-        item.dataset.id = id;
-        item.style.cursor = 'pointer'; // Safe dynamic inline style for JS action
-        item.innerHTML = `
-            <img src="${chat.avatar}" class="rounded-circle object-fit-cover" width="50" height="50">
-            <div class="flex-grow-1 overflow-hidden">
-                <div class="d-flex justify-content-between align-items-baseline">
-                    <h6 class="mb-0 fw-bold">${chat.name}</h6>
-                </div>
-                <p class="mb-0 small text-muted text-truncate">${lastMsg}</p>
+function renderContactItem(id, name, avatar, lastMsg) {
+    const item = document.createElement('div');
+    item.className = `list-group-item list-group-item-action p-3 d-flex align-items-center gap-3 ${currentUserId === id ? 'active' : ''}`;
+    item.dataset.id = id;
+    item.style.cursor = 'pointer'; 
+    item.innerHTML = `
+        <img src="${avatar}" class="rounded-circle object-fit-cover" width="50" height="50">
+        <div class="flex-grow-1 overflow-hidden">
+            <div class="d-flex justify-content-between align-items-baseline">
+                <h6 class="mb-0 fw-bold">${name}</h6>
             </div>
-        `;
-        
-        item.addEventListener('click', () => openChat(id, chat.name, chat.avatar));
-        contactsList.appendChild(item);
-    });
+            <p class="mb-0 small text-muted text-truncate">${lastMsg}</p>
+        </div>
+    `;
+    item.addEventListener('click', () => openChat(id, name, avatar));
+    contactsList.appendChild(item);
 }
 
 function appendMessage(text, type, animate = true) {
     const msgDiv = document.createElement('div');
-    
     const baseClasses = "p-2 px-3 mb-2 rounded-4 shadow-sm w-75 position-relative";
     const typeClasses = type === 'sent' 
         ? "bg-success text-white align-self-end ms-auto" 
@@ -79,6 +128,50 @@ function appendMessage(text, type, animate = true) {
     pageChatMessages.scrollTop = pageChatMessages.scrollHeight;
 }
 
+async function loadMessages() {
+    if (!currentUserId) return;
+    
+    try {
+        if (!isBackendOnline) throw new Error("Fallback mode");
+        
+        const response = await fetch(`${API_BASE}/mensajes/${currentUserId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!response.ok) throw new Error("Fetch failed");
+        
+        const mensajes = await response.json();
+        
+        // Si no hay mensajes nuevos comparado con la longitud anterior, no redibujar todo
+        if (chatHistory.length === mensajes.length) return;
+        
+        chatHistory = mensajes;
+        renderMessages(chatHistory.map(m => ({
+            text: m.texto,
+            type: m.emisor === myId ? 'sent' : 'received'
+        })));
+        
+    } catch (error) {
+        // Fallback: local
+        const chat = ChatManager.getChatHistory(currentUserId);
+        if (chatHistory.length !== chat.messages.length) {
+            chatHistory = chat.messages;
+            renderMessages(chatHistory.map(m => ({
+                text: m.text,
+                type: m.sender
+            })));
+        }
+    }
+}
+
+function renderMessages(messages) {
+    pageChatMessages.innerHTML = '';
+    pageChatMessages.appendChild(pageTypingIndicator);
+    messages.forEach(msg => {
+        appendMessage(msg.text, msg.type, false);
+    });
+}
+
 function openChat(id, name, avatar) {
     currentUserId = id;
     emptyStateContainer.classList.add('d-none');
@@ -92,43 +185,67 @@ function openChat(id, name, avatar) {
     const activeEl = document.querySelector(`.list-group-item[data-id="${id}"]`);
     if (activeEl) activeEl.classList.add('active');
 
-    // Load messages
-    const chat = ChatManager.getChatHistory(id);
+    // Limpiar mensajes y cargar iniciales
+    chatHistory = [];
     pageChatMessages.innerHTML = '';
-    pageChatMessages.appendChild(pageTypingIndicator); // put indicator back
-    
-    chat.messages.forEach(msg => {
-        appendMessage(msg.text, msg.sender, false);
-    });
+    pageChatMessages.appendChild(pageTypingIndicator);
+    loadMessages();
+
+    // Iniciar polling
+    if (pollingInterval) clearInterval(pollingInterval);
+    pollingInterval = setInterval(loadMessages, 3000);
 }
 
-pageChatForm.addEventListener('submit', function(e) {
+pageChatForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const text = pageChatInput.value.trim();
     if (text && currentUserId) {
         const targetName = activeChatName.innerText;
         const targetAvatarSrc = activeChatAvatar.src;
         
-        ChatManager.addMessage(currentUserId, targetName, targetAvatarSrc, text, 'sent');
+        // Optimistic append
         appendMessage(text, 'sent');
         pageChatInput.value = '';
-        loadContacts(); // update last message preview
         
-        // Simulate reply
-        setTimeout(() => {
-            pageTypingIndicator.classList.remove('d-none');
-            pageTypingIndicator.classList.add('d-flex');
-            pageChatMessages.scrollTop = pageChatMessages.scrollHeight;
+        try {
+            if (!isBackendOnline) throw new Error("Fallback mode");
             
+            const response = await fetch(`${API_BASE}/mensajes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ receptorId: currentUserId, texto: text })
+            });
+            
+            if (!response.ok) throw new Error("Send failed");
+            
+            // Refrescar mensajes
+            loadMessages();
+            
+        } catch (error) {
+            console.log("Enviando por fallback");
+            // Fallback: usar ChatManager
+            ChatManager.addMessage(currentUserId, targetName, targetAvatarSrc, text, 'sent');
+            loadContacts();
+            
+            // Simular respuesta local solo en modo fallback
             setTimeout(() => {
-                pageTypingIndicator.classList.add('d-none');
-                pageTypingIndicator.classList.remove('d-flex');
-                const reply = ChatManager.generateReply(text);
-                ChatManager.addMessage(currentUserId, targetName, targetAvatarSrc, reply, 'received');
-                appendMessage(reply, 'received');
-                loadContacts();
-            }, 1500 + Math.random() * 1500);
-        }, 1000);
+                pageTypingIndicator.classList.remove('d-none');
+                pageTypingIndicator.classList.add('d-flex');
+                pageChatMessages.scrollTop = pageChatMessages.scrollHeight;
+                
+                setTimeout(() => {
+                    pageTypingIndicator.classList.add('d-none');
+                    pageTypingIndicator.classList.remove('d-flex');
+                    const reply = ChatManager.generateReply(text);
+                    ChatManager.addMessage(currentUserId, targetName, targetAvatarSrc, reply, 'received');
+                    loadMessages();
+                    loadContacts();
+                }, 1500 + Math.random() * 1500);
+            }, 1000);
+        }
     }
 });
 
