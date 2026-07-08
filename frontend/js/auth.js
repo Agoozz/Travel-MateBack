@@ -3,7 +3,7 @@
 //  Mate & Travel
 // ============================================================
 
-const API = "/api/usuarios";
+const API = "http://localhost:3000/api/usuarios";
 
 // ─── UI: mostrar/ocultar contraseña ─────────────────────────
 window.togglePasswordVisibility = function(fieldId, btn) {
