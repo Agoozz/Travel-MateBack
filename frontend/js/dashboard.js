@@ -244,6 +244,14 @@
         searchBtn.addEventListener('click', executeSearch);
     }
     
+    const btnClearSearch = document.getElementById('btnClearSearch');
+    if (btnClearSearch) {
+        btnClearSearch.addEventListener('click', function() {
+            if (searchInput) searchInput.value = '';
+            if (searchBtn) searchBtn.click();
+        });
+    }
+    
     if (searchInput) {
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {

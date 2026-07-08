@@ -52,7 +52,7 @@
                             <i class="bi bi-moon-fill me-2"></i> <span class="theme-toggle-text">Modo Oscuro</span>
                         </a>
                         <hr class="my-2 border-secondary opacity-25">
-                        <a href="#" onclick="localStorage.clear(); window.location.replace('../index.html'); return false;" class="nav-link text-danger link-danger py-2 px-3 rounded-3 mt-1 fw-semibold btn-logout-profile">
+                        <a href="#"  class="nav-link text-danger link-danger py-2 px-3 rounded-3 mt-1 fw-semibold btn-logout-profile">
                             <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
                         </a>
                     </nav>
@@ -179,7 +179,7 @@
                         </ul>
                     </div>
 
-                    <button class="btn btn-outline-success rounded-pill px-4 py-2 fw-semibold" onclick="document.getElementById('searchInput').value=''; document.getElementById('searchBtn').click();">
+                    <button class="btn btn-outline-success rounded-pill px-4 py-2 fw-semibold" id="btnClearSearch">
                         <i class="bi bi-x-circle"></i> Limpiar filtros
                     </button>
                 </div>
@@ -370,7 +370,7 @@
     </div>
 
     <!-- Back to Top Button -->
-    <button class="btn btn-success rounded-circle shadow-lg position-fixed d-none" id="btnBackToTop" style="bottom: 30px; right: 30px; width: 50px; height: 50px; z-index: 1050; opacity: 0; transition: opacity 0.3s;" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    <button class="btn btn-success rounded-circle shadow-lg position-fixed d-none" id="btnBackToTop" style="bottom: 30px; right: 30px; width: 50px; height: 50px; z-index: 1050; opacity: 0; transition: opacity 0.3s;" >
         <i class="bi bi-arrow-up fs-5"></i>
     </button>
 
