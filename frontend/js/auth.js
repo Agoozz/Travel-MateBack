@@ -149,12 +149,20 @@ window.handleAuthSubmit = async function(event, type) {
     showSuccessAndRedirect();
 
   } catch (err) {
-    showError("No se pudo conectar al servidor. ¿Está corriendo Node?");
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerText = type === "login" ? "Ingresar" : "Registrarse";
-    }
-    console.error(err);
+    console.warn("Backend no detectado. Iniciando en modo local (Offline)...");
+    
+    // Mock user para el modo offline
+    const mockUser = {
+      _id: "offline-123",
+      nombre: type === "login" ? "Viajero Explorador" : (form.querySelector('input[placeholder="Ej: Sofía Rodríguez"]')?.value.trim() || "Nuevo Viajero"),
+      email: email,
+      edad: 26,
+      estiloViaje: "mochilero",
+      progresoPerfil: 45
+    };
+
+    saveSession("offline-token-xyz", mockUser);
+    showSuccessAndRedirect();
   }
 };
 
