@@ -61,7 +61,9 @@
 
     cardsContainer.innerHTML = "";
 
-    perfiles.forEach((p) => {
+    function renderProfiles(perfilesList) {
+    cardsContainer.innerHTML = "";
+    perfilesList.forEach((p) => {
       const key = p._id;
 
       window.companionProfilesData[key] = {
@@ -150,7 +152,13 @@
 
   } catch (err) {
     console.error("Error cargando perfiles:", err);
-    cardsContainer.innerHTML = `<p class="text-danger">No se pudieron cargar los perfiles. ¿Está corriendo el servidor?</p>`;
+    console.warn("Backend offline. Usando perfiles mock.");
+    const mockPerfiles = [
+      { _id: "m1", nombre: "Nico", edad: 29, ubicacion: "Buenos Aires", estiloViaje: "mochilero", bio: "Amante de la naturaleza.", destino: "Patagonia", fechaInicio: "2024-11-01", fechaFin: "2024-11-15", presupuesto: "economico", intereses: ["Trekking"], idiomas: ["Español"], avatar: "images/avatar3.jpg", afinidad: 90 },
+      { _id: "m2", nombre: "Sofía", edad: 25, ubicacion: "Córdoba", estiloViaje: "confort", bio: "Busco comodidad.", destino: "Mendoza", fechaInicio: "2024-12-05", fechaFin: "2024-12-20", presupuesto: "medio", intereses: ["Vino"], idiomas: ["Español"], avatar: "images/avatar2.jpg", afinidad: 85 }
+    ];
+    renderProfiles(mockPerfiles);
+    document.dispatchEvent(new CustomEvent("perfilesListos"));
   }
 
 })();
