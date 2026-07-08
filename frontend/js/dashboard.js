@@ -522,6 +522,10 @@
                 }, 300);
             }
         });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
     }); // end perfilesListos listener
 })();
