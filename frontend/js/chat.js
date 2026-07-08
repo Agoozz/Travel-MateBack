@@ -1,136 +1,113 @@
-(function checkAuth() {
-    if (!localStorage.getItem('user_name')) {
-        window.location.replace('index.html');
+/**
+ * ChatManager: Lógica de chat persistente y bot conversacional
+ */
+window.ChatManager = (function() {
+    const STORAGE_KEY = 'mateAndTravelChats';
+
+    // Cargar chats desde localStorage
+    function loadChats() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        return stored ? JSON.parse(stored) : {};
     }
-    window.addEventListener('pageshow', function(event) {
-        if (event.persisted && !localStorage.getItem('user_name')) {
-            window.location.replace('index.html');
+
+    // Guardar chats a localStorage
+    function saveChats(chats) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(chats));
+    }
+
+    // Obtener todos los chats
+    function getAllChats() {
+        return loadChats();
+    }
+
+    // Obtener el historial de un usuario específico
+    function getChatHistory(userId) {
+        const chats = loadChats();
+        return chats[userId] || { messages: [], name: '', avatar: '', lastUpdate: 0 };
+    }
+
+    // Añadir un mensaje al historial
+    function addMessage(userId, userName, userAvatar, text, sender) {
+        const chats = loadChats();
+        if (!chats[userId]) {
+            chats[userId] = {
+                id: userId,
+                name: userName,
+                avatar: userAvatar,
+                messages: []
+            };
+        } else {
+            // Actualizar avatar y nombre por si cambiaron
+            chats[userId].name = userName;
+            chats[userId].avatar = userAvatar;
         }
-    });
+
+        chats[userId].messages.push({
+            text: text,
+            sender: sender, // 'sent' (yo) o 'received' (el otro)
+            timestamp: new Date().getTime()
+        });
+        chats[userId].lastUpdate = new Date().getTime();
+        
+        saveChats(chats);
+    }
+
+    // Motor de respuestas variadas
+    function generateReply(userText) {
+        const text = userText.toLowerCase();
+        
+        if (text.includes('hola') || text.includes('buenas')) {
+            const replies = [
+                "¡Hola! ¿Cómo andás? 😊",
+                "¡Ey! Qué bueno cruzar mensaje. 🧉",
+                "Holaaa, ¿todo bien por ahí?"
+            ];
+            return replies[Math.floor(Math.random() * replies.length)];
+        }
+        
+        if (text.includes('cuando') || text.includes('fecha') || text.includes('mes')) {
+            const replies = [
+                "Estaba pensando ir en un par de meses, en temporada baja.",
+                "Idealmente para las vacaciones de invierno, si puedo acomodar mis días.",
+                "¡Cuando pinte! Soy bastante flexible con las fechas."
+            ];
+            return replies[Math.floor(Math.random() * replies.length)];
+        }
+        
+        if (text.includes('plata') || text.includes('presupuesto') || text.includes('gastar') || text.includes('precio') || text.includes('gasolero')) {
+            const replies = [
+                "Yo prefiero ir gasolero, hostels y cocinar nosotros. Así estiramos el viaje.",
+                "Tengo un presupuesto medio, ni tan de lujo ni sufriendo jaja.",
+                "Me gusta darme algunos gustos con la comida, pero en hospedaje ahorro."
+            ];
+            return replies[Math.floor(Math.random() * replies.length)];
+        }
+
+        if (text.includes('viaje') || text.includes('ir') || text.includes('lugar') || text.includes('destino')) {
+            const replies = [
+                "¡Me re copa la idea! Tengo muchas ganas de recorrer nuevos senderos.",
+                "¡Obvio! Yo pongo el mate y vos las facturas 😉",
+                "Suena genial. ¿Tenés un itinerario pensado o vamos viendo en el momento?"
+            ];
+            return replies[Math.floor(Math.random() * replies.length)];
+        }
+
+        // Default random replies if no keyword matched
+        const defaultReplies = [
+            "Jajaja, tal cual.",
+            "Me parece perfecto.",
+            "¿Vos qué decís? Yo me adapto.",
+            "¡De una! Contá conmigo para esa.",
+            "Interesante... contame un poco más de cómo viajás vos.",
+            "¡Me encanta la idea! Pinta re bien."
+        ];
+        return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
+    }
+
+    return {
+        getAllChats,
+        getChatHistory,
+        addMessage,
+        generateReply
+    };
 })();
-
-// Mensajes page logic
-const contactsList = document.getElementById('contactsList');
-const noChatsMsg = document.getElementById('noChatsMsg');
-const activeChatContainer = document.getElementById('activeChatContainer');
-const emptyStateContainer = document.getElementById('emptyStateContainer');
-const activeChatAvatar = document.getElementById('activeChatAvatar');
-const activeChatName = document.getElementById('activeChatName');
-const pageChatMessages = document.getElementById('pageChatMessages');
-const pageTypingIndicator = document.getElementById('pageTypingIndicator');
-const pageChatForm = document.getElementById('pageChatForm');
-const pageChatInput = document.getElementById('pageChatInput');
-
-let currentUserId = null;
-
-function loadContacts() {
-    const chats = ChatManager.getAllChats();
-    const userIds = Object.keys(chats).sort((a, b) => chats[b].lastUpdate - chats[a].lastUpdate);
-    
-    if (userIds.length === 0) {
-        noChatsMsg.classList.remove('d-none');
-        return;
-    }
-    
-    noChatsMsg.classList.add('d-none');
-    contactsList.innerHTML = ''; // Clear previous
-
-    userIds.forEach(id => {
-        const chat = chats[id];
-        const lastMsg = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].text : '';
-        
-        const item = document.createElement('div');
-        // Using Bootstrap list-group-item instead of custom chat-item
-        item.className = `list-group-item list-group-item-action p-3 d-flex align-items-center gap-3 ${currentUserId === id ? 'active' : ''}`;
-        item.dataset.id = id;
-        item.style.cursor = 'pointer'; // Safe dynamic inline style for JS action
-        item.innerHTML = `
-            <img src="${chat.avatar}" class="rounded-circle object-fit-cover" width="50" height="50">
-            <div class="flex-grow-1 overflow-hidden">
-                <div class="d-flex justify-content-between align-items-baseline">
-                    <h6 class="mb-0 fw-bold">${chat.name}</h6>
-                </div>
-                <p class="mb-0 small text-muted text-truncate">${lastMsg}</p>
-            </div>
-        `;
-        
-        item.addEventListener('click', () => openChat(id, chat.name, chat.avatar));
-        contactsList.appendChild(item);
-    });
-}
-
-function appendMessage(text, type, animate = true) {
-    const msgDiv = document.createElement('div');
-    
-    const baseClasses = "p-2 px-3 mb-2 rounded-4 shadow-sm w-75 position-relative";
-    const typeClasses = type === 'sent' 
-        ? "bg-success text-white align-self-end ms-auto" 
-        : "bg-body-secondary text-body-emphasis align-self-start border border-light-subtle";
-        
-    msgDiv.className = `${baseClasses} ${typeClasses}`;
-    if (!animate) msgDiv.style.animation = 'none';
-    msgDiv.innerText = text;
-    
-    if (pageTypingIndicator.parentNode === pageChatMessages) {
-        pageChatMessages.insertBefore(msgDiv, pageTypingIndicator);
-    } else {
-        pageChatMessages.appendChild(msgDiv);
-    }
-    pageChatMessages.scrollTop = pageChatMessages.scrollHeight;
-}
-
-function openChat(id, name, avatar) {
-    currentUserId = id;
-    emptyStateContainer.classList.add('d-none');
-    activeChatContainer.classList.remove('d-none');
-    
-    activeChatName.innerText = name;
-    activeChatAvatar.src = avatar;
-    
-    // Highlight contact
-    document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
-    const activeEl = document.querySelector(`.list-group-item[data-id="${id}"]`);
-    if (activeEl) activeEl.classList.add('active');
-
-    // Load messages
-    const chat = ChatManager.getChatHistory(id);
-    pageChatMessages.innerHTML = '';
-    pageChatMessages.appendChild(pageTypingIndicator); // put indicator back
-    
-    chat.messages.forEach(msg => {
-        appendMessage(msg.text, msg.sender, false);
-    });
-}
-
-pageChatForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const text = pageChatInput.value.trim();
-    if (text && currentUserId) {
-        const targetName = activeChatName.innerText;
-        const targetAvatarSrc = activeChatAvatar.src;
-        
-        ChatManager.addMessage(currentUserId, targetName, targetAvatarSrc, text, 'sent');
-        appendMessage(text, 'sent');
-        pageChatInput.value = '';
-        loadContacts(); // update last message preview
-        
-        // Simulate reply
-        setTimeout(() => {
-            pageTypingIndicator.classList.remove('d-none');
-            pageTypingIndicator.classList.add('d-flex');
-            pageChatMessages.scrollTop = pageChatMessages.scrollHeight;
-            
-            setTimeout(() => {
-                pageTypingIndicator.classList.add('d-none');
-                pageTypingIndicator.classList.remove('d-flex');
-                const reply = ChatManager.generateReply(text);
-                ChatManager.addMessage(currentUserId, targetName, targetAvatarSrc, reply, 'received');
-                appendMessage(reply, 'received');
-                loadContacts();
-            }, 1500 + Math.random() * 1500);
-        }, 1000);
-    }
-});
-
-// Initialize
-loadContacts();

@@ -18,7 +18,7 @@
     const footer = document.getElementById('testModalFooter');
     const progressLine = document.getElementById('stepperLineProgress');
 
-    const isPantallas = window.location.pathname.includes('/');
+    const isPantallas = window.location.pathname.includes('/pantallas/');
     const basePath = isPantallas ? '../' : '';
 
     const profiles = {
@@ -397,7 +397,7 @@
             saveTestResultsToLocalStorage();
             const resultTitle = document.getElementById('resultProfileTitle').innerText;
             const encodedTitle = encodeURIComponent(resultTitle);
-            window.location.href = `iniciar_sesion.html?mode=register&profile=${encodedTitle}`;
+            window.location.href = `pantallas/iniciar_sesion.html?mode=register&profile=${encodedTitle}`;
         });
     }
     
@@ -407,7 +407,7 @@
             saveTestResultsToLocalStorage();
             const resultTitle = document.getElementById('resultProfileTitle').innerText;
             const encodedTitle = encodeURIComponent(resultTitle);
-            window.location.href = `iniciar_sesion.html?mode=login&profile=${encodedTitle}`;
+            window.location.href = `pantallas/iniciar_sesion.html?mode=login&profile=${encodedTitle}`;
         });
     }
 
