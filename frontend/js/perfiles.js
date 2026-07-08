@@ -82,11 +82,11 @@
       const card = document.createElement("div");
       card.className = "card rounded-4 shadow-sm border-0 mb-4 companion-item";
       card.innerHTML = `
-        <div class="card-body p-0">
+        <div class="card-body p-4">
           <div class="row align-items-center">
             <div class="col-md-2 text-center mb-3 mb-md-0">
               <div class="companion-avatar-wrap mx-auto">
-                <img src="${p.avatar}" alt="${p.nombre}">
+                <img src="${p.avatar}" alt="${p.nombre}" class="rounded-circle object-fit-cover shadow-sm border border-2 border-white" style="width: 100px; height: 100px; object-fit: cover;">
               </div>
             </div>
             <div class="col-md-7">
@@ -123,6 +123,27 @@
         </div>`;
       cardsContainer.appendChild(card);
     });
+
+    
+      // Add pagination to the end
+      const paginationDiv = document.createElement("div");
+      paginationDiv.className = "d-flex justify-content-center mt-4 mb-5";
+      paginationDiv.innerHTML = `
+        <nav aria-label="Page navigation">
+          <ul class="pagination pagination-sm">
+            <li class="page-item disabled">
+              <a class="page-link text-success" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+            </li>
+            <li class="page-item active"><a class="page-link bg-success border-success" href="#">1</a></li>
+            <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
+            <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link text-success" href="#">Siguiente</a>
+            </li>
+          </ul>
+        </nav>
+      `;
+      cardsContainer.appendChild(paginationDiv);
 
     // Avisamos a dashboard.js que ya puede inicializarse
     document.dispatchEvent(new CustomEvent("perfilesListos"));
