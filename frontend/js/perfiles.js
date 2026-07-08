@@ -42,27 +42,10 @@
     return `${d} ${meses[parseInt(m, 10) - 1]}`;
   }
 
-  try {
-    const response = await fetch("http://localhost:3000/api/perfiles", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (response.status === 401) {
-      localStorage.clear();
-      window.location.href = "iniciar_sesion.html";
-      return;
-    }
-
-    const data = await response.json();
-    const perfiles = data.perfiles || [];
-
-    // Objeto global usado por dashboard.js para abrir el modal "Ver perfil"
+  function renderProfiles(perfilesList) {
     window.companionProfilesData = {};
-
     cardsContainer.innerHTML = "";
 
-    function renderProfiles(perfilesList) {
-    cardsContainer.innerHTML = "";
     perfilesList.forEach((p) => {
       const key = p._id;
 
@@ -126,36 +109,48 @@
       cardsContainer.appendChild(card);
     });
 
-    
-      // Add pagination to the end
-      const paginationDiv = document.createElement("div");
-      paginationDiv.className = "d-flex justify-content-center mt-4 mb-5";
-      paginationDiv.innerHTML = `
-        <nav aria-label="Page navigation">
-          <ul class="pagination pagination-sm">
-            <li class="page-item disabled">
-              <a class="page-link text-success" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-            </li>
-            <li class="page-item active"><a class="page-link bg-success border-success" href="#">1</a></li>
-            <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
-            <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link text-success" href="#">Siguiente</a>
-            </li>
-          </ul>
-        </nav>
-      `;
-      cardsContainer.appendChild(paginationDiv);
+    const paginationDiv = document.createElement("div");
+    paginationDiv.className = "d-flex justify-content-center mt-4 mb-5";
+    paginationDiv.innerHTML = `
+      <nav aria-label="Page navigation">
+        <ul class="pagination pagination-sm">
+          <li class="page-item disabled">
+            <a class="page-link text-success" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+          </li>
+          <li class="page-item active"><a class="page-link bg-success border-success" href="#">1</a></li>
+          <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
+          <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link text-success" href="#">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+    `;
+    cardsContainer.appendChild(paginationDiv);
+  }
 
-    // Avisamos a dashboard.js que ya puede inicializarse
+  try {
+    const response = await fetch("http://localhost:3000/api/perfiles", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (response.status === 401) {
+      localStorage.clear();
+      window.location.href = "iniciar_sesion.html";
+      return;
+    }
+
+    const data = await response.json();
+    const perfiles = data.perfiles || [];
+
+    renderProfiles(perfiles);
     document.dispatchEvent(new CustomEvent("perfilesListos"));
 
   } catch (err) {
-    console.error("Error cargando perfiles:", err);
     console.warn("Backend offline. Usando perfiles mock.");
     const mockPerfiles = [
-      { _id: "m1", nombre: "Nico", edad: 29, ubicacion: "Buenos Aires", estiloViaje: "mochilero", bio: "Amante de la naturaleza.", destino: "Patagonia", fechaInicio: "2024-11-01", fechaFin: "2024-11-15", presupuesto: "economico", intereses: ["Trekking"], idiomas: ["Español"], avatar: "images/avatar3.jpg", afinidad: 90 },
-      { _id: "m2", nombre: "Sofía", edad: 25, ubicacion: "Córdoba", estiloViaje: "confort", bio: "Busco comodidad.", destino: "Mendoza", fechaInicio: "2024-12-05", fechaFin: "2024-12-20", presupuesto: "medio", intereses: ["Vino"], idiomas: ["Español"], avatar: "images/avatar2.jpg", afinidad: 85 }
+      { _id: "m1", nombre: "Nico", edad: 29, ubicacion: "Buenos Aires", estiloViaje: "mochilero", bio: "Viajero apasionado, me gusta explorar lugares poco conocidos.", destino: "Patagonia", fechaInicio: "2024-11-01", fechaFin: "2024-11-15", presupuesto: "economico", intereses: ["Trekking", "Fotografía"], idiomas: ["Español", "Inglés"], avatar: "images/avatar1.jpg", afinidad: 90 },
+      { _id: "m2", nombre: "Sofía", edad: 25, ubicacion: "Córdoba", estiloViaje: "confort", bio: "Busco compañeros para un viaje relajado.", destino: "Mendoza", fechaInicio: "2024-12-05", fechaFin: "2024-12-20", presupuesto: "medio", intereses: ["Vino", "Montaña"], idiomas: ["Español"], avatar: "images/avatar2.jpg", afinidad: 85 }
     ];
     renderProfiles(mockPerfiles);
     document.dispatchEvent(new CustomEvent("perfilesListos"));
