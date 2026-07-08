@@ -156,7 +156,7 @@ window.handleAuthSubmit = function(event, type) {
         mainBody.appendChild(container);
         
         setTimeout(() => {
-            window.location.replace("index.html");
+            window.location.replace("inicio.html");
         }, 1500);
     }
 }

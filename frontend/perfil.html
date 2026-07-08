@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mate & Travel - Mi Perfil</title>
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Theme loading script (prevent flickers) -->
+    <script src="js/theme.js"></script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- SIDEBAR -->
+            <aside class="col-lg-3 col-xl-2 bg-success-subtle border-end border-success-subtle min-vh-100 p-4 d-flex flex-column justify-content-between">
+                <div>
+                    <!-- Brand Logo -->
+                    <div class="d-flex align-items-center gap-1 mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="text-success align-text-bottom me-1" viewBox="0 0 24 24">
+                            <line x1="13" y1="7" x2="18" y2="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M6 9c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v3c0 4.4-3.6 7-8 7s-8-2.6-8-7V9zm2 .5H16V12c0 3.3-2.7 5-6 5s-6-1.7-6-5V9.5z" fill-rule="evenodd"/>
+                        </svg>
+                        <h3 class="fw-bold mb-0 fs-5"><span class="text-success">Mate</span> &amp; Travel</h3>
+                    </div>
+
+                    <p class="text-body-secondary small mb-4 lh-sm">
+                        Compañeres de viaje,<br>
+                        mejores recuerdos
+                    </p>
+
+                    <!-- Navigation Menu -->
+                    <nav class="nav flex-column nav-pills gap-1">
+                        <a href="inicio.html" class="nav-link text-body-secondary link-success py-2 px-3 rounded-3">
+                            <i class="bi bi-compass me-2"></i> Explorar
+                        </a>
+                        <a href="#" class="nav-link active bg-success text-white py-2 px-3 rounded-3">
+                            <i class="bi bi-person-circle me-2"></i> Mi Perfil
+                        </a>
+                        <a href="mensajes.html" class="nav-link text-body-secondary link-success py-2 px-3 rounded-3">
+                            <i class="bi bi-chat-left-text me-2"></i> Compañeres y Mensajes
+                        </a>
+
+                        <a href="#" class="nav-link text-body-secondary link-success py-2 px-3 rounded-3 theme-toggle" id="btnThemeToggle">
+                            <i class="bi bi-moon-fill me-2"></i> <span class="theme-toggle-text">Modo Oscuro</span>
+                        </a>
+                        <hr class="my-2 border-secondary opacity-25">
+                        <a href="#" onclick="localStorage.clear(); window.location.replace('../index.html'); return false;" class="nav-link text-danger link-danger py-2 px-3 rounded-3 mt-1 fw-semibold btn-logout-profile">
+                            <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Tarjeta de perfil eliminada del sidebar -->
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <main class="col-lg-9 col-xl-10 p-4 p-md-5 bg-body-tertiary">
+
+                <!-- PROFILE PREVIEW MODE -->
+                <div id="profilePreviewMode" class="row g-4">
+                    <div class="col-12">
+                        
+                        <!-- CABECERA DEL PERFIL (HEADER CARD) -->
+                        <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden profile-summary-card">
+                            <div class="profile-header-banner"></div>
+                            <div class="card-body pt-5 pt-md-4 px-4 pb-4">
+                                <div class="row align-items-center g-4">
+                                    <div class="col-md-auto text-center text-md-start position-relative">
+                                        <div class="profile-avatar-frame mx-auto mx-md-0">
+                                            <div class="rounded-circle overflow-hidden border border-4 border-white shadow bg-body">
+                                                <img src="" id="prevAvatar" alt="Avatar" class="w-100 h-100 object-fit-cover">
+                                            </div>
+                                            <button type="button" class="btn btn-success btn-sm rounded-circle position-absolute bottom-0 end-0 translate-middle p-2 shadow-sm" title="Cambiar avatar" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">
+                                                <i class="bi bi-camera-fill fs-6"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3">
+                                            <div class="text-center text-md-start mt-2">
+                                                <div class="d-flex flex-column flex-sm-row align-items-center gap-2 justify-content-center justify-content-md-start mb-3">
+                                                    <h1 class="fw-bold text-body-emphasis mb-0 fs-2" id="prevName">Lucía Martínez</h1>
+                                                    <span class="badge bg-success text-white py-2 px-3 rounded-pill fw-semibold text-uppercase small" id="prevStyleBadge">Aventurero Indómito</span>
+                                                </div>
+                                                <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-3 text-body-secondary small mb-3">
+                                                    <span class="d-flex align-items-center gap-1"><i class="bi bi-calendar-check-fill text-success"></i><span id="prevAge">24 años</span></span>
+                                                    <span class="d-flex align-items-center gap-1"><i class="bi bi-geo-alt-fill text-success"></i><span id="prevHometown">Buenos Aires, Argentina</span></span>
+                                                </div>
+                                                <p class="text-body-secondary mb-0 fs-6" id="prevBioHeader">
+                                                    Amante de los viajes, la naturaleza y las buenas conversaciones. Siempre lista para una nueva aventura.
+                                                </p>
+                                            </div>
+                                            <div class="text-center text-md-end mt-2">
+                                                <button type="button" class="btn btn-outline-success border-2 rounded-pill fw-semibold px-4 py-2" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal">
+                                                    <i class="bi bi-pencil-square me-1"></i> Editar información del perfil
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2 mt-4" id="prevInterestPills"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CUERPO DEL PERFIL (GRID A DOS COLUMNAS) -->
+                        <div class="row g-4">
+                            <!-- Columna Izquierda (Sobre mí y Viaje planeado) -->
+                            <div class="col-lg-6">
+                                <!-- Tarjeta: Sobre mí -->
+                                <div class="card border-0 shadow-sm p-4 rounded-4 mb-4 bg-body">
+                                    <h4 class="fw-bold text-body-emphasis mb-3 fs-5 d-flex align-items-center gap-2">
+                                        <i class="bi bi-person-fill text-success"></i> Sobre mí
+                                    </h4>
+                                    <p class="text-body-secondary small mb-0 lh-base fs-6" id="prevBioDetail">
+                                        Soy una persona curiosa, responsable y de mente abierta. Me encanta conocer nuevas culturas, probar comida local y vivir experiencias auténticas. Busco alguien con quien compartir buenos momentos y crear recuerdos inolvidables.
+                                    </p>
+                                </div>
+                                
+                                <!-- Tarjeta: Viaje planeado -->
+                                <div class="card border-0 shadow-sm p-4 rounded-4 bg-body">
+                                    <h4 class="fw-bold text-body-emphasis mb-4 fs-5 d-flex align-items-center gap-2">
+                                        <i class="bi bi-airplane-fill text-success"></i> Viaje planeado
+                                    </h4>
+                                    
+                                    <div class="mb-4">
+                                        <!-- Destino -->
+                                        <div class="d-flex gap-3 mb-3">
+                                            <div class="fs-4 text-success"><i class="bi bi-geo-alt-fill"></i></div>
+                                            <div>
+                                                <span class="text-body-secondary small d-block">¿A dónde?</span>
+                                                <strong class="text-body-emphasis fs-6" id="prevDetailDest">Bali, Indonesia</strong>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex gap-3 mb-3">
+                                            <div class="fs-4 text-success"><i class="bi bi-calendar-event-fill"></i></div>
+                                            <div>
+                                                <span class="text-body-secondary small d-block">¿Cuándo?</span>
+                                                <strong class="text-body-emphasis fs-6" id="prevDetailDates">15 de agosto - 30 de agosto, 2026</strong>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex gap-3 mb-3 d-none">
+                                            <div class="fs-4 text-success"><i class="bi bi-cash-stack"></i></div>
+                                            <div>
+                                                <span class="text-body-secondary small d-block">Presupuesto estimado</span>
+                                                <strong class="text-body-emphasis fs-6" id="prevDetailBudget">USD 1.500 - 2.000</strong>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex gap-3 mb-3">
+                                            <div class="fs-4 text-success"><i class="bi bi-translate"></i></div>
+                                            <div>
+                                                <span class="text-body-secondary small d-block">Idiomas hablados</span>
+                                                <strong class="text-body-emphasis fs-6" id="prevDetailLanguages">Español, Inglés</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-outline-success border-2 rounded-pill fw-semibold px-4 py-2" data-bs-toggle="modal" data-bs-target="#editTripDetailsModal">
+                                        Editar detalles del viaje <i class="bi bi-pencil ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <!-- Tarjeta: Tipo de viajero -->
+                                <div class="card border-0 shadow-sm p-4 rounded-4 mb-4 bg-body">
+                                    <h4 class="fw-bold text-body-emphasis mb-4 fs-5 d-flex align-items-center gap-2">
+                                        <i class="bi bi-backpack-fill text-success"></i> Tipo de viajero
+                                    </h4>
+                                    
+                                    <div class="mb-4">
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="text-body-secondary small">Estilo de viaje</span>
+                                                <span class="text-body-emphasis fw-bold small" id="barTravelStyleText">Aventurero</span>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" id="barTravelStyleFill" class="progress-bar bg-success w-75"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="text-body-secondary small">Nivel de Presupuesto</span>
+                                                <span class="text-body-emphasis fw-bold small" id="barBudgetText">Moderado</span>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" id="barBudgetFill" class="progress-bar bg-success w-50"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="text-body-secondary small">Afinidad de Compañía</span>
+                                                <span class="text-body-emphasis fw-bold small" id="barCompanionText">Sociable</span>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" id="barCompanionFill" class="progress-bar bg-success w-100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-outline-success border-2 rounded-pill fw-semibold px-4 py-2" data-bs-toggle="modal" data-bs-target="#travelerTestModal">
+                                        Volver a hacer el test <i class="bi bi-arrow-repeat ms-1"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Tarjeta: Fotos -->
+                                <div class="card border-0 shadow-sm p-4 rounded-4 bg-body">
+                                    <h4 class="fw-bold text-body-emphasis mb-4 fs-5 d-flex align-items-center gap-2">
+                                        <i class="bi bi-images text-success"></i> Fotos de Viajes
+                                    </h4>
+                                    
+                                    <div class="row g-2 mb-4 profile-photo-grid">
+                                        <div class="col-6">
+                                            <img src="images/rio_negro.png" alt="Travel 1" class="img-fluid rounded-4 w-100">
+                                        </div>
+                                        <div class="col-6">
+                                            <img src="images/mendoza.png" alt="Travel 2" class="img-fluid rounded-4 w-100">
+                                        </div>
+                                        <div class="col-6">
+                                            <img src="images/salta.png" alt="Travel 3" class="img-fluid rounded-4 w-100">
+                                        </div>
+                                        <div class="col-6">
+                                            <img src="images/jujuy.png" alt="Travel 4" class="img-fluid rounded-4 w-100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- end row g-4 -->
+
+                    </div> <!-- end col-12 -->
+                </div> <!-- end profilePreviewMode -->
+
+                <!-- Logout Button at bottom -->
+                <div class="mt-5 text-center">
+                    <button type="button" class="btn btn-outline-danger border-2 rounded-pill fw-semibold px-4 py-2" id="btnLogout">Cerrar Sesión</button>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- Modal 1: Editar información del perfil -->
+    <div class="modal fade" id="editProfileInfoModal" tabindex="-1" aria-labelledby="editProfileInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header bg-body-tertiary border-bottom-0 pb-3 rounded-top-4 px-4 py-3">
+                    <h5 class="modal-title fw-bold text-body-emphasis"><i class="bi bi-person-lines-fill text-success me-2"></i>Editar información del perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <form id="profileInfoForm">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Nombre Completo</label>
+                                <input type="text" id="modalProfileName" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Edad</label>
+                                <input type="number" id="modalProfileAge" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small" min="18" max="99" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Ciudad de Origen</label>
+                                <input type="text" id="modalProfileHometown" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Biografía</label>
+                                <textarea id="modalProfileBio" class="form-control rounded-3 border-secondary-subtle p-3 small" rows="3"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Idiomas (Separados por comas)</label>
+                                <input type="text" id="modalProfileLanguages" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Intereses (Separados por comas)</label>
+                                <input type="text" id="modalProfileInterests" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small">
+                            </div>
+                            <div class="col-12 mt-4">
+                                <label class="form-label small fw-semibold text-body-secondary mb-2 d-block">Seleccioná tu Avatar</label>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <img src="https://i.pravatar.cc/150?img=12" class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer" alt="Avatar" width="50" height="50">
+                                    <img src="https://i.pravatar.cc/150?img=32" class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer" alt="Avatar" width="50" height="50">
+                                    <img src="https://i.pravatar.cc/150?img=11" class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer" alt="Avatar" width="50" height="50">
+                                    <img src="https://i.pravatar.cc/150?img=47" class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer" alt="Avatar" width="50" height="50">
+                                    <img src="https://i.pravatar.cc/150?img=60" class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer" alt="Avatar" width="50" height="50">
+                                    <img src="https://i.pravatar.cc/150?img=53" class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer" alt="Avatar" width="50" height="50">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill fw-semibold px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success rounded-pill fw-semibold px-4" id="btnSaveProfileInfo">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Editar detalles del viaje -->
+    <div class="modal fade" id="editTripDetailsModal" tabindex="-1" aria-labelledby="editTripDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header bg-body-tertiary border-bottom-0 pb-3 rounded-top-4 px-4 py-3">
+                    <h5 class="modal-title fw-bold text-body-emphasis"><i class="bi bi-airplane-fill text-success me-2"></i>Editar detalles del viaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-4">
+                    <form id="tripDetailsForm">
+                        <div class="mb-4">
+                            <label class="form-label small fw-semibold text-body-secondary mb-1">Destino Próximo</label>
+                            <input type="text" id="modalTripDestination" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small" placeholder="Ej: Tailandia">
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Fecha de salida</label>
+                                <input type="date" id="modalTripStartDate" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-semibold text-body-secondary mb-1">Hasta cuándo</label>
+                                <input type="date" id="modalTripEndDate" class="form-control rounded-pill px-3 py-2 border-secondary-subtle small">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-top-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill fw-semibold px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success rounded-pill fw-semibold px-4" id="btnSaveTripDetails">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- travelerTestModal (Copied from index.html) -->
+    <div class="modal fade" id="travelerTestModal" tabindex="-1" aria-labelledby="travelerTestModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header border-0 bg-body-tertiary px-4 py-3 justify-content-between">
+                    <h5 class="modal-title fw-bold text-body-emphasis" id="travelerTestModalLabel">Test de Viajero</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-3">
+                    <div class="progress mb-4 progress-sm">
+                        <div class="progress-bar bg-success w-0" role="progressbar" id="stepperLineProgress"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mb-4">
+                        <div class="step-circle-indicator active" data-step="1">1</div>
+                        <div class="step-circle-indicator" data-step="2">2</div>
+                        <div class="step-circle-indicator" data-step="3">3</div>
+                        <div class="step-circle-indicator" data-step="4">4</div>
+                        <div class="step-circle-indicator" data-step="5">5</div>
+                    </div>
+                    <div id="testWizardContent">
+                        <div class="wizard-step" data-step="1">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué tipo de viaje estás buscando?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="tipoViaje" data-value="mochilero">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-backpack fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Mochilero</h6>
+                                        <p class="text-body-secondary small mb-0">Aventura, libertad y bajo presupuesto.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="tipoViaje" data-value="hotel">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-building fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Hotel</h6>
+                                        <p class="text-body-secondary small mb-0">Comodidad y servicios garantizados.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="tipoViaje" data-value="organizado">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-calendar-check fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Organizado</h6>
+                                        <p class="text-body-secondary small mb-0">Todo planificado, sin preocupaciones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-step d-none" data-step="2">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Cuál es tu presupuesto?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="presupuesto" data-value="economico">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-wallet2 fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Económico</h6>
+                                        <p class="text-body-secondary small mb-0">Hostales, comida local y viajes gasoleros.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="presupuesto" data-value="medio">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-cash-coin fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Medio</h6>
+                                        <p class="text-body-secondary small mb-0">Equilibrio de confort en hoteles de gama media.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="presupuesto" data-value="premium">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-gem fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Premium</h6>
+                                        <p class="text-body-secondary small mb-0">Hoteles de lujo y experiencias de primer nivel.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-step d-none" data-step="3">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué región te interesa explorar?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="noa">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-40"><i class="bi bi-geo-alt-fill fs-5"></i></div>
+                                    <div class="text-start"><h6 class="fw-bold mb-0 small">Noroeste (NOA)</h6></div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="nea">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-40"><i class="bi bi-geo-alt-fill fs-5"></i></div>
+                                    <div class="text-start"><h6 class="fw-bold mb-0 small">Noreste (NEA)</h6></div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="cuyo">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-40"><i class="bi bi-geo-alt-fill fs-5"></i></div>
+                                    <div class="text-start"><h6 class="fw-bold mb-0 small">Cuyo</h6></div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="pampeana">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-40"><i class="bi bi-geo-alt-fill fs-5"></i></div>
+                                    <div class="text-start"><h6 class="fw-bold mb-0 small">Pampeana</h6></div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="patagonia">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-40"><i class="bi bi-geo-alt-fill fs-5"></i></div>
+                                    <div class="text-start"><h6 class="fw-bold mb-0 small">Patagónica</h6></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-step d-none" data-step="4">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Cuándo planeas viajar?</h6>
+                            <div class="border rounded-4 p-3 bg-body-tertiary shadow-sm">
+                                <div class="mx-auto calendar-container">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center btn-circle-sm" id="calPrevMonth" type="button"><i class="bi bi-chevron-left small"></i></button>
+                                        <h6 class="fw-bold mb-0 text-body-emphasis small" id="calendarMonthTitle">Enero 2027</h6>
+                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center btn-circle-sm" id="calNextMonth" type="button"><i class="bi bi-chevron-right small"></i></button>
+                                    </div>
+                                    <div class="d-grid gap-1 text-center fw-bold text-body-secondary mb-1 small calendar-grid">
+                                        <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
+                                    </div>
+                                    <div class="d-grid gap-1 text-center calendar-grid" id="calendarDaysGrid"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-step d-none" data-step="5">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué buscas en tu compañere de viaje?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="aventura">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-compass-fill fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Aventura y Naturaleza</h6>
+                                        <p class="text-body-secondary small mb-0">Exploración, trekking y actividades de campo.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="fiesta">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-music-note-beamed fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Vida Nocturna y Fiesta</h6>
+                                        <p class="text-body-secondary small mb-0">Salidas grupales, bares y socialización activa.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="confort">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm card-icon-55">
+                                        <i class="bi bi-bank fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Comodidad y Cultura</h6>
+                                        <p class="text-body-secondary small mb-0">Paseos culturales, gastronomía y museos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wizard-step d-none text-center py-4" id="testLoadingScreen">
+                            <div class="spinner-border text-success mb-3 spinner-lg" role="status">
+                                <span class="visually-hidden">Calculando...</span>
+                            </div>
+                            <h6 class="fw-bold text-body-emphasis">Analizando tus respuestas...</h6>
+                            <p class="text-body-secondary small">Buscando tu perfil ideal y recomendaciones...</p>
+                            <div class="progress mx-auto mt-3 progress-loader">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success w-0" id="loadingProgress" role="progressbar"></div>
+                            </div>
+                        </div>
+                        <div class="wizard-step d-none" id="testResultScreen">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="images/resultado_aventurero.jpg" id="resultProfileImage" alt="Perfil" class="img-fluid rounded-3 shadow-sm border mb-3 object-fit-cover w-100 result-img">
+                                <span class="badge bg-success bg-opacity-10 text-success mb-2 px-3 py-1.5 rounded-pill fw-semibold text-uppercase small">Resultado</span>
+                                <h4 class="fw-bold text-body-emphasis mb-2" id="resultProfileTitle">Aventurero Indómito</h4>
+                                <p class="text-body-secondary small mb-3 px-1 lh-base" id="resultProfileDesc">
+                                    Sos un explorador nato. Te motivan los desafíos físicos, la conexión profunda con la naturaleza salvaje y el trekking.
+                                </p>
+                                <div class="bg-body-tertiary p-3 rounded-3 border-start border-success border-4 shadow-sm mb-3 w-100 text-start d-none">
+                                    <h6 class="fw-bold text-body-emphasis mb-1 small"><i class="bi bi-geo-alt-fill text-success"></i> Destinos recomendados:</h6>
+                                    <p class="text-body-secondary small mb-0 lh-sm" id="resultDestinationsText"></p>
+                                </div>
+                                <div class="d-grid gap-2 w-100">
+                                    <button class="btn btn-success py-2 fw-semibold rounded-pill" id="btnSaveTestProfile" data-bs-dismiss="modal">Guardar nuevo perfil de viajero</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 px-4 py-3 bg-body-tertiary justify-content-between" id="testModalFooter">
+                    <button type="button" class="btn btn-outline-secondary px-4 py-1.5 fw-semibold rounded-pill btn-sm" id="btnPrevStep" disabled>Volver</button>
+                    <button type="button" class="btn btn-success px-4 py-1.5 fw-semibold rounded-pill btn-sm" id="btnNextStep" disabled>Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOTSTRAP TOAST (Save notification) -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="saveSuccessToast" class="toast border-0 rounded-3 shadow-lg bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex align-items-center p-3">
+                <i class="bi bi-check-circle-fill fs-5 me-2"></i>
+                <div class="fw-semibold">¡Cambios guardados con éxito! 🧉</div>
+                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Scripts Externos -->
+    <script src="js/traveler-test.js"></script>
+    <script src="js/perfil.js"></script>
+</body>
+
+</html>
