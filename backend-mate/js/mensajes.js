@@ -1,10 +1,10 @@
 (function checkAuth() {
     if (!localStorage.getItem('user_name')) {
-        window.location.replace('index.html');
+        window.location.replace('../index.html');
     }
     window.addEventListener('pageshow', function(event) {
         if (event.persisted && !localStorage.getItem('user_name')) {
-            window.location.replace('index.html');
+            window.location.replace('../index.html');
         }
     });
 })();

@@ -110,7 +110,7 @@
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             localStorage.clear();
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
     });
 
@@ -461,7 +461,7 @@
 
                 try {
                     const token = localStorage.getItem('token');
-                    const response = await fetch(`http://localhost:3000/api/matches/invitar/${targetId}`, {
+                    const response = await fetch(`/api/matches/invitar/${targetId}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

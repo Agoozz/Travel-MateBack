@@ -1,10 +1,6 @@
-// routes/perfiles.js
-//
-// GET /api/perfiles  → lista de perfiles compatibles (excluye al usuario actual)
-//                      con % de afinidad calculado, ordenados de mayor a menor
-
 const express        = require("express");
 const Usuario        = require("../models/Usuario");
+const Match          = require("../models/Match");
 const verificarToken = require("../middleware/auth");
 
 const router = express.Router();
@@ -52,7 +48,34 @@ router.get("/", verificarToken, async (req, res) => {
   try {
     const usuarioActual = req.usuario;
 
-    const otrosUsuarios = await Usuario.find({ _id: { $ne: usuarioActual._id } });
+    // Buscar matches donde el usuario actual esté involucrado
+    const matches = await Match.find({
+      $or: [{ usuario1: usuarioActual._id }, { usuario2: usuarioActual._id }]
+    });
+
+    // Extraer IDs de usuarios a excluir
+    const excludeIds = matches.map(m => {
+      const isUser1 = m.usuario1.equals(usuarioActual._id);
+      const isUser2 = m.usuario2.equals(usuarioActual._id);
+      
+      // Excluir si ya son matches confirmados
+      if (m.estado === 'matched') {
+        return isUser1 ? m.usuario2 : m.usuario1;
+      }
+      
+      // Excluir si el usuario actual ya invitó a la otra persona
+      if (m.estado === 'pendiente') {
+        if (isUser1 && m.usuario1Invito) return m.usuario2;
+        if (isUser2 && m.usuario2Invito) return m.usuario1;
+      }
+      
+      return null;
+    }).filter(id => id !== null);
+
+    // Buscar usuarios que no sean el actual y que no estén en la lista de excluidos
+    const otrosUsuarios = await Usuario.find({ 
+      _id: { $ne: usuarioActual._id, $nin: excludeIds } 
+    });
 
     const perfilesConAfinidad = otrosUsuarios.map(u => {
       const afinidad = calcularAfinidad(usuarioActual, u);

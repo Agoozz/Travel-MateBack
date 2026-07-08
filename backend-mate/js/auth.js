@@ -3,7 +3,7 @@
 //  Mate & Travel
 // ============================================================
 
-const API = "http://localhost:3000/api/usuarios";
+const API = "/api/usuarios";
 
 // ─── UI: mostrar/ocultar contraseña ─────────────────────────
 window.togglePasswordVisibility = function(fieldId, btn) {
@@ -162,7 +162,7 @@ window.handleAuthSubmit = async function(event, type) {
 window.handleLogout = function(e) {
   if (e) e.preventDefault();
   localStorage.clear();
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 };
 
 // ─── Autofill credenciales de prueba ─────────────────────────
