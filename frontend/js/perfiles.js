@@ -113,7 +113,7 @@
     paginationDiv.className = "d-flex justify-content-center mt-4 mb-5";
     paginationDiv.innerHTML = `
       <nav aria-label="Page navigation">
-        <ul class="pagination pagination-sm">
+        <ul class="pagination pagination-sm" id="companionsPagination">
           <li class="page-item disabled">
             <a class="page-link text-success" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
           </li>
