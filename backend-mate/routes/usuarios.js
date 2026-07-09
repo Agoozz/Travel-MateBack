@@ -8,13 +8,13 @@ const verificarToken  = require("../middleware/auth");
 const router = express.Router();
 
 // ─── Helper: generar JWT ─────────────────────────────────────
-function generarToken(id) {
+const generarToken = (id) => {
   return jwt.sign(
     { id },
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET || "secreto_super_seguro_123",
     { expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
   );
-}
+};
 
 // ─── POST /api/usuarios/register ─────────────────────────────
 router.post("/register", async (req, res) => {

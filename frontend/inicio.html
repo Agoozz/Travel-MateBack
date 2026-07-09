@@ -118,7 +118,7 @@
                             <i class="bi bi-backpack"></i> Estilo de viaje
                         </button>
                         <ul class="dropdown-menu border-success shadow">
-                            <li><a class="dropdown-item quick-filter" href="#" data-filter="Mochilero">Mochilero</span></a></li>
+                            <li><a class="dropdown-item quick-filter" href="#" data-filter="Mochilero">Mochilero</a></li>
                             <li><a class="dropdown-item quick-filter" href="#" data-filter="Confort">Confort</a></li>
                             <li><a class="dropdown-item quick-filter" href="#" data-filter="Aventura">Aventura Extrema</a></li>
                         </ul>
@@ -333,6 +333,42 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Scripts Externos -->
+    <template id="companion-card-template">
+      <div class="card rounded-4 shadow-sm border-0 mb-4 companion-item">
+        <div class="card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-md-2 text-center mb-3 mb-md-0">
+              <div class="companion-avatar-wrap mx-auto">
+                <img class="rounded-circle object-fit-cover shadow-sm border border-2 border-white avatar-img" style="width: 100px; height: 100px; object-fit: cover;">
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-10 afinidad-badge"></span>
+                <h4 class="fw-bold mb-0 text-body-emphasis name-age"></h4>
+              </div>
+              <p class="text-body-secondary small mb-2 companion-type-badge"><i class="bi bi-flag-fill"></i> <span class="type-text"></span></p>
+              <p class="text-body-secondary small mb-2">
+                <i class="bi bi-geo-alt-fill text-success"></i> <span class="location-text"></span>
+              </p>
+              <div class="d-flex gap-2 flex-wrap mb-3">
+                <span class="badge rounded-pill bg-body-tertiary text-body-secondary border border-secondary-subtle py-1 px-3 small"><i class="bi bi-map-fill text-success"></i> <span class="destination-text"></span></span>
+                <span class="badge rounded-pill bg-body-tertiary text-body-secondary border border-secondary-subtle py-1 px-3 small"><i class="bi bi-backpack-fill text-success"></i> <span class="style-text"></span></span>
+                <span class="badge rounded-pill bg-body-tertiary text-body-secondary border border-secondary-subtle py-1 px-3 small"><i class="bi bi-cash-stack"></i> <span class="budget-text"></span></span>
+              </div>
+              <p class="text-body-secondary small mb-0 lh-sm bio-text"></p>
+            </div>
+            <div class="col-md-3 text-end mt-3 mt-md-0">
+              <button type="button" class="btn btn-outline-success border-2 w-100 mb-2 rounded-pill fw-semibold py-2 btn-sm btn-view-profile">Ver perfil</button>
+              <button class="btn btn-success bg-gradient text-white rounded-pill w-100 d-flex align-items-center justify-content-center gap-2 py-2 btn-sm btn-invitar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><line x1="13" y1="7" x2="18" y2="2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 9c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v3c0 4.4-3.6 7-8 7s-8-2.6-8-7V9zm2 .5H16V12c0 3.3-2.7 5-6 5s-6-1.7-6-5V9.5z" fill-rule="evenodd"/></svg>
+                Invitar un mate
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
     <script src="js/chat.js"></script>
     <script src="js/perfiles.js"></script>
     <script src="js/dashboard.js"></script>

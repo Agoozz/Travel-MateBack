@@ -1,18 +1,27 @@
-const fs = require('fs');
+const fs = require("fs");
 
 // 1. Fix auth.js API
-let authJs = fs.readFileSync('frontend/js/auth.js', 'utf8');
-authJs = authJs.replace('const API = "/api/usuarios";', 'const API = "http://localhost:3000/api/usuarios";');
-fs.writeFileSync('frontend/js/auth.js', authJs, 'utf8');
+let authJs = fs.readFileSync("frontend/js/auth.js", "utf8");
+authJs = authJs.replace(
+  'const API = "/api/usuarios";',
+  'const API = "http://localhost:3000/api/usuarios";',
+);
+fs.writeFileSync("frontend/js/auth.js", authJs, "utf8");
 
 // 2. Fix perfiles.js layout and add pagination
-let perfilesJs = fs.readFileSync('frontend/js/perfiles.js', 'utf8');
+let perfilesJs = fs.readFileSync("frontend/js/perfiles.js", "utf8");
 
 // Add p-4 to card-body
-perfilesJs = perfilesJs.replace('<div class="card-body p-0">', '<div class="card-body p-4">');
+perfilesJs = perfilesJs.replace(
+  '<div class="card-body p-0">',
+  '<div class="card-body p-4">',
+);
 
 // Add padding and styling to image
-perfilesJs = perfilesJs.replace('<img src="${p.avatar}" alt="${p.nombre}">', '<img src="${p.avatar}" alt="${p.nombre}" class="rounded-circle object-fit-cover shadow-sm border border-2 border-white" style="width: 100px; height: 100px; object-fit: cover;">');
+perfilesJs = perfilesJs.replace(
+  '<img src="${p.avatar}" alt="${p.nombre}">',
+  '<img src="${p.avatar}" alt="${p.nombre}" class="rounded-circle object-fit-cover shadow-sm border border-2 border-white" style="width: 100px; height: 100px; object-fit: cover;">',
+);
 
 // Add pagination
 const paginationHtml = `
@@ -37,7 +46,10 @@ const paginationHtml = `
       cardsContainer.appendChild(paginationDiv);
 `;
 
-perfilesJs = perfilesJs.replace('// Avisamos a dashboard.js', paginationHtml + '\n    // Avisamos a dashboard.js');
+perfilesJs = perfilesJs.replace(
+  "// Avisamos a dashboard.js",
+  paginationHtml + "\n    // Avisamos a dashboard.js",
+);
 
-fs.writeFileSync('frontend/js/perfiles.js', perfilesJs, 'utf8');
-console.log('Fixed perfiles.js and auth.js');
+fs.writeFileSync("frontend/js/perfiles.js", perfilesJs, "utf8");
+console.log("Fixed perfiles.js and auth.js");

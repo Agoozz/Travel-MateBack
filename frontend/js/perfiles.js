@@ -44,7 +44,7 @@
 
   function renderProfiles(perfilesList) {
     window.companionProfilesData = {};
-    cardsContainer.innerHTML = "";
+    cardsContainer.textContent = "";
 
     perfilesList.forEach((p) => {
       const key = p._id;
@@ -64,68 +64,50 @@
         avatar: p.avatar
       };
 
-      const card = document.createElement("div");
-      card.className = "card rounded-4 shadow-sm border-0 mb-4 companion-item";
-      card.innerHTML = `
-        <div class="card-body p-4">
-          <div class="row align-items-center">
-            <div class="col-md-2 text-center mb-3 mb-md-0">
-              <div class="companion-avatar-wrap mx-auto">
-                <img src="${p.avatar}" alt="${p.nombre}" class="rounded-circle object-fit-cover shadow-sm border border-2 border-white" style="width: 100px; height: 100px; object-fit: cover;">
-              </div>
-            </div>
-            <div class="col-md-7">
-              <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
-                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-10">${p.afinidad}% Afinidad</span>
-                <h4 class="fw-bold mb-0 text-body-emphasis">${p.nombre} · ${p.edad}</h4>
-              </div>
-              <p class="text-body-secondary small mb-2 companion-type-badge"><i class="bi bi-flag-fill"></i> ${TIPO_LABEL[p.estiloViaje] || "Viajero"}</p>
-              <p class="text-body-secondary small mb-2">
-                <i class="bi bi-geo-alt-fill text-success"></i> ${p.ubicacion}
-              </p>
-              <div class="d-flex gap-2 flex-wrap mb-3">
-                <span class="badge rounded-pill bg-body-tertiary text-body-secondary border border-secondary-subtle py-1 px-3 small"><i class="bi bi-map-fill text-success"></i> <span>${p.destino}</span></span>
-                <span class="badge rounded-pill bg-body-tertiary text-body-secondary border border-secondary-subtle py-1 px-3 small"><i class="bi bi-backpack-fill text-success"></i> <span>${ESTILO_LABEL[p.estiloViaje] || ""}</span></span>
-                <span class="badge rounded-pill bg-body-tertiary text-body-secondary border border-secondary-subtle py-1 px-3 small"><i class="bi bi-cash-stack"></i> <span>${PRESUPUESTO_LABEL[p.presupuesto] || ""}</span></span>
-              </div>
-              <p class="text-body-secondary small mb-0 lh-sm">
-                ${p.bio}
-              </p>
-            </div>
-            <div class="col-md-3 text-end mt-3 mt-md-0">
-              <button type="button" class="btn btn-outline-success border-2 w-100 mb-2 rounded-pill fw-semibold py-2 btn-sm btn-view-profile" data-user="${key}">
-                Ver perfil
-              </button>
-              <button class="btn btn-success bg-gradient text-white rounded-pill w-100 d-flex align-items-center justify-content-center gap-2 py-2 btn-sm btn-invitar" data-user="${key}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                  <line x1="13" y1="7" x2="18" y2="2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-                  <path d="M6 9c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v3c0 4.4-3.6 7-8 7s-8-2.6-8-7V9zm2 .5H16V12c0 3.3-2.7 5-6 5s-6-1.7-6-5V9.5z" fill-rule="evenodd"/>
-                </svg>
-                Invitar un mate
-              </button>
-            </div>
-          </div>
-        </div>`;
-      cardsContainer.appendChild(card);
+      const template = document.getElementById("companion-card-template");
+      if (template) {
+        const clone = template.content.cloneNode(true);
+        const cardNode = clone.querySelector(".companion-item");
+        
+        clone.querySelector(".avatar-img").src = p.avatar;
+        clone.querySelector(".avatar-img").alt = p.nombre;
+        
+        const afinidadBadge = clone.querySelector(".afinidad-badge");
+        if (p.afinidad !== undefined) {
+          afinidadBadge.textContent = `${p.afinidad}% Afinidad`;
+        } else {
+          afinidadBadge.style.display = 'none';
+        }
+
+        clone.querySelector(".name-age").textContent = `${p.nombre} · ${p.edad}`;
+        clone.querySelector(".type-text").textContent = TIPO_LABEL[p.estiloViaje] || "Viajero";
+        clone.querySelector(".location-text").textContent = p.ubicacion;
+        clone.querySelector(".destination-text").textContent = p.destino;
+        clone.querySelector(".style-text").textContent = ESTILO_LABEL[p.estiloViaje] || "";
+        clone.querySelector(".budget-text").textContent = PRESUPUESTO_LABEL[p.presupuesto] || "";
+        clone.querySelector(".bio-text").textContent = p.bio;
+
+        clone.querySelector(".btn-view-profile").dataset.user = key;
+        clone.querySelector(".btn-invitar").dataset.user = key;
+
+        cardsContainer.appendChild(clone);
+      }
     });
 
     const paginationDiv = document.createElement("div");
-    paginationDiv.className = "d-flex justify-content-center mt-4 mb-5";
-    paginationDiv.innerHTML = `
-      <nav aria-label="Page navigation">
-        <ul class="pagination pagination-sm" id="companionsPagination">
-          <li class="page-item disabled">
-            <a class="page-link text-success" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-          </li>
-          <li class="page-item active"><a class="page-link bg-success border-success" href="#">1</a></li>
-          <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
-          <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link text-success" href="#">Siguiente</a>
-          </li>
-        </ul>
-      </nav>
-    `;
+    paginationDiv.className = "d-flex justify-content-center mt-4 mb-5 pagination-container";
+    
+    // Instead of innerHTML for pagination structure, create it via DOM to be safe
+    const nav = document.createElement("nav");
+    nav.setAttribute("aria-label", "Page navigation");
+    
+    const ul = document.createElement("ul");
+    ul.className = "pagination pagination-sm";
+    ul.id = "companionsPagination";
+    
+    // We leave it empty for dashboard.js to fill, or just attach the UL
+    nav.appendChild(ul);
+    paginationDiv.appendChild(nav);
     cardsContainer.appendChild(paginationDiv);
   }
 
