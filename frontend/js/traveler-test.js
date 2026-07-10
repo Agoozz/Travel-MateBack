@@ -154,7 +154,7 @@
     for (let i = firstDayIndex - 1; i >= 0; i--) {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "calendar-day-btn text-muted small opacity-50";
+      btn.className = "btn btn-sm border-0 rounded-2 p-2 small text-muted opacity-50";
       btn.disabled = true;
       btn.innerText = prevTotalDays - i;
       grid.appendChild(btn);
@@ -211,7 +211,7 @@
     for (let i = 1; i <= remainingCells; i++) {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "calendar-day-btn text-muted small opacity-50";
+      btn.className = "btn btn-sm border-0 rounded-2 p-2 small text-muted opacity-50";
       btn.disabled = true;
       btn.innerText = i;
       grid.appendChild(btn);

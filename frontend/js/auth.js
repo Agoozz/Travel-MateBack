@@ -111,7 +111,7 @@ function showSuccessAndRedirect() {
   card.className = "card p-5 border-0 shadow-lg text-center rounded-4 col-xl-4 col-lg-5 col-md-8 mx-auto";
   
   const circle = document.createElement("div");
-  circle.className = "rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center mx-auto mb-3 step-circle";
+  circle.className = "rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center mx-auto mb-3 step-circle-indicator";
   const icon = document.createElement("i");
   icon.className = "bi bi-check-circle-fill fs-1";
   circle.appendChild(icon);
