@@ -334,7 +334,7 @@
     async function fetchAndRenderOverlayChat() {
       if (!currentChatUserId || !chatMessages) return;
       const token = localStorage.getItem("token");
-      if (!token || token.startsWith("offline-")) return;
+      if (!token || token.startsWith(\x22offline-\x22) || window.isBackendOffline) return;
 
       try {
         const res = await fetch(`${API_BASE}/mensajes/${currentChatUserId}`, {
@@ -357,7 +357,9 @@
            appendMessage(msg.texto, type, false);
         });
         chatMessages.scrollTop = chatMessages.scrollHeight;
-      } catch(e) {}
+      } catch(e) {
+          window.isBackendOffline = true;
+        }
     }
 
     if (chatOffcanvasEl) {
@@ -459,7 +461,7 @@
 
               // 4. Simulate receiving a message (only if offline)
               const token = localStorage.getItem("token") || "";
-              if (token.startsWith("offline-")) {
+              if (window.isBackendOffline || token.startsWith("offline-")) {
                 setTimeout(() => {
                   if (chatTypingIndicator)
                     chatTypingIndicator.classList.remove("active");
@@ -526,16 +528,16 @@
 
           // Enviar al backend real en segundo plano si no es offline
           const token = localStorage.getItem("token");
-          if (token && !token.startsWith("offline-")) {
+          if (token && !token.startsWith("offline-") && !window.isBackendOffline) {
             fetch(API_BASE + "/mensajes", {
               method: "POST",
               headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
               body: JSON.stringify({ receptorId: currentChatUserId, texto: text })
-            }).catch(e => {});
+            }).catch(e => { window.isBackendOffline = true; });
           }
 
           // Simulate reply ONLY if offline
-          if (token && token.startsWith("offline-")) {
+          if (window.isBackendOffline || (token && token.startsWith("offline-"))) {
             setTimeout(() => {
               if (chatTypingIndicator)
                 chatTypingIndicator.classList.add("active");

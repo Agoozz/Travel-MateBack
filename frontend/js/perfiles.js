@@ -130,6 +130,7 @@
 
   } catch (err) {
     console.warn("Backend offline. Usando perfiles mock.");
+    window.isBackendOffline = true;
     const mockPerfiles = [
       { _id: "m1", nombre: "Nico", edad: 29, ubicacion: "Buenos Aires", estiloViaje: "mochilero", bio: "Viajero apasionado, me gusta explorar lugares poco conocidos.", destino: "Patagonia", fechaInicio: "2024-11-01", fechaFin: "2024-11-15", presupuesto: "economico", intereses: ["Trekking", "Fotografía"], idiomas: ["Español", "Inglés"], avatar: "https://randomuser.me/api/portraits/men/32.jpg", afinidad: 90 },
       { _id: "m2", nombre: "Sofía", edad: 25, ubicacion: "Córdoba", estiloViaje: "confort", bio: "Busco compañeros para un viaje relajado.", destino: "Mendoza", fechaInicio: "2024-12-05", fechaFin: "2024-12-20", presupuesto: "medio", intereses: ["Vino", "Montaña"], idiomas: ["Español"], avatar: "https://randomuser.me/api/portraits/women/44.jpg", afinidad: 85 },
