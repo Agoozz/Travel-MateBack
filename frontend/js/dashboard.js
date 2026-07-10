@@ -334,7 +334,7 @@
     async function fetchAndRenderOverlayChat() {
       if (!currentChatUserId || !chatMessages) return;
       const token = localStorage.getItem("token");
-      if (!token || token.startsWith(\x22offline-\x22) || window.isBackendOffline) return;
+      if (!token || token.startsWith("offline-") || window.isBackendOffline) return;
 
       try {
         const res = await fetch(`${API_BASE}/mensajes/${currentChatUserId}`, {
