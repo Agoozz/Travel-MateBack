@@ -556,6 +556,7 @@
   if (btnSaveTestProfile) {
     btnSaveTestProfile.addEventListener("click", function () {
       saveTestResultsToLocalStorage();
+      window.location.reload();
     });
   }
 })();

@@ -74,7 +74,7 @@
     localStorage.getItem("user_avatar") || "https://i.pravatar.cc/150?img=12";
 
   let userDestination =
-    localStorage.getItem("user_destination") || "Bali, Indonesia";
+    localStorage.getItem("user_destination") || "Mendoza, Argentina";
   let userStartDate = localStorage.getItem("user_start_date") || "2026-08-15";
   let userEndDate = localStorage.getItem("user_end_date") || "2026-08-30";
   let userInterests =
