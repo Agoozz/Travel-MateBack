@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 
-// Middleware global para forzar modo offline en el frontend si la DB falla o hay token offline
+// Middleware global para rechazar peticiones si la DB falla o el token es simulado
 const mongoose = require("mongoose");
 app.use((req, res, next) => {
   if (req.path.startsWith("/api/")) {
@@ -39,8 +39,7 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.json({
     status: "ok",
-    message: "🧉 Travel Mate API Server Running",
-    frontend: "Abre el archivo frontend/index.html en tu navegador para ver la interfaz."
+    message: "🧉 Travel Mate API funcionando correctamente"
   });
 });
 

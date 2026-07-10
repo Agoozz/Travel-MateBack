@@ -8,8 +8,7 @@ Esta es la API REST para la aplicación Travel Mate, encargada de gestionar usua
 
 **IMPORTANTE:** El backend de este proyecto funciona estrictamente como una API REST.
 - **NO** sirve archivos estáticos (HTML, CSS, imágenes).
-- El **Frontend** se encuentra en una carpeta separada (`../frontend/`) y se ejecuta de manera 100% independiente abriendo el archivo `index.html` en el navegador.
-- El Frontend se comunica con este Backend mediante peticiones HTTP `fetch()`.
+- La aplicación cliente se encuentra totalmente desacoplada y consume esta API mediante peticiones HTTP estándar.
 
 ---
 
@@ -60,9 +59,8 @@ Deberías ver:
 ✅ MongoDB conectado
 ```
 
-**5. Abrir el Frontend**
-No abras `localhost:3000` en tu navegador, ya que el backend no sirve vistas.
-Dirígete a la carpeta `../frontend/` de este proyecto y haz doble clic sobre el archivo `index.html` para levantar la aplicación e interactuar con esta API.
+**5. Validar la API (Opcional)**
+Si abres `http://localhost:3000/` en tu navegador, la API responderá con un JSON de confirmación indicando que el servidor está funcionando correctamente.
 
 ---
 
