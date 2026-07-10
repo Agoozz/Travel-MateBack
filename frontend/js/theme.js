@@ -1,7 +1,13 @@
-(function () {
-  const savedTheme = localStorage.getItem("theme") || "light";
-  document.documentElement.setAttribute("data-bs-theme", savedTheme);
+/**
+ * Manejo del tema oscuro/claro y persistencia.
+ */
 
+// Inicialización
+(function () {
+  // Estado
+  const savedTheme = localStorage.getItem("theme") || "light";
+  
+  // Funciones principales
   function updateToggleButtons(theme) {
     const toggles = document.querySelectorAll(".theme-toggle");
     toggles.forEach((toggle) => {
@@ -20,6 +26,7 @@
     });
   }
 
+  // Se asigna a window para que sea invocable globalmente si fuera necesario
   window.toggleTheme = function () {
     const currentTheme = document.documentElement.getAttribute("data-bs-theme");
     const newTheme = currentTheme === "dark" ? "light" : "dark";
@@ -28,9 +35,9 @@
     updateToggleButtons(newTheme);
   };
 
+  // Eventos
   document.addEventListener("DOMContentLoaded", () => {
-    const currentTheme =
-      document.documentElement.getAttribute("data-bs-theme") || "light";
+    const currentTheme = document.documentElement.getAttribute("data-bs-theme") || "light";
     updateToggleButtons(currentTheme);
 
     const toggles = document.querySelectorAll(".theme-toggle");
@@ -40,5 +47,8 @@
         window.toggleTheme();
       });
     });
-  })();
+  });
+
+  // Ejecución inmediata inicial
+  document.documentElement.setAttribute("data-bs-theme", savedTheme);
 })();
