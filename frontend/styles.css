@@ -59,13 +59,9 @@ body {
   transform: scale(0.98);
 }
 
-/* Gradients */
-.bg-gradient-primary {
-  background: linear-gradient(
-    135deg,
-    var(--mate-primary) 0%,
-    #115c38 100%
-  ) !important;
+/* Grids */
+.calendar-grid {
+  grid-template-columns: repeat(7, 1fr);
 }
 
 /* Micro-animations */
