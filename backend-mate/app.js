@@ -35,6 +35,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// Ruta raíz (Health Check)
+app.get("/", (req, res) => {
+  res.json({
+    status: "ok",
+    message: "🧉 Travel Mate API Server Running",
+    frontend: "Abre el archivo frontend/index.html en tu navegador para ver la interfaz."
+  });
+});
+
 // Rutas de la API
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/perfiles", perfilesRoutes);

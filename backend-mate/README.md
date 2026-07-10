@@ -56,7 +56,7 @@ npm start
 ```
 Deberías ver:
 ```
-🚀 Servidor corriendo en http://localhost:3000
+🧉 Servidor corriendo en http://localhost:3000
 ✅ MongoDB conectado
 ```
 
