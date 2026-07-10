@@ -164,7 +164,7 @@
     for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "calendar-day-btn small fw-semibold";
+      btn.className = "btn btn-sm border-0 rounded-2 p-2 small fw-semibold";
 
       const cellDate = new Date(displayYear, displayMonth, dayNum);
       const cellMidnight = new Date(

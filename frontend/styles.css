@@ -43,7 +43,6 @@ body {
   width: 100%;
 }
 
-/* Layout & Components (Restored to avoid inline CSS) */
 .hero-carousel-img {
   height: 60vh;
   filter: brightness(0.9);
