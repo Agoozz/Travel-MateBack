@@ -1,106 +1,72 @@
-# 🧉 Mate & Travel — Backend
+# 🧉 Mate & Travel - Backend API
 
-Aplicación web para conectar viajeros compatibles. Desarrollada con Node.js, Express y MongoDB.
-
----
-
-## 🚀 Deploy en producción
-
-**URL pública:** https://mate-travel-backend.onrender.com
-
-> ⚠️ El servidor puede tardar hasta 50 segundos en responder la primera vez si estuvo inactivo (plan gratuito de Render). Después funciona con normalidad.
+Esta es la API REST para la aplicación Travel Mate, encargada de gestionar usuarios, autenticación, perfiles y la lógica de "match" y chat entre viajeros compatibles. Desarrollada con Node.js, Express y MongoDB.
 
 ---
 
-## 💻 Correr en local
+## 🏗️ Arquitectura y separación de responsabilidades
+
+**IMPORTANTE:** El backend de este proyecto funciona estrictamente como una API REST.
+- **NO** sirve archivos estáticos (HTML, CSS, imágenes).
+- El **Frontend** se encuentra en una carpeta separada (`../frontend/`) y se ejecuta de manera 100% independiente abriendo el archivo `index.html` en el navegador.
+- El Frontend se comunica con este Backend mediante peticiones HTTP `fetch()`.
+
+---
+
+## 🚀 Correr en local
 
 ### Requisitos
-- Node.js instalado
-- MongoDB instalado y corriendo (o usar la URL de Atlas del `.env`)
+- Node.js instalado (v16+)
+- MongoDB instalado y corriendo (en `localhost:27017`) o bien una URI de MongoDB en la nube.
 
 ### Pasos
 
-**1. Clonar el repositorio**
+**1. Instalar dependencias**
 ```bash
-git clone https://github.com/Milia13/mate-travel-backend.git
-cd mate-travel-backend/backend-mate
-```
-
-**2. Instalar dependencias**
-```bash
+cd backend-mate
 npm install
 ```
 
-**3. Crear el archivo `.env`** en la raíz de `backend-mate/` con este contenido:
-```
+**2. Configurar variables de entorno**
+Crea un archivo llamado `.env` en la raíz de `backend-mate/` con el siguiente contenido:
+
+```env
 PORT=3000
+# Para usar MongoDB localmente:
 MONGO_URI=mongodb://127.0.0.1:27017/mate_travel
+
+# Si prefieres usar una base de datos en la nube (MongoDB Atlas), reemplaza la URI por la tuya:
+# MONGO_URI=<tu_uri_de_mongodb>
+
 JWT_SECRET=matetravel_secreto_2026
 JWT_EXPIRES_IN=7d
 ```
 
-> Si preferís usar la base de datos en la nube (MongoDB Atlas) en vez de MongoDB local, usá esta URI:
-> ```
-> MONGO_URI=mongodb+srv://milagrosacev40_db_user:travel26@cluster0.waoqib9.mongodb.net/mate_travel?appName=Cluster0
-> ```
+*(Nota: Las credenciales reales y la URI de producción nunca deben subirse al repositorio)*
 
-**4. Poblar la base de datos** (solo la primera vez)
+**3. Poblar la base de datos** (opcional, solo la primera vez para crear perfiles falsos)
 ```bash
 node seed.js
 ```
-Deberías ver:
-```
-✅ MongoDB conectado
-✅ Tomás (tomas@mate.com)
-✅ Sofía (sofia@mate.com)
-...
-🧉 Seed completado: 10 creados, 0 omitidos
-```
+Esto creará automáticamente perfiles como "tomas@mate.com", "sofia@mate.com", etc. con la contraseña `mate1234`.
 
-**5. Iniciar el servidor**
+**4. Iniciar el servidor API**
 ```bash
 npm start
 ```
 Deberías ver:
 ```
-🧉 Servidor corriendo en http://localhost:3000
+🚀 Servidor corriendo en http://localhost:3000
 ✅ MongoDB conectado
 ```
 
-**6. Abrir en el navegador**
-```
-http://localhost:3000
-```
+**5. Abrir el Frontend**
+No abras `localhost:3000` en tu navegador, ya que el backend no sirve vistas.
+Dirígete a la carpeta `../frontend/` de este proyecto y haz doble clic sobre el archivo `index.html` para levantar la aplicación e interactuar con esta API.
 
 ---
 
-## 👥 Usuarios de prueba
-
-Todos los usuarios tienen la misma contraseña: **`mate1234`**
-
-| Nombre | Email | Estilo | Presupuesto | Destino |
-|--------|-------|--------|-------------|---------|
-| Tomás | tomas@mate.com | Mochilero | Económico | Tailandia |
-| Sofía | sofia@mate.com | Confort | Medio | Bariloche |
-| Martín | martin@mate.com | Mochilero | Económico | Salta / NOA |
-| Caro | caro@mate.com | Cultural | Económico | Misiones |
-| Juan | juan@mate.com | Confort | Premium | Ushuaia |
-| Lucía | lucia@mate.com | Social | Económico | Costa Atlántica |
-| Nico | nico@mate.com | Mochilero | Económico | Jujuy |
-| Valentina | valentina@mate.com | Confort | Premium | Mendoza |
-| Ana | ana@mate.com | Cultural | Medio | Iberá |
-| Felipe | felipe@mate.com | Social | Medio | Ruta del Vino |
-
-### Para probar el match mutuo
-1. Abrí el navegador normal → logueate con `tomas@mate.com`
-2. Abrí una ventana en **modo incógnito** → logueate con `nico@mate.com`
-3. Desde Tomás → invitá a Nico
-4. Desde Nico → invitá a Tomás
-5. ¡Hay Mate! 🧉
-
----
-
-## 🗂️ Estructura del proyecto
+## 🗂️ Estructura del Backend
 
 ```
 backend-mate/
@@ -110,32 +76,27 @@ backend-mate/
 │   └── auth.js            # Verificación de JWT
 ├── models/
 │   ├── Usuario.js         # Modelo de usuario
-│   └── Match.js           # Modelo de match mutuo
+│   ├── Match.js           # Modelo de match mutuo
+│   └── Mensaje.js         # Modelo para el chat (mensajes entre usuarios)
 ├── routes/
 │   ├── usuarios.js        # POST /register, POST /login, GET /me
 │   ├── perfiles.js        # GET /perfiles (con afinidad calculada)
-│   └── matches.js         # POST /invitar, GET /matches
-├── pantallas/             # HTML de cada pantalla
-├── js/                    # JavaScript del frontend
-├── images/                # Imágenes
-├── app.js                 # Servidor Express principal
+│   ├── matches.js         # POST /invitar, GET /matches
+│   └── mensajes.js        # POST /mensajes, GET /mensajes/:userId
+├── app.js                 # Servidor Express principal (API endpoints)
 ├── seed.js                # Script para poblar la base de datos
-├── styles.css             # Estilos globales
+├── package.json           # Dependencias de Node
 └── .env                   # Variables de entorno (crear manualmente)
 ```
 
 ---
 
-## ⚙️ Tecnologías utilizadas
+## 🛠️ Tecnologías utilizadas
 
 | Tecnología | Uso |
 |------------|-----|
-| HTML / CSS / JavaScript | Frontend |
-| Bootstrap 5 | Diseño responsive |
-| Node.js + Express | Servidor backend |
-| MongoDB + Mongoose | Base de datos |
+| Node.js + Express | Servidor backend API REST |
+| MongoDB + Mongoose | Base de datos NoSQL |
 | bcryptjs | Hash de contraseñas |
-| JSON Web Tokens (JWT) | Autenticación |
-| Render | Deploy del servidor |
-| MongoDB Atlas | Base de datos en la nube |
-| GitHub | Control de versiones |
+| JSON Web Tokens (JWT)| Autenticación segura |
+| CORS | Manejo de peticiones de origen cruzado |

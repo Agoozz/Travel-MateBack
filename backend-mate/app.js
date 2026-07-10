@@ -41,8 +41,8 @@ app.use("/api/perfiles", perfilesRoutes);
 app.use("/api/matches", matchesRoutes);
 app.use("/api/mensajes", mensajesRoutes);
 
-// Backend is now purely an API, it does not serve the frontend
-// app.use(express.static(path.join(__dirname, "../frontend")));
+
+
 
 const PORT = process.env.PORT || 3000;
 
