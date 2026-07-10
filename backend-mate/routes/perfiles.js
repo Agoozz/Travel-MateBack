@@ -94,7 +94,7 @@ router.get("/", verificarToken, async (req, res) => {
 // ─── PUT /api/perfiles/me ────────────────────────────────────────
 router.put("/me", verificarToken, async (req, res) => {
   try {
-    const { nombre, ubicacion, bio, estiloViaje, presupuesto, disponibilidad, fechaInicio, fechaFin } = req.body;
+    const { nombre, ubicacion, bio, estiloViaje, presupuesto, fechaInicio, fechaFin } = req.body;
     
     // Solo actualizamos campos permitidos
     if (nombre !== undefined) req.usuario.nombre = nombre;
@@ -102,7 +102,7 @@ router.put("/me", verificarToken, async (req, res) => {
     if (bio !== undefined) req.usuario.bio = bio;
     if (estiloViaje !== undefined) req.usuario.estiloViaje = estiloViaje;
     if (presupuesto !== undefined) req.usuario.presupuesto = presupuesto;
-    if (disponibilidad !== undefined) req.usuario.disponibilidad = disponibilidad;
+    
     if (fechaInicio !== undefined) req.usuario.fechaInicio = fechaInicio;
     if (fechaFin !== undefined) req.usuario.fechaFin = fechaFin;
     

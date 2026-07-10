@@ -14,7 +14,7 @@ El proyecto fue refactorizado para separar completamente el Frontend del Backend
 
 Para correr este proyecto en tu computadora de forma local, necesitas tener instalado:
 
-1. [Node.js](https://nodejs.org/es/) (Versión 16 o superior)
+1. [Node.js](https://nodejs.org/es/) (Versión 20.19.0 o superior)
 2. [MongoDB Community Server](https://www.mongodb.com/try/download/community) corriendo localmente en el puerto `27017` (solo necesario si deseas correr el backend).
 3. Git
 
@@ -23,7 +23,7 @@ Para correr este proyecto en tu computadora de forma local, necesitas tener inst
 ### 1. Clonar el repositorio
 Abre una terminal y ejecuta:
 ```bash
-git clone https://github.com/Agoozz/Travel-MateBack.git
+git clone -b sin-react https://github.com/Agoozz/Travel-MateBack.git
 cd Travel-MateBack
 ```
 

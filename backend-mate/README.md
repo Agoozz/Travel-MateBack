@@ -1,6 +1,6 @@
 # 🧉 Mate & Travel - Backend API
 
-Esta es la API REST para la aplicación Travel Mate, encargada de gestionar usuarios, autenticación, perfiles y la lógica de "match" y chat entre viajeros compatibles. Desarrollada con Node.js, Express y MongoDB.
+Esta es la API REST para el proyecto: `git clone -b sin-react https://github.com/Agoozz/Travel-MateBack.git`, encargada de gestionar usuarios, autenticación, perfiles y la lógica de "match" y chat entre viajeros compatibles. Desarrollada con Node.js, Express y MongoDB.
 
 ---
 
@@ -15,7 +15,7 @@ Esta es la API REST para la aplicación Travel Mate, encargada de gestionar usua
 ## 🚀 Correr en local
 
 ### Requisitos
-- Node.js instalado (v16+)
+- [Node.js](https://nodejs.org/) instalado (v20.19.0+)
 - MongoDB instalado y corriendo (en `localhost:27017`) o bien una URI de MongoDB en la nube.
 
 ### Pasos

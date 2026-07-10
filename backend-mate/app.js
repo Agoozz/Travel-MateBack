@@ -26,10 +26,10 @@ app.use((req, res, next) => {
   if (req.path.startsWith("/api/")) {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.includes("offline-")) {
-      return res.status(503).send("Offline Token Detected");
+      return res.status(503).json({ error: "Offline Token Detected" });
     }
     if (mongoose.connection.readyState !== 1 && mongoose.connection.readyState !== 2) {
-      return res.status(503).send("Database Offline");
+      return res.status(503).json({ error: "Database Offline" });
     }
   }
   next();
@@ -58,4 +58,4 @@ app.listen(PORT, () => {
   console.log(`🧉 Servidor corriendo en http://localhost:${PORT}`);
 });
 
-// Version sin React
+

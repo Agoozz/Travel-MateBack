@@ -12,7 +12,7 @@ module.exports = async function verificarToken(req, res, next) {
     }
 
     const token   = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secreto_super_seguro_123");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const usuario = await Usuario.findById(decoded.id);
     if (!usuario) {
@@ -27,4 +27,3 @@ module.exports = async function verificarToken(req, res, next) {
   }
 };
 
-// Version sin React
