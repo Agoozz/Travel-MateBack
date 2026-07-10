@@ -112,7 +112,7 @@
   }
 
   try {
-    const response = await fetch("http://localhost:3000/api/perfiles", {
+    const response = await fetch(API_BASE + "/perfiles", {
       headers: { Authorization: `Bearer ${token}` }
     });
 

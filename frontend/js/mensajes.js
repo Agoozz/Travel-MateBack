@@ -25,7 +25,7 @@ let currentUserId = null;
 let pollingInterval = null;
 
 // Backend API configuration
-const API_BASE = "http://localhost:3000/api";
+
 const token = localStorage.getItem("token");
 const myId = localStorage.getItem("user_id");
 

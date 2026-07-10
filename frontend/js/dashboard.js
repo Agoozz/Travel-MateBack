@@ -337,7 +337,7 @@
       if (!token || token.startsWith("offline-")) return;
 
       try {
-        const res = await fetch(`http://localhost:3000/api/mensajes/${currentChatUserId}`, {
+        const res = await fetch(`${API_BASE}/mensajes/${currentChatUserId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!res.ok) return;
@@ -527,7 +527,7 @@
           // Enviar al backend real en segundo plano si no es offline
           const token = localStorage.getItem("token");
           if (token && !token.startsWith("offline-")) {
-            fetch("http://localhost:3000/api/mensajes", {
+            fetch(API_BASE + "/mensajes", {
               method: "POST",
               headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
               body: JSON.stringify({ receptorId: currentChatUserId, texto: text })
@@ -609,7 +609,7 @@
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `http://localhost:3000/api/matches/invitar/${targetId}`,
+          `${API_BASE}/matches/invitar/${targetId}`,
           {
             method: "POST",
             headers: {

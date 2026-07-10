@@ -12,6 +12,7 @@
     <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
     <!-- Theme loading script (prevent flickers) -->
+    <script src="js/config.js"></script>
     <script src="js/theme.js"></script>
 </head>
 
@@ -168,7 +169,7 @@
                         <h6 class="fw-bold mb-4">Destinos Populares 🔥</h6>
 
                         <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom border-success-subtle">
-                            <div class="rounded-3 overflow-hidden shadow-sm" style="width: 50px; height: 50px; flex-shrink: 0;">
+                            <div class="rounded-3 overflow-hidden shadow-sm avatar-sm">
                                 <img src="images/mendoza.png" alt="Mendoza" class="w-100 h-100 object-fit-cover">
                             </div>
                             <div>
@@ -178,7 +179,7 @@
                         </div>
 
                         <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom border-success-subtle">
-                            <div class="rounded-3 overflow-hidden shadow-sm" style="width: 50px; height: 50px; flex-shrink: 0;">
+                            <div class="rounded-3 overflow-hidden shadow-sm avatar-sm">
                                 <img src="images/salta.png" alt="Salta" class="w-100 h-100 object-fit-cover">
                             </div>
                             <div>
@@ -188,7 +189,7 @@
                         </div>
 
                         <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-3 overflow-hidden shadow-sm" style="width: 50px; height: 50px; flex-shrink: 0;">
+                            <div class="rounded-3 overflow-hidden shadow-sm avatar-sm">
                                 <img src="images/rio_negro.png" alt="Bariloche" class="w-100 h-100 object-fit-cover">
                             </div>
                             <div>
@@ -282,7 +283,7 @@
             <div class="modal-content bg-dark border-0 shadow-lg text-center p-5 rounded-5">
                 <h2 class="text-success fw-bold display-3 mb-4">¡Hay Mate!</h2>
                 <div class="d-flex justify-content-center align-items-center gap-3 mb-4">
-                    <img src="images/usuario1.jpg" alt="Yo" class="rounded-circle border border-4 border-white shadow-lg object-fit-cover" id="matchUserAvatar" width="130" height="130" onerror="this.src='https://i.pravatar.cc/150?img=60'">
+                    <img src="https://i.pravatar.cc/150?img=60" alt="Yo" class="rounded-circle border border-4 border-white shadow-lg object-fit-cover" id="matchUserAvatar" width="130" height="130" onerror="this.src='https://i.pravatar.cc/150?img=60'">
                     <i class="bi bi-airplane-fill text-success display-4 match-plane-icon"></i>
                     <img src="" alt="Target" class="rounded-circle border border-4 border-white shadow-lg object-fit-cover" id="matchTargetAvatar" width="130" height="130">
                 </div>
@@ -326,7 +327,7 @@
     </div>
 
     <!-- Back to Top Button -->
-    <button class="btn btn-success rounded-circle shadow-lg position-fixed d-none" id="btnBackToTop" style="bottom: 30px; right: 30px; width: 50px; height: 50px; z-index: 1050; opacity: 0; transition: opacity 0.3s;" >
+    <button class="btn btn-success rounded-circle shadow-lg position-fixed d-none back-to-top" id="btnBackToTop" >
         <i class="bi bi-arrow-up fs-5"></i>
     </button>
 
@@ -339,7 +340,7 @@
           <div class="row align-items-center">
             <div class="col-md-2 text-center mb-3 mb-md-0">
               <div class="companion-avatar-wrap mx-auto">
-                <img class="rounded-circle object-fit-cover shadow-sm border border-2 border-white avatar-img" style="width: 100px; height: 100px; object-fit: cover;">
+                <img class="rounded-circle object-fit-cover shadow-sm border border-2 border-white avatar-img" class="avatar-lg">
               </div>
             </div>
             <div class="col-md-7">
