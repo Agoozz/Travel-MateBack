@@ -271,6 +271,12 @@
         "border-2",
       );
       userAnswers[key] = value;
+      
+      if (key === "region") {
+        delete userAnswers.destino;
+        document.querySelectorAll(".province-option").forEach(o => o.classList.remove("border-success", "bg-success-subtle", "border-2", "selected"));
+      }
+      
       updateButtonState();
     });
   });
@@ -280,8 +286,9 @@
     if (currentStep === 1 && userAnswers.tipoViaje) enabled = true;
     if (currentStep === 2 && userAnswers.presupuesto) enabled = true;
     if (currentStep === 3 && userAnswers.region) enabled = true;
-    if (currentStep === 4 && userAnswers.fechas.length > 0) enabled = true;
-    if (currentStep === 5 && userAnswers.companero) enabled = true;
+    if (currentStep === 4 && userAnswers.destino) enabled = true;
+    if (currentStep === 5 && userAnswers.fechas && userAnswers.fechas.length > 0) enabled = true;
+    if (currentStep === 6 && userAnswers.companero) enabled = true;
 
     if (enabled) {
       btnNext.removeAttribute("disabled");
@@ -307,7 +314,7 @@
       }
     });
 
-    const progressWidth = ((currentStep - 1) / 4) * 100;
+    const progressWidth = ((currentStep - 1) / (totalSteps - 1)) * 100;
     progressLine.style.width = `${progressWidth}%`;
 
     document.querySelectorAll(".wizard-step").forEach((stepDiv) => {
@@ -319,6 +326,19 @@
     );
     if (currentStepDiv) {
       currentStepDiv.classList.remove("d-none");
+      
+      if (currentStep === 4) {
+        const selectedRegion = userAnswers.region;
+        document.querySelectorAll(".province-option").forEach(opt => {
+          if (opt.getAttribute("data-parent-region") === selectedRegion) {
+            opt.classList.remove("d-none");
+            opt.classList.add("d-flex");
+          } else {
+            opt.classList.add("d-none");
+            opt.classList.remove("d-flex");
+          }
+        });
+      }
     }
 
     btnPrev.disabled = currentStep === 1;
@@ -509,7 +529,8 @@
         pampeana: "Pampeana",
         patagonia: "Patagonia",
       }[regionKey] || "Patagonia";
-    localStorage.setItem("user_destination", regionLabel);
+    localStorage.setItem("user_region", regionLabel);
+    localStorage.setItem("user_destination", userAnswers.destino || "Mendoza");
 
     if (userAnswers.fechas && userAnswers.fechas.length > 0) {
       const dateObjects = userAnswers.fechas.map(

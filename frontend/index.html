@@ -813,6 +813,7 @@
                         <div class="step-circle-indicator" data-step="3">3</div>
                         <div class="step-circle-indicator" data-step="4">4</div>
                         <div class="step-circle-indicator" data-step="5">5</div>
+                        <div class="step-circle-indicator" data-step="6">6</div>
                     </div>
                     
                     <!-- WIZARD SCREENS -->
@@ -933,8 +934,97 @@
                             </div>
                         </div>
                         
-                        <!-- STEP 4: Fechas (Calendario) -->
+                        
+                        <!-- STEP 4: Provincia -->
                         <div class="wizard-step d-none" data-step="4">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿A qué provincia te gustaría ir?</h6>
+                            <div class="d-flex flex-column gap-2" id="provinceOptionsContainer">
+                                <!-- Patagonia -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Neuquén" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Neuquén</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Río Negro" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Río Negro</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Chubut" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Chubut</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Santa Cruz" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Santa Cruz</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Tierra del Fuego" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Tierra del Fuego</h6>
+                                </div>
+                                
+                                <!-- NOA -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Jujuy" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Jujuy</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Salta" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Salta</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Tucumán" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Tucumán</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Catamarca" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Catamarca</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Santiago del Estero" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Santiago del Estero</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="La Rioja" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">La Rioja</h6>
+                                </div>
+
+                                <!-- Cuyo -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Mendoza" data-parent-region="cuyo">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Mendoza</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="San Juan" data-parent-region="cuyo">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">San Juan</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="San Luis" data-parent-region="cuyo">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">San Luis</h6>
+                                </div>
+
+                                <!-- NEA -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Formosa" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Formosa</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Chaco" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Chaco</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Corrientes" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Corrientes</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Misiones" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Misiones</h6>
+                                </div>
+
+                                <!-- Pampeana -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Córdoba" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Córdoba</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Santa Fe" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Santa Fe</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Entre Ríos" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Entre Ríos</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="La Pampa" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">La Pampa</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Buenos Aires" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Buenos Aires</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="CABA" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">CABA</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 5: Fechas (Calendario) -->
+                        <div class="wizard-step d-none" data-step="5">
                             <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Cuándo planeas viajar?</h6>
                             <div class="border rounded-4 p-3 bg-body-tertiary shadow-sm">
                                 <div class="mx-auto">
@@ -957,7 +1047,7 @@
                         </div>
                         
                         <!-- STEP 5: Compañero de viaje -->
-                        <div class="wizard-step d-none" data-step="5">
+                        <div class="wizard-step d-none" data-step="6">
                             <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué buscas en tu compañere de viaje?</h6>
                             <div class="d-flex flex-column gap-2">
                                 <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="aventura">
