@@ -1,0 +1,79 @@
+--- AUDIT REPORT ---
+
+1. DUPLICATE CLASS ATTRIBUTES:
+File: mensajes.html | Tag: <div                   class="p-4 text-center text-body-secondary"              ...
+File: mensajes.html | Tag: <div                   class="typing-indicator"                   id="pageTyping...
+File: perfil.html | Tag: <div                             class="progress-bar bg-success"                ...
+File: perfil.html | Tag: <div                             class="progress-bar bg-success"                ...
+File: perfil.html | Tag: <div                             class="progress-bar bg-success"                ...
+
+2. SUSPECT CLASSES USAGE:
+Class 'w-fit' used in index.html
+Class 'w-0' used in index.html
+Class 'w-0' used in perfil.html
+Class 'me-n2' used in index.html
+Class 'border-transparent' used in perfil.html
+Class 'cursor-pointer' used in perfil.html
+Class 'letter-spacing-1' used in index.html
+Class 'calendar-container' used in index.html
+Class 'calendar-container' used in perfil.html
+Class 'card-destino' used in index.html
+Class 'card-icon-40' used in index.html
+Class 'card-icon-40' used in perfil.html
+Class 'card-icon-55' used in index.html
+Class 'card-icon-55' used in perfil.html
+Class 'chat-container' used in inicio.html
+Class 'chat-input-wrapper' used in inicio.html
+Class 'companion-avatar-wrap' used in inicio.html
+Class 'companion-card-banner' used in inicio.html
+Class 'companion-type-badge' used in inicio.html
+Class 'match-plane-icon' used in inicio.html
+Class 'modal-avatar-frame' used in inicio.html
+Class 'modal-left-card' used in inicio.html
+Class 'profile-avatar-frame' used in perfil.html
+Class 'profile-header-banner' used in perfil.html
+Class 'profile-photo-grid' used in perfil.html
+Class 'profile-summary-card' used in perfil.html
+Class 'progress-loader' used in index.html
+Class 'progress-loader' used in perfil.html
+Class 'progress-sm' used in index.html
+Class 'progress-sm' used in perfil.html
+Class 'result-img' used in index.html
+Class 'result-img' used in perfil.html
+Class 'typing-dot' used in inicio.html
+Class 'typing-dot' used in mensajes.html
+
+3. OUTFIT FONT CHECK:
+File index.html does NOT include Outfit font.
+File iniciar_sesion.html does NOT include Outfit font.
+File inicio.html does NOT include Outfit font.
+File mensajes.html does NOT include Outfit font.
+File perfil.html does NOT include Outfit font.
+
+4. STYLES.CSS CLASSES:
+Class 'w-fit' is NOT DEFINED in styles.css.
+Class 'w-0' is NOT DEFINED in styles.css.
+Class 'me-n2' is NOT DEFINED in styles.css.
+Class 'border-transparent' is NOT DEFINED in styles.css.
+Class 'cursor-pointer' is NOT DEFINED in styles.css.
+Class 'letter-spacing-1' is NOT DEFINED in styles.css.
+Class 'calendar-container' is NOT DEFINED in styles.css.
+Class 'card-destino' is NOT DEFINED in styles.css.
+Class 'card-icon-40' is NOT DEFINED in styles.css.
+Class 'card-icon-55' is NOT DEFINED in styles.css.
+Class 'chat-container' is NOT DEFINED in styles.css.
+Class 'chat-input-wrapper' is NOT DEFINED in styles.css.
+Class 'companion-avatar-wrap' is NOT DEFINED in styles.css.
+Class 'companion-card-banner' is NOT DEFINED in styles.css.
+Class 'companion-type-badge' is NOT DEFINED in styles.css.
+Class 'match-plane-icon' is NOT DEFINED in styles.css.
+Class 'modal-avatar-frame' is NOT DEFINED in styles.css.
+Class 'modal-left-card' is NOT DEFINED in styles.css.
+Class 'profile-avatar-frame' is NOT DEFINED in styles.css.
+Class 'profile-header-banner' is NOT DEFINED in styles.css.
+Class 'profile-photo-grid' is NOT DEFINED in styles.css.
+Class 'profile-summary-card' is NOT DEFINED in styles.css.
+Class 'progress-loader' is NOT DEFINED in styles.css.
+Class 'progress-sm' is NOT DEFINED in styles.css.
+Class 'result-img' is NOT DEFINED in styles.css.
+Class 'typing-dot' is NOT DEFINED in styles.css.
