@@ -17,6 +17,7 @@
   const btnNext = document.getElementById("btnNextStep");
   const footer = document.getElementById("testModalFooter");
   const progressLine = document.getElementById("stepperLineProgress");
+  if (progressLine) progressLine.style.width = "0%";
 
   const isPantallas = window.location.pathname.includes("/pantallas/");
   const basePath = isPantallas ? "../" : "";
