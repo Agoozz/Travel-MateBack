@@ -9,20 +9,20 @@ const usuarioSchema = new mongoose.Schema({
   password:        { type: String, required: true, minlength: 6 },
 
   // Datos del perfil de viajero
-  edad:            { type: Number, default: 26 },
-  ubicacion:       { type: String, default: "Buenos Aires, Argentina" },
-  bio:             { type: String, default: "¡Listo para compartir mates y emprender nuevas rutas!" },
-  avatar:          { type: String, default: "https://i.pravatar.cc/150?img=12" },
-  estiloViaje:     { type: String, default: "mochilero", enum: ["mochilero", "confort", "social", "cultural"] },
-  presupuesto:     { type: String, default: "economico",  enum: ["economico", "medio", "premium"] },
-  estiloCompanero: { type: String, default: "aventura" },
+  edad:            { type: Number, default: null },
+  ubicacion:       { type: String, default: "" },
+  bio:             { type: String, default: "" },
+  avatar:          { type: String, default: "https://i.pravatar.cc/150?img=12" }, // Mantenemos un avatar genérico
+  estiloViaje:     { type: String, default: "", enum: ["", "mochilero", "confort", "social", "cultural"] },
+  presupuesto:     { type: String, default: "",  enum: ["", "economico", "medio", "premium"] },
+  estiloCompanero: { type: String, default: "" },
   regiones:        { type: [String], default: [] },
   destino:         { type: String, default: "" },
   fechaInicio:     { type: String, default: "" },
   fechaFin:        { type: String, default: "" },
-  intereses:       { type: [String], default: ["Trekking", "Fotografía", "Comida local"] },
-  idiomas:         { type: [String], default: ["Español"] },
-  progresoPerfil:  { type: Number, default: 45 },
+  intereses:       { type: [String], default: [] },
+  idiomas:         { type: [String], default: [] },
+  progresoPerfil:  { type: Number, default: 0 },
   esSeedProfile:   { type: Boolean, default: false }
 
 }, { timestamps: true });

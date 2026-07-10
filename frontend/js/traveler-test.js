@@ -1,4 +1,10 @@
+/**
+ * Lógica del test de viajero (wizard) y recomendaciones.
+ */
+
+// Inicialización principal
 (function () {
+  // Estado
   let currentStep = 1;
   const totalSteps = 6;
   let userAnswers = {
@@ -14,6 +20,10 @@
   let displayYear = today.getFullYear();
   let displayMonth = today.getMonth();
 
+  const isPantallas = window.location.pathname.includes("/pantallas/");
+  const basePath = isPantallas ? "../" : "";
+
+  // Selectores del DOM
   const modal = document.getElementById("travelerTestModal");
   const btnPrev = document.getElementById("btnPrevStep");
   const btnNext = document.getElementById("btnNextStep");
@@ -21,9 +31,7 @@
   const progressLine = document.getElementById("stepperLineProgress");
   if (progressLine) progressLine.style.width = "0%";
 
-  const isPantallas = window.location.pathname.includes("/pantallas/");
-  const basePath = isPantallas ? "../" : "";
-
+  // Configuración
   const profiles = {
     aventurero: {
       title: "Aventurero Indómito",
@@ -98,6 +106,7 @@
     },
   };
 
+  // Funciones auxiliares
   function isDaySelected(day) {
     return userAnswers.fechas.some(
       (f) =>
@@ -115,16 +124,16 @@
     return current > start && current < end;
   }
 
+  // Funciones principales
   function toggleDaySelection(day) {
     const clickedDate = new Date(displayYear, displayMonth, day);
 
     if (userAnswers.fechas.length === 0 || userAnswers.fechas.length === 2) {
-      // Start new range
       userAnswers.fechas = [{ day, month: displayMonth, year: displayYear }];
     } else if (userAnswers.fechas.length === 1) {
       const start = new Date(userAnswers.fechas[0].year, userAnswers.fechas[0].month, userAnswers.fechas[0].day);
       if (clickedDate.getTime() === start.getTime()) {
-        userAnswers.fechas = []; // Deselect if clicking the same day
+        userAnswers.fechas = []; 
       } else if (clickedDate < start) {
         userAnswers.fechas.unshift({ day, month: displayMonth, year: displayYear });
       } else {
@@ -150,7 +159,6 @@
     const grid = document.getElementById("calendarDaysGrid");
     grid.textContent = "";
 
-    // Previous month's trailing days
     for (let i = firstDayIndex - 1; i >= 0; i--) {
       const btn = document.createElement("button");
       btn.type = "button";
@@ -160,7 +168,6 @@
       grid.appendChild(btn);
     }
 
-    // Active month's days
     for (let dayNum = 1; dayNum <= totalDays; dayNum++) {
       const btn = document.createElement("button");
       btn.type = "button";
@@ -205,7 +212,6 @@
       grid.appendChild(btn);
     }
 
-    // Next month's leading days
     const totalCells = firstDayIndex + totalDays;
     const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
     for (let i = 1; i <= remainingCells; i++) {
@@ -217,7 +223,6 @@
       grid.appendChild(btn);
     }
 
-    // Disable calendar back button if on current month
     const btnCalPrev = document.getElementById("calPrevMonth");
     if (
       displayYear === today.getFullYear() &&
@@ -228,61 +233,6 @@
       btnCalPrev.disabled = false;
     }
   }
-
-  document.getElementById("calPrevMonth").addEventListener("click", () => {
-    if (displayYear > today.getFullYear() || displayMonth > today.getMonth()) {
-      if (displayMonth === 0) {
-        displayMonth = 11;
-        displayYear--;
-      } else {
-        displayMonth--;
-      }
-      renderCalendar();
-    }
-  });
-
-  document.getElementById("calNextMonth").addEventListener("click", () => {
-    if (displayMonth === 11) {
-      displayMonth = 0;
-      displayYear++;
-    } else {
-      displayMonth++;
-    }
-    renderCalendar();
-  });
-
-  document.querySelectorAll(".test-option-card").forEach((card) => {
-    const key = card.getAttribute("data-key");
-    const value = card.getAttribute("data-value");
-
-    card.addEventListener("click", () => {
-      document
-        .querySelectorAll(`.test-option-card[data-key="${key}"]`)
-        .forEach((c) => {
-          c.classList.remove(
-            "selected",
-            "border-success",
-            "bg-success-subtle",
-            "border-2",
-          );
-        });
-      card.classList.add(
-        "selected",
-        "border-success",
-        "bg-success-subtle",
-        "border-2",
-      );
-      userAnswers[key] = value;
-      
-      if (key === "region") {
-        userAnswers.destino = "";
-        localStorage.removeItem("user_destination");
-        document.querySelectorAll(".province-option").forEach(o => o.classList.remove("border-success", "bg-success-subtle", "border-2", "selected"));
-      }
-      
-      updateButtonState();
-    });
-  });
 
   function updateButtonState() {
     let enabled = false;
@@ -347,22 +297,6 @@
     btnPrev.disabled = currentStep === 1;
     updateButtonState();
   }
-
-  btnPrev.addEventListener("click", () => {
-    if (currentStep > 1) {
-      currentStep--;
-      updateStepVisibility();
-    }
-  });
-
-  btnNext.addEventListener("click", () => {
-    if (currentStep < totalSteps) {
-      currentStep++;
-      updateStepVisibility();
-    } else {
-      showLoading();
-    }
-  });
 
   function showLoading() {
     document.querySelectorAll(".wizard-step").forEach((stepDiv) => {
@@ -507,20 +441,9 @@
     renderCalendar();
   }
 
-  const btnRestartTestEl = document.getElementById("btnRestartTest");
-  if (btnRestartTestEl) {
-    btnRestartTestEl.addEventListener("click", restartTest);
-  }
-
-  modal.addEventListener("show.bs.modal", function () {
-    restartTest();
-  });
-
   function saveTestResultsToLocalStorage() {
     const resultTitle = document.getElementById("resultProfileTitle").innerText;
-    const resultDesc = document.getElementById("resultProfileDesc").innerText;
     localStorage.setItem("user_travel_style", resultTitle);
-    localStorage.setItem("user_bio", resultDesc);
     localStorage.setItem(
       "user_travel_style_key",
       userAnswers.tipoViaje || "mochilero",
@@ -562,7 +485,87 @@
     }
   }
 
-  // Find Partner redirects to dedicated Login/Register page
+  // Eventos
+  document.getElementById("calPrevMonth").addEventListener("click", () => {
+    if (displayYear > today.getFullYear() || displayMonth > today.getMonth()) {
+      if (displayMonth === 0) {
+        displayMonth = 11;
+        displayYear--;
+      } else {
+        displayMonth--;
+      }
+      renderCalendar();
+    }
+  });
+
+  document.getElementById("calNextMonth").addEventListener("click", () => {
+    if (displayMonth === 11) {
+      displayMonth = 0;
+      displayYear++;
+    } else {
+      displayMonth++;
+    }
+    renderCalendar();
+  });
+
+  document.querySelectorAll(".test-option-card").forEach((card) => {
+    const key = card.getAttribute("data-key");
+    const value = card.getAttribute("data-value");
+
+    card.addEventListener("click", () => {
+      document
+        .querySelectorAll(`.test-option-card[data-key="${key}"]`)
+        .forEach((c) => {
+          c.classList.remove(
+            "selected",
+            "border-success",
+            "bg-success-subtle",
+            "border-2",
+          );
+        });
+      card.classList.add(
+        "selected",
+        "border-success",
+        "bg-success-subtle",
+        "border-2",
+      );
+      userAnswers[key] = value;
+      
+      if (key === "region") {
+        userAnswers.destino = "";
+        localStorage.removeItem("user_destination");
+        document.querySelectorAll(".province-option").forEach(o => o.classList.remove("border-success", "bg-success-subtle", "border-2", "selected"));
+      }
+      
+      updateButtonState();
+    });
+  });
+
+  btnPrev.addEventListener("click", () => {
+    if (currentStep > 1) {
+      currentStep--;
+      updateStepVisibility();
+    }
+  });
+
+  btnNext.addEventListener("click", () => {
+    if (currentStep < totalSteps) {
+      currentStep++;
+      updateStepVisibility();
+    } else {
+      showLoading();
+    }
+  });
+
+  const btnRestartTestEl = document.getElementById("btnRestartTest");
+  if (btnRestartTestEl) {
+    btnRestartTestEl.addEventListener("click", restartTest);
+  }
+
+  modal.addEventListener("show.bs.modal", function () {
+    restartTest();
+  });
+
   const btnRegisterAndSave = document.getElementById("btnRegisterAndSave");
   if (btnRegisterAndSave) {
     btnRegisterAndSave.addEventListener("click", function () {
@@ -585,7 +588,6 @@
     });
   }
 
-  // Save Profile from within perfil.html
   const btnSaveTestProfile = document.getElementById("btnSaveTestProfile");
   if (btnSaveTestProfile) {
     btnSaveTestProfile.addEventListener("click", function () {

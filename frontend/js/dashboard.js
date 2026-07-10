@@ -1,4 +1,8 @@
+/**
+ * Lógica principal del Dashboard y manejo de compañeros de viaje.
+ */
 
+// Inicialización de seguridad
 (function checkAuth() {
   if (!localStorage.getItem("user_name")) {
     document.body.style.display = "none";
@@ -11,13 +15,21 @@
     }
   });
 })();
+
+// Inicialización principal
 (function () {
+  // Estado
   const userName = localStorage.getItem("user_name");
   const profileProgress = localStorage.getItem("user_profile_progress");
   const travelStyle = localStorage.getItem("user_travel_style");
 
-  // Update welcome subtitle dynamically if name is stored
+  // Selectores del DOM (Globales a este bloque)
   const subtitleEl = document.getElementById("welcomeSubtitle");
+  const progressLine = document.getElementById("sidebarProgressBar");
+  const progressTitle = document.getElementById("sidebarProgressTitle");
+  const progressDesc = document.getElementById("sidebarProgressDesc");
+
+  // Funciones principales
   if (subtitleEl && userName) {
     subtitleEl.textContent = "Hola, ";
     const strong = document.createElement("strong");
@@ -31,11 +43,6 @@
     );
     subtitleEl.appendChild(textNode);
   }
-
-  // Update sidebar progress bar
-  const progressLine = document.getElementById("sidebarProgressBar");
-  const progressTitle = document.getElementById("sidebarProgressTitle");
-  const progressDesc = document.getElementById("sidebarProgressDesc");
 
   if (progressLine) {
     const progressVal = parseInt(profileProgress) || 0;
@@ -56,19 +63,29 @@
     }
   }
 
+  // Eventos
   document.addEventListener("perfilesListos", function () {
+    // Configuración y Estado interno del evento
     const companionProfiles = window.companionProfilesData || {};
     const companionModal = document.getElementById("companionProfileModal");
     const bsCompanionModal = companionModal
       ? new bootstrap.Modal(companionModal)
       : null;
 
+    let companionItems = Array.from(
+      document.querySelectorAll(".companion-item"),
+    );
+    let activeItems = [...companionItems];
+    const itemsPerPage = 3;
+    let totalPages = Math.ceil(activeItems.length / itemsPerPage);
+    let currentPage = 1;
+
+    // Funciones principales (Modal y Paginación)
     function openCompanionModal(profileKey) {
       const profile = companionProfiles[profileKey];
       if (!profile) return;
       window.currentModalUserId = profileKey;
 
-      // Actualizar botón invitar del modal con el ID real
       const modalInviteBtn = document.querySelector(
         "#companionProfileModal .btn-invitar",
       );
@@ -135,29 +152,6 @@
       }
     }
 
-    document.querySelectorAll(".btn-view-profile").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        openCompanionModal(this.dataset.user);
-      });
-    });
-
-    // Logout button in the top bar
-    document.querySelectorAll(".btn-logout-profile").forEach((btn) => {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        localStorage.clear();
-        window.location.href = "index.html";
-      });
-    });
-
-    let companionItems = Array.from(
-      document.querySelectorAll(".companion-item"),
-    );
-    let activeItems = [...companionItems];
-    const itemsPerPage = 3;
-    let totalPages = Math.ceil(activeItems.length / itemsPerPage);
-    let currentPage = 1;
-
     function removeCompanionByName(name) {
       const itemToRemove = companionItems.find((item) => {
         const h4 = item.querySelector("h4");
@@ -165,13 +159,11 @@
       });
 
       if (itemToRemove) {
-        itemToRemove.remove(); // Remove from DOM
+        itemToRemove.remove();
 
-        // Remove from arrays
         companionItems = companionItems.filter((item) => item !== itemToRemove);
         activeItems = activeItems.filter((item) => item !== itemToRemove);
 
-        // Adjust pagination and re-render
         totalPages = Math.ceil(activeItems.length / itemsPerPage);
         if (currentPage > totalPages && totalPages > 0) {
           currentPage = totalPages;
@@ -183,24 +175,19 @@
     }
 
     function renderCompanions() {
-      // First hide all
       companionItems.forEach((item) => item.classList.add("d-none"));
 
-      // Determine slice to show
       const start = (currentPage - 1) * itemsPerPage;
       const end = currentPage * itemsPerPage;
       const pageItems = activeItems.slice(start, end);
 
-      // Show them
       pageItems.forEach((item) => item.classList.remove("d-none"));
 
-      // Update pagination buttons visibility based on totalPages
       const paginationContainer = document.getElementById(
         "companionsPagination",
       );
       if (!paginationContainer) return;
 
-      // Rebuild pagination numbers
       paginationContainer.textContent = "";
       
       const prevBtn = document.createElement("li");
@@ -243,7 +230,7 @@
       nextBtn.appendChild(nextLink);
       paginationContainer.appendChild(nextBtn);
 
-      // Re-attach events
+      // Eventos dinámicos de paginación
       paginationContainer
         .querySelectorAll(".page-item[data-page]")
         .forEach((li) => {
@@ -276,14 +263,31 @@
       }
     }
 
+    // Inicialización del evento
     if (companionItems.length > 0) {
       renderCompanions();
     }
 
-    // Search Logic
+    document.querySelectorAll(".btn-view-profile").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        openCompanionModal(this.dataset.user);
+      });
+    });
+
+    document.querySelectorAll(".btn-logout-profile").forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = "index.html";
+      });
+    });
+
+    // Selectores del DOM (Búsqueda)
     const searchInput = document.getElementById("searchInput");
     const searchBtn = document.getElementById("searchBtn");
+    const btnClearSearch = document.getElementById("btnClearSearch");
 
+    // Funciones principales (Búsqueda)
     function executeSearch() {
       if (!searchInput) return;
       const query = searchInput.value.toLowerCase().trim();
@@ -302,11 +306,11 @@
       renderCompanions();
     }
 
+    // Eventos (Búsqueda)
     if (searchBtn) {
       searchBtn.addEventListener("click", executeSearch);
     }
 
-    const btnClearSearch = document.getElementById("btnClearSearch");
     if (btnClearSearch) {
       btnClearSearch.addEventListener("click", function () {
         if (searchInput) searchInput.value = "";
@@ -322,7 +326,7 @@
         }
       });
     }
-    // Quick Filter Logic
+
     document.querySelectorAll(".quick-filter").forEach((item) => {
       item.addEventListener("click", function (e) {
         e.preventDefault();
@@ -336,14 +340,25 @@
     // ==========================================
     // MATCH & CHAT SIMULATION LOGIC
     // ==========================================
-
+    
+    // Selectores del DOM (Chat y Match)
     const matchOverlay = document.getElementById("matchOverlay");
     const matchTargetAvatar = document.getElementById("matchTargetAvatar");
     const matchSubtitle = document.getElementById("matchSubtitle");
     const chatOffcanvasEl = document.getElementById("chatOffcanvas");
     let chatOffcanvas;
     let overlayChatPolling = null;
+    const chatMessages = document.getElementById("chatMessages");
+    const chatTypingIndicator = document.getElementById("chatTypingIndicator");
+    const chatName = document.getElementById("chatName");
+    const chatAvatar = document.getElementById("chatAvatar");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+    
+    // Estado (Chat)
+    let currentChatUserId = null;
 
+    // Funciones principales (Chat)
     async function fetchAndRenderOverlayChat() {
       if (!currentChatUserId || !chatMessages) return;
       const token = localStorage.getItem("token");
@@ -356,7 +371,6 @@
         if (!res.ok) return;
         const data = await res.json();
         
-        // Clear current messages except typing indicator
         Array.from(chatMessages.children).forEach((child) => {
           if (!child.classList.contains("typing-indicator")) {
             child.remove();
@@ -375,36 +389,9 @@
         }
     }
 
-    if (chatOffcanvasEl) {
-      chatOffcanvas = new bootstrap.Offcanvas(chatOffcanvasEl);
-      
-      chatOffcanvasEl.addEventListener('shown.bs.offcanvas', () => {
-        const token = localStorage.getItem("token") || "";
-        if (!token.startsWith("offline-")) {
-          fetchAndRenderOverlayChat();
-          if(overlayChatPolling) clearInterval(overlayChatPolling);
-          overlayChatPolling = setInterval(fetchAndRenderOverlayChat, 3000);
-        }
-      });
-
-      chatOffcanvasEl.addEventListener('hidden.bs.offcanvas', () => {
-        if(overlayChatPolling) clearInterval(overlayChatPolling);
-      });
-    }
-
-    const chatMessages = document.getElementById("chatMessages");
-    const chatTypingIndicator = document.getElementById("chatTypingIndicator");
-    const chatName = document.getElementById("chatName");
-    const chatAvatar = document.getElementById("chatAvatar");
-    const chatForm = document.getElementById("chatForm");
-    const chatInput = document.getElementById("chatInput");
-
-    let currentChatUserId = null;
-
     function loadChatHistory(userId) {
       if (!chatMessages) return;
 
-      // Clear current messages
       Array.from(chatMessages.children).forEach((child) => {
         if (!child.classList.contains("typing-indicator")) {
           child.remove();
@@ -425,14 +412,12 @@
     function simulateMatchAndChat(targetId, targetName, targetAvatarSrc) {
       currentChatUserId = targetId;
 
-      // Setup User Avatar
       const matchUserAvatar = document.getElementById("matchUserAvatar");
       const userAvatarSrc =
         localStorage.getItem("user_avatar") ||
         "https://i.pravatar.cc/150?img=60";
       if (matchUserAvatar) matchUserAvatar.src = userAvatarSrc;
 
-      // 1. Setup and Show Match Overlay
       if (matchTargetAvatar) matchTargetAvatar.src = targetAvatarSrc;
       if (matchSubtitle) matchSubtitle.classList.add("d-none");
 
@@ -446,17 +431,14 @@
         }, 800);
       }
 
-      // Setup Chat Headers
       if (chatName) chatName.innerText = targetName;
       if (chatAvatar) chatAvatar.src = targetAvatarSrc;
 
       const hasHistory = loadChatHistory(targetId);
 
-      // 2. Hide Match Overlay and Show Chat after 2.5s
       setTimeout(() => {
         if (bsMatchModal) bsMatchModal.hide();
 
-        // If the user clicked "Invitar un mate" from the modal, close the modal first
         if (typeof bsCompanionModal !== "undefined" && bsCompanionModal) {
           bsCompanionModal.hide();
         }
@@ -465,14 +447,12 @@
           if (chatOffcanvas) chatOffcanvas.show();
 
           if (!hasHistory) {
-            // 3. Simulate "typing..." for the first time
             setTimeout(() => {
               if (chatTypingIndicator)
                 chatTypingIndicator.classList.add("active");
               if (chatMessages)
                 chatMessages.scrollTop = chatMessages.scrollHeight;
 
-              // 4. Simulate receiving a message (only if offline)
               const token = localStorage.getItem("token") || "";
               if (window.isBackendOffline || token.startsWith("offline-")) {
                 setTimeout(() => {
@@ -493,10 +473,11 @@
               }
             }, 800);
           }
-        }, 300); // slight delay after match hides
+        }, 300);
       }, 3000);
     }
 
+    // Funciones auxiliares (Chat)
     function appendMessage(text, type, animate = true) {
       if (!chatMessages) return;
       const msgDiv = document.createElement("div");
@@ -509,16 +490,33 @@
           : "bg-body-secondary text-body-emphasis align-self-start border border-light-subtle";
 
       msgDiv.className = `${baseClasses} ${typeClasses}`;
-      if (!animate) msgDiv.style.animation = "none"; // Disable animation for history load
+      if (!animate) msgDiv.style.animation = "none";
       msgDiv.innerText = text;
 
-      // Insert before typing indicator
       if (chatTypingIndicator) {
         chatMessages.insertBefore(msgDiv, chatTypingIndicator);
       } else {
         chatMessages.appendChild(msgDiv);
       }
       chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Eventos (Chat y Match)
+    if (chatOffcanvasEl) {
+      chatOffcanvas = new bootstrap.Offcanvas(chatOffcanvasEl);
+      
+      chatOffcanvasEl.addEventListener('shown.bs.offcanvas', () => {
+        const token = localStorage.getItem("token") || "";
+        if (!token.startsWith("offline-")) {
+          fetchAndRenderOverlayChat();
+          if(overlayChatPolling) clearInterval(overlayChatPolling);
+          overlayChatPolling = setInterval(fetchAndRenderOverlayChat, 3000);
+        }
+      });
+
+      chatOffcanvasEl.addEventListener('hidden.bs.offcanvas', () => {
+        if(overlayChatPolling) clearInterval(overlayChatPolling);
+      });
     }
 
     if (chatForm) {
@@ -539,7 +537,6 @@
           appendMessage(text, "sent");
           chatInput.value = "";
 
-          // Enviar al backend real en segundo plano si no es offline
           const token = localStorage.getItem("token");
           if (token && !token.startsWith("offline-") && !window.isBackendOffline) {
             fetch(API_BASE + "/mensajes", {
@@ -549,7 +546,6 @@
             }).catch(e => { window.isBackendOffline = true; });
           }
 
-          // Simulate reply ONLY if offline
           if (window.isBackendOffline || (token && token.startsWith("offline-"))) {
             setTimeout(() => {
               if (chatTypingIndicator)
@@ -571,14 +567,13 @@
                   appendMessage(reply, "received");
                 },
                 1500 + Math.random() * 1500,
-              ); // random delay 1.5s - 3.0s
+              );
             }, 1000);
           }
         }
       });
     }
 
-    // Attach click events to "Invitar un mate" buttons via event delegation
     document.body.addEventListener("click", async function (e) {
       const btn = e.target.closest(".btn-invitar");
       if (!btn) return;
@@ -609,7 +604,6 @@
       spinner.className = "spinner-border spinner-border-sm";
       btn.prepend(spinner);
 
-      // Animación mate volador
       const mateIcon = document.createElement("div");
       mateIcon.innerText = "🧉";
       mateIcon.style.cssText = `position:fixed;left:${e.clientX}px;top:${e.clientY}px;font-size:2rem;pointer-events:none;z-index:9999;transition:all 1.2s cubic-bezier(0.34,1.56,0.64,1)`;
@@ -658,14 +652,13 @@
           btn.classList.remove("btn-success");
           btn.classList.add("btn-secondary");
 
-          // En modo fallback, siempre simulamos que hay match
           removeCompanionByName(targetName);
           simulateMatchAndChat(targetId, targetName, targetAvatarSrc);
         }, 1200);
       }
     });
 
-    // Back to top button logic
+    // Eventos (Scroll)
     const backToTopBtn = document.getElementById("btnBackToTop");
     if (backToTopBtn) {
       window.addEventListener("scroll", () => {

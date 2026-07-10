@@ -1,9 +1,18 @@
+/**
+ * Lógica para filtrado y pestañas de provincias/destinos.
+ */
+
+// Inicialización
 (function () {
+  // Selectores del DOM
   const searchInput = document.getElementById("searchProvince");
   const cards = document.querySelectorAll(".province-card");
   const tabButtons = document.querySelectorAll(".region-tab");
+  
+  // Estado
   let activeRegion = "destacados";
 
+  // Funciones principales
   function updateVisibility() {
     const term = searchInput.value.toLowerCase().trim();
     const normalizedTerm = term
@@ -40,8 +49,10 @@
     }
   }
 
-  updateVisibility();
-  searchInput.addEventListener("input", updateVisibility);
+  // Eventos
+  if (searchInput) {
+    searchInput.addEventListener("input", updateVisibility);
+  }
 
   tabButtons.forEach((btn) => {
     btn.addEventListener("click", function () {
@@ -51,4 +62,9 @@
       updateVisibility();
     });
   });
+
+  // Ejecución inmediata inicial
+  if (searchInput && cards.length > 0) {
+    updateVisibility();
+  }
 })();

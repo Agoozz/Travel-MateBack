@@ -19,7 +19,11 @@ const generarToken = (id) => {
 // ─── POST /api/usuarios/register ─────────────────────────────
 router.post("/register", async (req, res) => {
   try {
-    const { nombre, email, password } = req.body;
+    const { 
+      nombre, email, password,
+      estiloViaje, presupuesto, estiloCompanero, destino,
+      fechaInicio, fechaFin, regiones, progresoPerfil
+    } = req.body;
 
     if (!nombre || !email || !password) {
       return res.status(400).json({ error: "Nombre, email y contraseña son obligatorios." });
@@ -34,7 +38,17 @@ router.post("/register", async (req, res) => {
       return res.status(409).json({ error: "Ese email ya está registrado." });
     }
 
-    const usuario = await Usuario.create({ nombre, email, password });
+    const usuarioData = { nombre, email, password };
+    if (estiloViaje) usuarioData.estiloViaje = estiloViaje;
+    if (presupuesto) usuarioData.presupuesto = presupuesto;
+    if (estiloCompanero) usuarioData.estiloCompanero = estiloCompanero;
+    if (destino) usuarioData.destino = destino;
+    if (fechaInicio) usuarioData.fechaInicio = fechaInicio;
+    if (fechaFin) usuarioData.fechaFin = fechaFin;
+    if (regiones) usuarioData.regiones = regiones;
+    if (progresoPerfil) usuarioData.progresoPerfil = progresoPerfil;
+
+    const usuario = await Usuario.create(usuarioData);
     const token   = generarToken(usuario._id);
 
     res.status(201).json({ token, usuario });

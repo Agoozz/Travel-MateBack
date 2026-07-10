@@ -1,3 +1,8 @@
+/**
+ * Lógica del perfil del usuario (vista y edición de datos locales).
+ */
+
+// Inicialización de seguridad
 (function checkAuth() {
   if (!localStorage.getItem("user_name")) {
     document.body.style.display = "none";
@@ -11,8 +16,9 @@
   });
 })();
 
+// Inicialización principal
 (function () {
-  // Select DOM elements (Preview Mode)
+  // Selectores del DOM
   const prevNameText = document.getElementById("prevName");
   const prevAgeText = document.getElementById("prevAge");
   const prevHometownText = document.getElementById("prevHometown");
@@ -36,7 +42,6 @@
     "previewPageProgressText",
   );
 
-  // Modal 1: Profile Info Elements
   const modalProfileName = document.getElementById("modalProfileName");
   const modalProfileAge = document.getElementById("modalProfileAge");
   const modalProfileHometown = document.getElementById("modalProfileHometown");
@@ -49,110 +54,40 @@
   );
   const btnSaveProfileInfo = document.getElementById("btnSaveProfileInfo");
 
-  // Modal 2: Trip Details Elements
   const modalTripDestination = document.getElementById("modalTripDestination");
   const modalTripStartDate = document.getElementById("modalTripStartDate");
   const modalTripEndDate = document.getElementById("modalTripEndDate");
   const btnSaveTripDetails = document.getElementById("btnSaveTripDetails");
 
-  // Modal 3: Test result save button
   const btnSaveTestProfile = document.getElementById("btnSaveTestProfile");
 
-  // Toast
   const toastEl = document.getElementById("saveSuccessToast");
   const toastInstance = toastEl
     ? new bootstrap.Toast(toastEl, { delay: 3000 })
     : null;
 
-  // Load initial values from localStorage or set defaults
-  let userName = localStorage.getItem("user_name") || "Lucía Martínez";
-  let userAge = localStorage.getItem("user_age") || "24";
+  // Estado
+  let userName = localStorage.getItem("user_name") || "";
+  let userAge = localStorage.getItem("user_age") || "";
   let userHometown =
-    localStorage.getItem("user_hometown") || "Buenos Aires, Argentina";
+    localStorage.getItem("user_hometown") || "";
   let userBio =
     localStorage.getItem("user_bio") ||
-    "Amante de los viajes, la naturaleza y las buenas conversaciones. Siempre lista para una nueva aventura.";
+    "";
   let userAvatar =
     localStorage.getItem("user_avatar") || "https://i.pravatar.cc/150?img=12";
 
   let userDestination =
-    localStorage.getItem("user_destination") || "Mendoza, Argentina";
-  let userStartDate = localStorage.getItem("user_start_date") || "2026-08-15";
-  let userEndDate = localStorage.getItem("user_end_date") || "2026-08-30";
+    localStorage.getItem("user_destination") || "";
+  let userStartDate = localStorage.getItem("user_start_date") || "";
+  let userEndDate = localStorage.getItem("user_end_date") || "";
   let userInterests =
     localStorage.getItem("user_interests") ||
-    "Trekking, Fotografía, Comida local";
+    "";
   let userLanguages =
-    localStorage.getItem("user_languages") || "Español, Inglés";
+    localStorage.getItem("user_languages") || "";
 
-  // Populate Modals with current values
-  function populateModals() {
-    if (modalProfileName) modalProfileName.value = userName;
-    if (modalProfileAge) modalProfileAge.value = userAge;
-    if (modalProfileHometown) modalProfileHometown.value = userHometown;
-    if (modalProfileBio) modalProfileBio.value = userBio;
-    if (modalProfileLanguages) modalProfileLanguages.value = userLanguages;
-    if (modalProfileInterests) modalProfileInterests.value = userInterests;
-
-    if (modalTripDestination) modalTripDestination.value = userDestination;
-    if (modalTripStartDate) modalTripStartDate.value = userStartDate;
-    if (modalTripEndDate) modalTripEndDate.value = userEndDate;
-
-    // Setup avatar gallery inside modal
-    document.querySelectorAll(".avatar-selector-img").forEach((img) => {
-      img.classList.toggle("selected", img.src === userAvatar);
-      img.addEventListener("click", function () {
-        document
-          .querySelectorAll(".avatar-selector-img")
-          .forEach((i) => i.classList.remove("selected"));
-        this.classList.add("selected");
-        userAvatar = this.src;
-      });
-    });
-  }
-
-  // Helper to format dates like "01 Jun - 20 Jun"
-  function formatTravelDates(startDateStr, endDateStr) {
-    if (!startDateStr || !endDateStr) {
-      return "Fechas a definir";
-    }
-
-    const months = [
-      "Ene",
-      "Feb",
-      "Mar",
-      "Abr",
-      "May",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dic",
-    ];
-    const startParts = startDateStr.split("-");
-    const endParts = endDateStr.split("-");
-
-    if (startParts.length !== 3 || endParts.length !== 3)
-      return "Fechas a definir";
-
-    const startDay = parseInt(startParts[2], 10);
-    const startMonthIndex = parseInt(startParts[1], 10) - 1;
-    const endDay = parseInt(endParts[2], 10);
-    const endMonthIndex = parseInt(endParts[1], 10) - 1;
-
-    const startMonth = months[startMonthIndex] || "";
-    const endMonth = months[endMonthIndex] || "";
-
-    if (startMonthIndex === endMonthIndex) {
-      return `${String(startDay).padStart(2, "0")} - ${String(endDay).padStart(2, "0")} ${startMonth}`;
-    } else {
-      return `${String(startDay).padStart(2, "0")} ${startMonth} - ${String(endDay).padStart(2, "0")} ${endMonth}`;
-    }
-  }
-
-  // Keyword mapping to Bootstrap icons for interests
+  // Configuración
   const iconMap = [
     {
       keywords: [
@@ -258,14 +193,6 @@
     },
   ];
 
-  function normalizeText(text) {
-    return text
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .trim();
-  }
-
   const travelStyleMap = {
     mochilero: { text: "Mochilero", percent: 90 },
     hotel: { text: "Lujo / Confort", percent: 30 },
@@ -284,18 +211,87 @@
     confort: { text: "Relajado & Cultural", percent: 50 },
   };
 
+  // Funciones auxiliares
+  function normalizeText(text) {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+  }
+
+  function formatTravelDates(startDateStr, endDateStr) {
+    if (!startDateStr || !endDateStr) {
+      return "Fechas a definir";
+    }
+
+    const months = [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic",
+    ];
+    const startParts = startDateStr.split("-");
+    const endParts = endDateStr.split("-");
+
+    if (startParts.length !== 3 || endParts.length !== 3)
+      return "Fechas a definir";
+
+    const startDay = parseInt(startParts[2], 10);
+    const startMonthIndex = parseInt(startParts[1], 10) - 1;
+    const endDay = parseInt(endParts[2], 10);
+    const endMonthIndex = parseInt(endParts[1], 10) - 1;
+
+    const startMonth = months[startMonthIndex] || "";
+    const endMonth = months[endMonthIndex] || "";
+
+    if (startMonthIndex === endMonthIndex) {
+      return `${String(startDay).padStart(2, "0")} - ${String(endDay).padStart(2, "0")} ${startMonth}`;
+    } else {
+      return `${String(startDay).padStart(2, "0")} ${startMonth} - ${String(endDay).padStart(2, "0")} ${endMonth}`;
+    }
+  }
+
+  // Funciones principales
+  function populateModals() {
+    if (modalProfileName) modalProfileName.value = userName;
+    if (modalProfileAge) modalProfileAge.value = userAge;
+    if (modalProfileHometown) modalProfileHometown.value = userHometown;
+    if (modalProfileBio) modalProfileBio.value = userBio;
+    if (modalProfileLanguages) modalProfileLanguages.value = userLanguages;
+    if (modalProfileInterests) modalProfileInterests.value = userInterests;
+
+    if (modalTripDestination) modalTripDestination.value = userDestination;
+    if (modalTripStartDate) modalTripStartDate.value = userStartDate;
+    if (modalTripEndDate) modalTripEndDate.value = userEndDate;
+
+    document.querySelectorAll(".avatar-selector-img").forEach((img) => {
+      img.classList.toggle("selected", img.src === userAvatar);
+      img.addEventListener("click", function () {
+        document
+          .querySelectorAll(".avatar-selector-img")
+          .forEach((i) => i.classList.remove("selected"));
+        this.classList.add("selected");
+        userAvatar = this.src;
+      });
+    });
+  }
+
   function updateProfileProgress() {
     let score = 0;
 
-    if (userName !== "" && userName !== "Lucía Martínez") score += 10;
+    if (userName !== "") score += 10;
     if (userAge !== "") score += 10;
     if (userHometown !== "") score += 10;
-    if (
-      userBio !== "" &&
-      userBio !==
-        "Amante de los viajes, la naturaleza y las buenas conversaciones. Siempre lista para una nueva aventura."
-    )
-      score += 15;
+    if (userBio !== "") score += 15;
     if (userAvatar !== "https://i.pravatar.cc/150?img=12") score += 15;
 
     let prefStyle =
@@ -324,7 +320,7 @@
       sidebarProgressText.innerText = percentage + "% completado";
 
     if (sidebarNameText)
-      sidebarNameText.innerText = userName || "Lucía Martínez";
+      sidebarNameText.innerText = userName || "Compañere";
     if (sidebarAvatarImg) sidebarAvatarImg.src = userAvatar;
 
     return percentage;
@@ -340,7 +336,7 @@
     if (prevAvatarImg) prevAvatarImg.src = userAvatar;
 
     let matchedProfile =
-      localStorage.getItem("user_travel_style") || "Aventurero Indómito";
+      localStorage.getItem("user_travel_style") || "A definir";
     if (prevStyleBadge) prevStyleBadge.innerText = matchedProfile;
 
     if (prevDetailDest)
@@ -424,22 +420,30 @@
       barCompanionFill.style.width = companionData.percent + "%";
   }
 
-  // Initialization
+  // Ejecución inicial de vista
   populateModals();
   updateProfileProgress();
   populatePreview();
 
-  // Save Profile Info
+  if (window.location.search.includes("action=test")) {
+    const testModalEl = document.getElementById("travelerTestModal");
+    if (testModalEl) {
+      const bsModal = new bootstrap.Modal(testModalEl);
+      bsModal.show();
+      window.history.replaceState({}, document.title, "perfil.html");
+    }
+  }
+
+  // Eventos
   if (btnSaveProfileInfo) {
     btnSaveProfileInfo.addEventListener("click", function (e) {
       e.preventDefault();
-      userName = modalProfileName.value.trim() || "Lucía Martínez";
-      userAge = modalProfileAge.value.trim() || "24";
+      userName = modalProfileName.value.trim();
+      userAge = modalProfileAge.value.trim();
       userHometown =
-        modalProfileHometown.value.trim() || "Buenos Aires, Argentina";
+        modalProfileHometown.value.trim();
       userBio =
-        modalProfileBio.value.trim() ||
-        "Amante de los viajes, la naturaleza y las buenas conversaciones. Siempre lista para una nueva aventura.";
+        modalProfileBio.value.trim();
       userLanguages = modalProfileLanguages.value.trim();
       userInterests = modalProfileInterests.value.trim();
 
@@ -454,7 +458,6 @@
       updateProfileProgress();
       populatePreview();
 
-      // Hide modal
       bootstrap.Modal.getInstance(
         document.getElementById("editProfileInfoModal"),
       ).hide();
@@ -463,7 +466,6 @@
     });
   }
 
-  // Save Trip Details
   if (btnSaveTripDetails) {
     btnSaveTripDetails.addEventListener("click", function (e) {
       e.preventDefault();
@@ -478,7 +480,6 @@
       updateProfileProgress();
       populatePreview();
 
-      // Hide modal
       bootstrap.Modal.getInstance(
         document.getElementById("editTripDetailsModal"),
       ).hide();
@@ -487,18 +488,15 @@
     });
   }
 
-  // Save test result logic specific to the profile page
   if (btnSaveTestProfile) {
     btnSaveTestProfile.addEventListener("click", function (e) {
       e.preventDefault();
-      // test results were saved to localstorage by traveler-test.js
       updateProfileProgress();
       populatePreview();
       if (toastInstance) toastInstance.show();
     });
   }
 
-  // Logout
   const logoutBtn = document.getElementById("btnLogout");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", function (e) {
@@ -509,6 +507,7 @@
   }
 })();
 
+// Eventos (Globales)
 document.querySelectorAll(".btn-logout-profile").forEach((btn) => {
   btn.addEventListener("click", function (e) {
     e.preventDefault();

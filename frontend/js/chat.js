@@ -1,7 +1,10 @@
 /**
  * ChatManager: Lógica de chat persistente y bot conversacional
  */
+
+// Inicialización
 window.ChatManager = (function () {
+  // Funciones auxiliares
   // Generar key dinámica por usuario para evitar que se mezclen los historiales
   function getStorageKey() {
     const userId = localStorage.getItem("user_id") || "guest";
@@ -19,6 +22,7 @@ window.ChatManager = (function () {
     localStorage.setItem(getStorageKey(), JSON.stringify(chats));
   }
 
+  // Funciones principales
   // Obtener todos los chats
   function getAllChats() {
     return loadChats();
@@ -125,6 +129,7 @@ window.ChatManager = (function () {
     return defaultReplies[Math.floor(Math.random() * defaultReplies.length)];
   }
 
+  // Exportar el módulo
   return {
     getAllChats,
     getChatHistory,

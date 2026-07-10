@@ -1,59 +1,12 @@
-// ============================================================
-//  js/auth.js — Login/Register conectado a Express + MongoDB
-//  Mate & Travel
-// ============================================================
+/**
+ * Lógica de autenticación, funciones mock y manejo de sesión.
+ * Mate & Travel
+ */
 
+// Constantes
 const API = API_BASE + "/usuarios";
 
-// ─── UI: mostrar/ocultar contraseña ─────────────────────────
-window.togglePasswordVisibility = function (fieldId, btn) {
-  const field = document.getElementById(fieldId);
-  const icon = btn.querySelector("i");
-  if (field.type === "password") {
-    field.type = "text";
-    icon.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
-  } else {
-    field.type = "password";
-    icon.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
-  }
-};
-
-// ─── UI: alternar formulario login/register ──────────────────
-window.toggleAuthMode = function (mode) {
-  const loginForm = document.getElementById("loginForm");
-  const registerForm = document.getElementById("registerForm");
-  const authTitle = document.getElementById("authTitle");
-  const authSubtitle = document.getElementById("authSubtitle");
-  const authToggleText = document.getElementById("authToggleText");
-
-  if (mode === "register") {
-    loginForm.classList.add("d-none");
-    registerForm.classList.remove("d-none");
-    authTitle.innerText = "Registrarse";
-    authSubtitle.innerText = "Creá tu cuenta gratis para guardar tu perfil.";
-    authToggleText.textContent = "¿Ya tenés una cuenta? ";
-    const link = document.createElement("a");
-    link.href = "#";
-    link.className = "text-success text-decoration-none fw-bold";
-    link.onclick = (e) => { e.preventDefault(); toggleAuthMode('login'); };
-    link.textContent = "Ingresá acá";
-    authToggleText.appendChild(link);
-  } else {
-    loginForm.classList.remove("d-none");
-    registerForm.classList.add("d-none");
-    authTitle.innerText = "Iniciar Sesión";
-    authSubtitle.innerText = "Ingresá tus datos para continuar tu aventura.";
-    authToggleText.textContent = "¿No tenés una cuenta? ";
-    const link = document.createElement("a");
-    link.href = "#";
-    link.className = "text-success text-decoration-none fw-bold";
-    link.onclick = (e) => { e.preventDefault(); toggleAuthMode('register'); };
-    link.textContent = "Registrate acá";
-    authToggleText.appendChild(link);
-  }
-};
-
-// ─── Mostrar error inline ────────────────────────────────────
+// Funciones auxiliares
 function showError(msg) {
   let el = document.getElementById("authError");
   if (!el) {
@@ -72,24 +25,23 @@ function clearError() {
   if (el) el.classList.add("d-none");
 }
 
-// ─── Guardar sesión en localStorage ─────────────────────────
 function saveSession(token, usuario) {
   localStorage.setItem("token", token);
   localStorage.setItem("user_id", usuario._id);
   localStorage.setItem("user_name", usuario.nombre || "");
-  localStorage.setItem("user_age", usuario.edad || 26);
+  localStorage.setItem("user_age", usuario.edad || "");
   localStorage.setItem("user_hometown", usuario.ubicacion || "");
   localStorage.setItem("user_bio", usuario.bio || "");
-  localStorage.setItem("user_avatar", usuario.avatar || "");
-  localStorage.setItem("user_travel_style", usuario.estiloViaje || "mochilero");
+  localStorage.setItem("user_avatar", usuario.avatar || "https://i.pravatar.cc/150?img=12");
+  localStorage.setItem("user_travel_style", usuario.estiloViaje || "");
   localStorage.setItem(
     "user_travel_style_key",
-    usuario.estiloViaje || "mochilero",
+    usuario.estiloViaje || "",
   );
-  localStorage.setItem("user_budget", usuario.presupuesto || "economico");
+  localStorage.setItem("user_budget", usuario.presupuesto || "");
   localStorage.setItem(
     "user_companion_style",
-    usuario.estiloCompanero || "aventura",
+    usuario.estiloCompanero || "",
   );
   localStorage.setItem("user_regions", JSON.stringify(usuario.regiones || []));
   localStorage.setItem("user_destination", usuario.destino || "");
@@ -97,11 +49,10 @@ function saveSession(token, usuario) {
   localStorage.setItem("user_end_date", usuario.fechaFin || "");
   localStorage.setItem("user_interests", (usuario.intereses || []).join(", "));
   localStorage.setItem("user_languages", (usuario.idiomas || []).join(", "));
-  localStorage.setItem("user_profile_progress", usuario.progresoPerfil || 45);
+  localStorage.setItem("user_profile_progress", usuario.progresoPerfil || 0);
 }
 
-// ─── Pantalla de éxito + redirect ────────────────────────────
-function showSuccessAndRedirect() {
+function showSuccessAndRedirect(type, alreadyTested = false) {
   document.body.textContent = ""; // Clear body
   
   const container = document.createElement("div");
@@ -140,11 +91,49 @@ function showSuccessAndRedirect() {
   container.appendChild(card);
   document.body.appendChild(container);
   setTimeout(() => {
-    window.location.href = "inicio.html";
+    if (type === "register" && !alreadyTested) {
+      window.location.href = "perfil.html?action=test";
+    } else {
+      window.location.href = "inicio.html";
+    }
   }, 1500);
 }
 
-// ─── Submit principal ────────────────────────────────────────
+// Funciones principales
+window.toggleAuthMode = function (mode) {
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const authTitle = document.getElementById("authTitle");
+  const authSubtitle = document.getElementById("authSubtitle");
+  const authToggleText = document.getElementById("authToggleText");
+
+  if (mode === "register") {
+    loginForm.classList.add("d-none");
+    registerForm.classList.remove("d-none");
+    authTitle.innerText = "Registrarse";
+    authSubtitle.innerText = "Creá tu cuenta gratis para guardar tu perfil.";
+    authToggleText.textContent = "¿Ya tenés una cuenta? ";
+    const link = document.createElement("a");
+    link.href = "#";
+    link.className = "text-success text-decoration-none fw-bold";
+    link.onclick = (e) => { e.preventDefault(); toggleAuthMode('login'); };
+    link.textContent = "Ingresá acá";
+    authToggleText.appendChild(link);
+  } else {
+    loginForm.classList.remove("d-none");
+    registerForm.classList.add("d-none");
+    authTitle.innerText = "Iniciar Sesión";
+    authSubtitle.innerText = "Ingresá tus datos para continuar tu aventura.";
+    authToggleText.textContent = "¿No tenés una cuenta? ";
+    const link = document.createElement("a");
+    link.href = "#";
+    link.className = "text-success text-decoration-none fw-bold";
+    link.onclick = (e) => { e.preventDefault(); toggleAuthMode('register'); };
+    link.textContent = "Registrate acá";
+    authToggleText.appendChild(link);
+  }
+};
+
 window.handleAuthSubmit = async function (event, type) {
   event.preventDefault();
   clearError();
@@ -178,6 +167,21 @@ window.handleAuthSubmit = async function (event, type) {
       }
       endpoint = `${API}/register`;
       body = { nombre, email, password };
+      
+      const alreadyTested = !!localStorage.getItem("user_travel_style_key");
+      if (alreadyTested) {
+        body.estiloViaje = localStorage.getItem("user_travel_style_key");
+        body.presupuesto = localStorage.getItem("user_budget");
+        body.estiloCompanero = localStorage.getItem("user_companion_style");
+        body.destino = localStorage.getItem("user_destination");
+        body.fechaInicio = localStorage.getItem("user_start_date");
+        body.fechaFin = localStorage.getItem("user_end_date");
+        try {
+          const reg = JSON.parse(localStorage.getItem("user_regions"));
+          if (Array.isArray(reg)) body.regiones = reg;
+        } catch(e) {}
+        body.progresoPerfil = 35;
+      }
     }
 
     const response = await fetch(endpoint, {
@@ -200,12 +204,12 @@ window.handleAuthSubmit = async function (event, type) {
       return;
     }
 
+    const alreadyTested = !!localStorage.getItem("user_travel_style_key");
     saveSession(data.token, data.usuario);
-    showSuccessAndRedirect();
+    showSuccessAndRedirect(type, alreadyTested);
   } catch (err) {
     console.warn("Backend no detectado. Iniciando en modo local (Offline)...");
 
-    // Diccionario de 10 usuarios offline
     const mockUsers = {
       "sofia@mate.com": {
         nombre: "Sofía",
@@ -314,7 +318,6 @@ window.handleAuthSubmit = async function (event, type) {
   }
 };
 
-// ─── Logout ──────────────────────────────────────────────────
 window.handleLogout = function (e) {
   if (e) e.preventDefault();
   document.body.style.display = 'none'; // Prevenir bfcache visual flash
@@ -332,7 +335,19 @@ window.handleLogout = function (e) {
   window.location.href = "index.html";
 };
 
-// ─── Autofill credenciales de prueba ─────────────────────────
+// Eventos
+window.togglePasswordVisibility = function (fieldId, btn) {
+  const field = document.getElementById(fieldId);
+  const icon = btn.querySelector("i");
+  if (field.type === "password") {
+    field.type = "text";
+    icon.classList.replace("bi-eye-slash-fill", "bi-eye-fill");
+  } else {
+    field.type = "password";
+    icon.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
+  }
+};
+
 window.autofillMockCredentials = function () {
   const emailField = document.getElementById("loginEmail");
   const passwordField = document.getElementById("loginPassword");
@@ -348,7 +363,7 @@ window.autofillMockCredentials = function () {
   }
 };
 
-// ─── Auto-configurar modo según URL ─────────────────────────
+// Inicialización
 (function () {
   const params = new URLSearchParams(window.location.search);
   if (params.get("mode") === "register") toggleAuthMode("register");
