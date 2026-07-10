@@ -78,3 +78,21 @@ body {
   height: 3.125rem;
   flex-shrink: 0;
 }
+
+.avatar-selector-img {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  border-color: transparent !important;
+}
+
+.avatar-selector-img:hover {
+  opacity: 0.8;
+}
+
+.avatar-selector-img.selected {
+  border-color: var(--bs-success) !important;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
