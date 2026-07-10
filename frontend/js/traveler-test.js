@@ -303,11 +303,11 @@
   function updateStepVisibility() {
     document.querySelectorAll(".step-circle-indicator").forEach((indicator) => {
       const stepNum = parseInt(indicator.getAttribute("data-step"));
-      indicator.classList.remove("active", "completed");
+      indicator.classList.remove("active", "completed", "text-white", "bg-success"); indicator.classList.add("text-body-secondary", "bg-body-secondary");
       if (stepNum === currentStep) {
-        indicator.classList.add("active");
+        indicator.classList.add("active", "text-white", "bg-success"); indicator.classList.remove("text-body-secondary", "bg-body-secondary");
       } else if (stepNum < currentStep) {
-        indicator.classList.add("completed");
+        indicator.classList.add("completed", "text-white", "bg-success"); indicator.classList.remove("text-body-secondary", "bg-body-secondary");
         indicator.textContent = "";
         const icon = document.createElement("i");
         icon.className = "bi bi-check-lg";
