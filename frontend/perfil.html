@@ -769,380 +769,309 @@
                         <div class="step-circle-indicator" data-step="6">6</div>
             </div>
             <div id="testWizardContent">
-              <div class="wizard-step" data-step="1">
-                <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">
-                  ¿Qué tipo de viaje estás buscando?
-                </h6>
-                <div class="d-flex flex-column gap-2">
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="tipoViaje"
-                    data-value="mochilero"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-backpack fs-3"></i>
+                        
+                        <!-- STEP 1: Tipo de viaje -->
+                        <div class="wizard-step" data-step="1">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué tipo de viaje estás buscando?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="tipoViaje" data-value="mochilero">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-backpack fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Mochilero</h6>
+                                        <p class="text-body-secondary small mb-0">Aventura, libertad y bajo presupuesto.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="tipoViaje" data-value="hotel">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-building fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Hotel</h6>
+                                        <p class="text-body-secondary small mb-0">Comodidad y servicios garantizados.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="tipoViaje" data-value="organizado">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-calendar-check fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Organizado</h6>
+                                        <p class="text-body-secondary small mb-0">Todo planificado, sin preocupaciones.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- STEP 2: Presupuesto -->
+                        <div class="wizard-step d-none" data-step="2">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Cuál es tu presupuesto?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="presupuesto" data-value="economico">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-wallet2 fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Económico</h6>
+                                        <p class="text-body-secondary small mb-0">Hostales, comida local y viajes gasoleros.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="presupuesto" data-value="medio">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-cash-coin fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Medio</h6>
+                                        <p class="text-body-secondary small mb-0">Equilibrio de confort en hoteles de gama media.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="presupuesto" data-value="premium">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-gem fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Premium</h6>
+                                        <p class="text-body-secondary small mb-0">Hoteles de lujo y experiencias de primer nivel.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- STEP 3: Destino -->
+                        <div class="wizard-step d-none" data-step="3">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué región te interesa explorar?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="noa">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-geo-alt-fill fs-5"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-0 small">Noroeste (NOA)</h6>
+                                    </div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="nea">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-geo-alt-fill fs-5"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-0 small">Noreste (NEA)</h6>
+                                    </div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="cuyo">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-geo-alt-fill fs-5"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-0 small">Cuyo</h6>
+                                    </div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="pampeana">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-geo-alt-fill fs-5"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-0 small">Pampeana</h6>
+                                    </div>
+                                </div>
+                                <div class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="region" data-value="patagonia">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-geo-alt-fill fs-5"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-0 small">Patagónica</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <!-- STEP 4: Provincia -->
+                        <div class="wizard-step d-none" data-step="4">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿A qué provincia te gustaría ir?</h6>
+                            <div class="d-flex flex-column gap-2" id="provinceOptionsContainer">
+                                <!-- Patagonia -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Neuquén" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Neuquén</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Río Negro" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Río Negro</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Chubut" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Chubut</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Santa Cruz" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Santa Cruz</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Tierra del Fuego" data-parent-region="patagonia">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Tierra del Fuego</h6>
+                                </div>
+                                
+                                <!-- NOA -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Jujuy" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Jujuy</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Salta" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Salta</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Tucumán" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Tucumán</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Catamarca" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Catamarca</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Santiago del Estero" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Santiago del Estero</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="La Rioja" data-parent-region="noa">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">La Rioja</h6>
+                                </div>
+
+                                <!-- Cuyo -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Mendoza" data-parent-region="cuyo">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Mendoza</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="San Juan" data-parent-region="cuyo">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">San Juan</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="San Luis" data-parent-region="cuyo">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">San Luis</h6>
+                                </div>
+
+                                <!-- NEA -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Formosa" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Formosa</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Chaco" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Chaco</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Corrientes" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Corrientes</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Misiones" data-parent-region="nea">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Misiones</h6>
+                                </div>
+
+                                <!-- Pampeana -->
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Córdoba" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Córdoba</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Santa Fe" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Santa Fe</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Entre Ríos" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Entre Ríos</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="La Pampa" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">La Pampa</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="Buenos Aires" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">Buenos Aires</h6>
+                                </div>
+                                <div class="card border p-3 d-none flex-row align-items-center gap-3 test-option-card rounded-3 province-option" data-key="destino" data-value="CABA" data-parent-region="pampeana">
+                                    <h6 class="fw-bold mb-1 small text-start w-100 m-0">CABA</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- STEP 5: Fechas (Calendario) -->
+                        <div class="wizard-step d-none" data-step="5">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Cuándo planeas viajar?</h6>
+                            <div class="border rounded-4 p-3 bg-body-tertiary shadow-sm">
+                                <div class="mx-auto">
+                                    <!-- Calendar Header -->
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center" id="calPrevMonth" type="button"><i class="bi bi-chevron-left small"></i></button>
+                                        <h6 class="fw-bold mb-0 text-body-emphasis small" id="calendarMonthTitle">Enero 2027</h6>
+                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center" id="calNextMonth" type="button"><i class="bi bi-chevron-right small"></i></button>
+                                    </div>
+                                    <!-- Weekdays -->
+                                    <div class="d-grid gap-1 text-center fw-bold text-body-secondary mb-1 small calendar-grid">
+                                        <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
+                                    </div>
+                                    <!-- Days Grid -->
+                                    <div class="d-grid gap-1 text-center calendar-grid" id="calendarDaysGrid">
+                                        <!-- Days dynamically rendered here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- STEP 5: Compañero de viaje -->
+                        <div class="wizard-step d-none" data-step="6">
+                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué buscas en tu compañere de viaje?</h6>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="aventura">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-compass-fill fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Aventura y Naturaleza</h6>
+                                        <p class="text-body-secondary small mb-0">Exploración, trekking y actividades de campo.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="fiesta">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-music-note-beamed fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Vida Nocturna y Fiesta</h6>
+                                        <p class="text-body-secondary small mb-0">Salidas grupales, bares y socialización activa.</p>
+                                    </div>
+                                </div>
+                                <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="confort">
+                                    <div class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm">
+                                        <i class="bi bi-bank fs-3"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <h6 class="fw-bold mb-1 small">Comodidad y Cultura</h6>
+                                        <p class="text-body-secondary small mb-0">Paseos culturales, gastronomía y museos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- LOADING SCREEN -->
+                        <div class="wizard-step d-none text-center py-4" id="testLoadingScreen">
+                            <div class="spinner-border text-success mb-3 spinner-lg" role="status">
+                                <span class="visually-hidden">Calculando...</span>
+                            </div>
+                            <h6 class="fw-bold text-body-emphasis">Analizando tus respuestas...</h6>
+                            <p class="text-body-secondary small">Buscando tu perfil ideal y recomendaciones...</p>
+                            <div class="progress mx-auto mt-3">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="loadingProgress" role="progressbar"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- RESULT SCREEN -->
+                        <div class="wizard-step d-none" id="testResultScreen">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="images/resultado_aventurero.jpg" id="resultProfileImage" alt="Perfil" class="img-fluid rounded-3 shadow-sm border mb-3 object-fit-cover w-50 mx-auto">
+                                
+                                <span class="badge bg-success bg-opacity-10 text-success mb-2 px-3 py-1 rounded-pill fw-semibold text-uppercase small">Resultado</span>
+                                <h4 class="fw-bold text-body-emphasis mb-2" id="resultProfileTitle">Aventurero Indómito</h4>
+                                <p class="text-body-secondary small mb-3 px-1 lh-base" id="resultProfileDesc">
+                                    Sos un explorador nato. Te motivan los desafíos físicos, la conexión profunda con la naturaleza salvaje y el trekking.
+                                </p>
+                                
+                                <div class="bg-body-tertiary p-3 rounded-3 border-start border-success border-4 shadow-sm mb-3 w-100 text-start">
+                                    <h6 class="fw-bold text-body-emphasis mb-1 small"><i class="bi bi-geo-alt-fill text-success"></i> Destinos recomendados:</h6>
+                                    <p class="text-body-secondary small mb-0 lh-sm" id="resultDestinationsText"></p>
+                                </div>
+                                
+                                <div class="d-grid gap-2 w-100">
+                                    <button class="btn btn-success py-2 fw-semibold rounded-pill" id="btnRegisterAndSave">Crear cuenta y guardar perfil</button>
+                                    <button class="btn btn-outline-success border-2 py-2 fw-semibold rounded-pill" id="btnLoginAndSave">Ya tengo cuenta (Iniciar sesión)</button>
+                                    <button class="btn btn-outline-secondary py-2 fw-semibold rounded-pill mt-1 btn-sm" id="btnRestartTest">Repetir el test</button>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Mochilero</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Aventura, libertad y bajo presupuesto.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="tipoViaje"
-                    data-value="hotel"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-building fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Hotel</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Comodidad y servicios garantizados.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="tipoViaje"
-                    data-value="organizado"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-calendar-check fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Organizado</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Todo planificado, sin preocupaciones.
-                      </p>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <div class="wizard-step d-none" data-step="2">
-                <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">
-                  ¿Cuál es tu presupuesto?
-                </h6>
-                <div class="d-flex flex-column gap-2">
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="presupuesto"
-                    data-value="economico"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-wallet2 fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Económico</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Hostales, comida local y viajes gasoleros.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="presupuesto"
-                    data-value="medio"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-cash-coin fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Medio</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Equilibrio de confort en hoteles de gama media.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="presupuesto"
-                    data-value="premium"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-gem fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Premium</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Hoteles de lujo y experiencias de primer nivel.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="wizard-step d-none" data-step="3">
-                <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">
-                  ¿Qué región te interesa explorar?
-                </h6>
-                <div class="d-flex flex-column gap-2">
-                  <div
-                    class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="region"
-                    data-value="noa"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-geo-alt-fill fs-5"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-0 small">Noroeste (NOA)</h6>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="region"
-                    data-value="nea"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-geo-alt-fill fs-5"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-0 small">Noreste (NEA)</h6>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="region"
-                    data-value="cuyo"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-geo-alt-fill fs-5"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-0 small">Cuyo</h6>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="region"
-                    data-value="pampeana"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-geo-alt-fill fs-5"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-0 small">Pampeana</h6>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-2 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="region"
-                    data-value="patagonia"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-geo-alt-fill fs-5"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-0 small">Patagónica</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="wizard-step d-none" data-step="5">
-                <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">
-                  ¿Cuándo planeas viajar?
-                </h6>
-                <div class="border rounded-4 p-3 bg-body-tertiary shadow-sm">
-                  <div class="mx-auto">
-                    <div
-                      class="d-flex justify-content-between align-items-center mb-3"
-                    >
-                      <button
-                        class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center"
-                        id="calPrevMonth"
-                        type="button"
-                      >
-                        <i class="bi bi-chevron-left small"></i>
-                      </button>
-                      <h6
-                        class="fw-bold mb-0 text-body-emphasis small"
-                        id="calendarMonthTitle"
-                      >
-                        Enero 2027
-                      </h6>
-                      <button
-                        class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center"
-                        id="calNextMonth"
-                        type="button"
-                      >
-                        <i class="bi bi-chevron-right small"></i>
-                      </button>
-                    </div>
-                    <div
-                      class="d-grid gap-1 text-center fw-bold text-body-secondary mb-1 small calendar-grid"
-                    >
-                      <div>D</div>
-                      <div>L</div>
-                      <div>M</div>
-                      <div>M</div>
-                      <div>J</div>
-                      <div>V</div>
-                      <div>S</div>
-                    </div>
-                    <div
-                      class="d-grid gap-1 text-center calendar-grid"
-                      id="calendarDaysGrid"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-              <div class="wizard-step d-none" data-step="6">
-                <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">
-                  ¿Qué buscas en tu compañere de viaje?
-                </h6>
-                <div class="d-flex flex-column gap-2">
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="companero"
-                    data-value="aventura"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-compass-fill fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Aventura y Naturaleza</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Exploración, trekking y actividades de campo.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="companero"
-                    data-value="fiesta"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-music-note-beamed fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Vida Nocturna y Fiesta</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Salidas grupales, bares y socialización activa.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3"
-                    data-key="companero"
-                    data-value="confort"
-                  >
-                    <div
-                      class="rounded-3 d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success shadow-sm"
-                    >
-                      <i class="bi bi-bank fs-3"></i>
-                    </div>
-                    <div class="text-start">
-                      <h6 class="fw-bold mb-1 small">Comodidad y Cultura</h6>
-                      <p class="text-body-secondary small mb-0">
-                        Paseos culturales, gastronomía y museos.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="wizard-step d-none text-center py-4"
-                id="testLoadingScreen"
-              >
+                
+                <!-- Modal Footer -->
                 <div
-                  class="spinner-border text-success mb-3 spinner-lg"
-                  role="status"
-                >
-                  <span class="visually-hidden">Calculando...</span>
-                </div>
-                <h6 class="fw-bold text-body-emphasis">
-                  Analizando tus respuestas...
-                </h6>
-                <p class="text-body-secondary small">
-                  Buscando tu perfil ideal y recomendaciones...
-                </p>
-                <div class="progress mx-auto mt-3">
-                  <div
-                    class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-                    id="loadingProgress"
-                    role="progressbar"
-                  ></div>
-                </div>
-              </div>
-              <div class="wizard-step d-none" id="testResultScreen">
-                <div class="d-flex flex-column align-items-center text-center">
-                  <img
-                    src="images/resultado_aventurero.jpg"
-                    id="resultProfileImage"
-                    alt="Perfil"
-                    class="img-fluid rounded-3 shadow-sm border mb-3 object-fit-cover w-100"
-                  />
-                  <span
-                    class="badge bg-success bg-opacity-10 text-success mb-2 px-3 py-1 rounded-pill fw-semibold text-uppercase small"
-                    >Resultado</span
-                  >
-                  <h4
-                    class="fw-bold text-body-emphasis mb-2"
-                    id="resultProfileTitle"
-                  >
-                    Aventurero Indómito
-                  </h4>
-                  <p
-                    class="text-body-secondary small mb-3 px-1 lh-base"
-                    id="resultProfileDesc"
-                  >
-                    Sos un explorador nato. Te motivan los desafíos físicos, la
-                    conexión profunda con la naturaleza salvaje y el trekking.
-                  </p>
-                  <div
-                    class="bg-body-tertiary p-3 rounded-3 border-start border-success border-4 shadow-sm mb-3 w-100 text-start d-none"
-                  >
-                    <h6 class="fw-bold text-body-emphasis mb-1 small">
-                      <i class="bi bi-geo-alt-fill text-success"></i> Destinos
-                      recomendados:
-                    </h6>
-                    <p
-                      class="text-body-secondary small mb-0 lh-sm"
-                      id="resultDestinationsText"
-                    ></p>
-                  </div>
-                  <div class="d-grid gap-2 w-100">
-                    <button
-                      class="btn btn-success py-2 fw-semibold rounded-pill"
-                      id="btnSaveTestProfile"
-                      data-bs-dismiss="modal"
-                    >
-                      Guardar nuevo perfil de viajero
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
             class="modal-footer border-0 px-4 py-3 bg-body-tertiary justify-content-between"
             id="testModalFooter"
           >
