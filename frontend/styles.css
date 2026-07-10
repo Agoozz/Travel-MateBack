@@ -42,3 +42,39 @@ body {
 .hover-link:hover::after {
   width: 100%;
 }
+
+/* Layout & Components (Restored to avoid inline CSS) */
+.hero-carousel-img {
+  height: 60vh;
+  filter: brightness(0.9);
+}
+
+.step-icon-wrapper {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.province-cover {
+  height: 8.125rem;
+}
+
+.testimonial-avatar {
+  width: 50px;
+  height: 50px;
+}
+
+.step-indicator {
+  width: 32px;
+  height: 32px;
+}
+
+.avatar-lg {
+  width: 6.25rem;
+  height: 6.25rem;
+}
+
+.avatar-sm {
+  width: 3.125rem;
+  height: 3.125rem;
+  flex-shrink: 0;
+}
