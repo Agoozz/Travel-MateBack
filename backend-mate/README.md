@@ -37,7 +37,7 @@ MONGO_URI=mongodb://127.0.0.1:27017/mate_travel
 # Si prefieres usar una base de datos en la nube (MongoDB Atlas), reemplaza la URI por la tuya:
 # MONGO_URI=<tu_uri_de_mongodb>
 
-JWT_SECRET=matetravel_secreto_2026
+JWT_SECRET=<crea_un_secreto_largo_y_unico>
 JWT_EXPIRES_IN=7d
 ```
 

@@ -3,6 +3,12 @@
 require("dotenv").config();
 
 const express = require("express");
+
+if (!process.env.JWT_SECRET) {
+  console.error("ERROR CRÍTICO: La variable de entorno JWT_SECRET no está definida. Revisa tu archivo .env");
+  process.exit(1);
+}
+
 const cors = require("cors");
 const conectarDB = require("./config/db");
 const usuariosRoutes = require("./routes/usuarios");
@@ -51,6 +57,15 @@ app.use("/api/mensajes", mensajesRoutes);
 
 
 
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Ruta no encontrada" });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Error interno del servidor" });
+});
 
 const PORT = process.env.PORT || 3000;
 
