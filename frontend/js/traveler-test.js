@@ -1,5 +1,6 @@
 (function () {
   let currentStep = 1;
+  const totalSteps = 6;
   let userAnswers = {
     tipoViaje: "",
     presupuesto: "",
