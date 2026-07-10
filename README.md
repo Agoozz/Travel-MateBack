@@ -1,22 +1,24 @@
 # Travel Mate
 
-Travel Mate es una aplicación web full-stack (MERN) diseñada para conectar viajeros con intereses y presupuestos similares.
+Travel Mate es una aplicación web diseñada para conectar viajeros con intereses y presupuestos similares, permitiéndoles encontrar compañeros de viaje compatibles y chatear entre ellos.
 
-## Tecnologías Utilizadas
+## Arquitectura y Tecnologías
 
-- **Frontend:** React + Vite
-- **Backend:** Node.js + Express
-- **Base de Datos:** MongoDB
+El proyecto fue refactorizado para separar completamente el Frontend del Backend, cumpliendo estrictamente con las buenas prácticas de desarrollo:
+
+- **Frontend:** HTML5, CSS3, Vanilla JavaScript (JS Puro). Estilizado 100% con Bootstrap 5 (sin archivos CSS adicionales que no sean estrictamente necesarios). Totalmente desacoplado del backend.
+- **Backend:** Node.js + Express (API REST).
+- **Base de Datos:** MongoDB.
 
 ## Requisitos Previos
 
 Para correr este proyecto en tu computadora de forma local, necesitas tener instalado:
 
 1. [Node.js](https://nodejs.org/es/) (Versión 16 o superior)
-2. [MongoDB Community Server](https://www.mongodb.com/try/download/community) corriendo localmente en el puerto `27017`.
+2. [MongoDB Community Server](https://www.mongodb.com/try/download/community) corriendo localmente en el puerto `27017` (solo necesario si deseas correr el backend).
 3. Git
 
-## Instrucciones para levantar el entorno local
+## Instrucciones para levantar el proyecto
 
 ### 1. Clonar el repositorio
 Abre una terminal y ejecuta:
@@ -25,43 +27,31 @@ git clone https://github.com/Agoozz/Travel-MateBack.git
 cd Travel-MateBack
 ```
 
-### 2. Configurar y levantar el Backend
+### 2. Levantar el Frontend (Modo Independiente / Offline)
 
-1. Abre una terminal y dirígete a la carpeta del backend:
+Una de las principales ventajas de esta arquitectura es que el Frontend puede funcionar de manera completamente autónoma sin necesidad de levantar ningún servidor.
+
+1. Navega a la carpeta `frontend`.
+2. Simplemente haz doble clic en el archivo `index.html` para abrirlo directamente en tu navegador web.
+3. ¡Listo! Puedes probar el registro, inicio de sesión, test del viajero y el chat. (La aplicación detectará que no hay backend y usará un modo "offline" simulado con `localStorage` y *fallback*).
+
+### 3. Levantar el Backend y Base de Datos (Opcional - Modo Online Completo)
+
+Si deseas probar la persistencia de datos real, el registro de usuarios en MongoDB y la comunicación del chat a través de la API REST, sigue estos pasos:
+
+1. Asegúrate de tener MongoDB ejecutándose localmente en tu computadora en el puerto `27017`.
+2. Abre una terminal y dirígete a la carpeta del backend:
    ```bash
    cd backend-mate
    ```
-2. Instala las dependencias:
+3. Instala las dependencias:
    ```bash
    npm install
-   ```
-3. Crea un archivo `.env` dentro de la carpeta `backend-mate` con el siguiente contenido:
-   ```env
-   PORT=3000
-   MONGO_URI=mongodb://127.0.0.1:27017/mate_travel
-   JWT_SECRET=matetravel_secreto_2026
-   JWT_EXPIRES_IN=7d
    ```
 4. Levanta el servidor backend:
    ```bash
-   npm run dev
+   npm start
    ```
-   Verás un mensaje indicando que el servidor está corriendo en `http://localhost:3000` y que MongoDB se conectó exitosamente.
+   (El servidor correrá en `http://localhost:3000` y se conectará automáticamente a MongoDB).
 
-### 3. Configurar y levantar el Frontend
-
-1. Abre **otra** terminal nueva y dirígete a la carpeta del frontend:
-   ```bash
-   cd frontend
-   ```
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-3. Inicia la aplicación en modo desarrollo:
-   ```bash
-   npm run dev
-   ```
-4. Abre el enlace que te indica la terminal (por lo general es `http://localhost:5173/`) en tu navegador favorito.
-
-¡Listo! Ya tienes Travel Mate corriendo 100% de manera local.
+5. Vuelve a abrir el `index.html` de la carpeta `frontend` en tu navegador. Ahora la aplicación detectará automáticamente el servidor y realizará las peticiones HTTP (fetch) reales contra la base de datos para guardar perfiles y mensajes en vivo.
