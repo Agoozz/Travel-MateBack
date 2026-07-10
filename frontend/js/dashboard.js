@@ -1,3 +1,16 @@
+
+(function checkAuth() {
+  if (!localStorage.getItem("user_name")) {
+    document.body.style.display = "none";
+    window.location.replace("index.html");
+  }
+  window.addEventListener("pageshow", function (event) {
+    if (!localStorage.getItem("user_name")) {
+      document.body.style.display = "none";
+      window.location.replace("index.html");
+    }
+  });
+})();
 (function () {
   const userName = localStorage.getItem("user_name");
   const profileProgress = localStorage.getItem("user_profile_progress");

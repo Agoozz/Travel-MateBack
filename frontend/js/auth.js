@@ -317,6 +317,8 @@ window.handleAuthSubmit = async function (event, type) {
 // ─── Logout ──────────────────────────────────────────────────
 window.handleLogout = function (e) {
   if (e) e.preventDefault();
+  document.body.style.display = 'none'; // Prevenir bfcache visual flash
+  
   // Preserve chats
   const chatKeys = Object.keys(localStorage).filter((k) =>
     k.startsWith("mateAndTravelChats"),

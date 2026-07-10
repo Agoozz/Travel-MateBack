@@ -1,9 +1,11 @@
 (function checkAuth() {
   if (!localStorage.getItem("user_name")) {
+    document.body.style.display = "none";
     window.location.replace("index.html");
   }
   window.addEventListener("pageshow", function (event) {
-    if (event.persisted && !localStorage.getItem("user_name")) {
+    if (!localStorage.getItem("user_name")) {
+      document.body.style.display = "none";
       window.location.replace("index.html");
     }
   });
