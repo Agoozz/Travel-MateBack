@@ -576,42 +576,42 @@
                   <div class="d-flex flex-wrap gap-2">
                     <img
                       src="https://i.pravatar.cc/150?img=12"
-                      class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer"
+                      class="rounded-circle avatar-selector-img border border-2"
                       alt="Avatar"
                       width="50"
                       height="50"
                     />
                     <img
                       src="https://i.pravatar.cc/150?img=32"
-                      class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer"
+                      class="rounded-circle avatar-selector-img border border-2"
                       alt="Avatar"
                       width="50"
                       height="50"
                     />
                     <img
                       src="https://i.pravatar.cc/150?img=11"
-                      class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer"
+                      class="rounded-circle avatar-selector-img border border-2"
                       alt="Avatar"
                       width="50"
                       height="50"
                     />
                     <img
                       src="https://i.pravatar.cc/150?img=47"
-                      class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer"
+                      class="rounded-circle avatar-selector-img border border-2"
                       alt="Avatar"
                       width="50"
                       height="50"
                     />
                     <img
                       src="https://i.pravatar.cc/150?img=60"
-                      class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer"
+                      class="rounded-circle avatar-selector-img border border-2"
                       alt="Avatar"
                       width="50"
                       height="50"
                     />
                     <img
                       src="https://i.pravatar.cc/150?img=53"
-                      class="rounded-circle avatar-selector-img border border-2 border-transparent cursor-pointer"
+                      class="rounded-circle avatar-selector-img border border-2"
                       alt="Avatar"
                       width="50"
                       height="50"
@@ -974,31 +974,8 @@
                             </div>
                         </div>
 
-                        <!-- STEP 5: Fechas (Calendario) -->
-                        <div class="wizard-step d-none" data-step="5">
-                            <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Cuándo planeas viajar?</h6>
-                            <div class="border rounded-4 p-3 bg-body-tertiary shadow-sm">
-                                <div class="mx-auto">
-                                    <!-- Calendar Header -->
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center" id="calPrevMonth" type="button"><i class="bi bi-chevron-left small"></i></button>
-                                        <h6 class="fw-bold mb-0 text-body-emphasis small" id="calendarMonthTitle">Enero 2027</h6>
-                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center" id="calNextMonth" type="button"><i class="bi bi-chevron-right small"></i></button>
-                                    </div>
-                                    <!-- Weekdays -->
-                                    <div class="d-grid gap-1 text-center fw-bold text-body-secondary mb-1 small calendar-grid">
-                                        <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
-                                    </div>
-                                    <!-- Days Grid -->
-                                    <div class="d-grid gap-1 text-center calendar-grid" id="calendarDaysGrid">
-                                        <!-- Days dynamically rendered here -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
                         <!-- STEP 5: Compañero de viaje -->
-                        <div class="wizard-step d-none" data-step="6">
+                        <div class="wizard-step d-none" data-step="5">
                             <h6 class="text-center fw-bold mb-3 text-body-emphasis fs-6">¿Qué buscas en tu compañere de viaje?</h6>
                             <div class="d-flex flex-column gap-2">
                                 <div class="card border p-3 d-flex flex-row align-items-center gap-3 test-option-card rounded-3" data-key="companero" data-value="aventura">
@@ -1026,6 +1003,30 @@
                                     <div class="text-start">
                                         <h6 class="fw-bold mb-1 small">Comodidad y Cultura</h6>
                                         <p class="text-body-secondary small mb-0">Paseos culturales, gastronomía y museos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- STEP 6: Fechas (Calendario) -->
+                        <div class="wizard-step d-none" data-step="6">
+                            <h6 class="text-center fw-bold mb-1 text-body-emphasis fs-6">¿Cuándo planeas viajar?</h6>
+                            <p class="text-center text-body-secondary small mb-3">Seleccioná una fecha de inicio y una fecha de finalización.</p>
+                            <div class="border rounded-4 p-3 bg-body-tertiary shadow-sm">
+                                <div class="mx-auto">
+                                    <!-- Calendar Header -->
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center" id="calPrevMonth" type="button"><i class="bi bi-chevron-left small"></i></button>
+                                        <h6 class="fw-bold mb-0 text-body-emphasis small" id="calendarMonthTitle">Enero 2027</h6>
+                                        <button class="btn btn-sm btn-outline-secondary py-0 rounded-circle d-flex align-items-center justify-content-center" id="calNextMonth" type="button"><i class="bi bi-chevron-right small"></i></button>
+                                    </div>
+                                    <!-- Weekdays -->
+                                    <div class="d-grid gap-1 text-center fw-bold text-body-secondary mb-1 small calendar-grid">
+                                        <div>D</div><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div>
+                                    </div>
+                                    <!-- Days Grid -->
+                                    <div class="d-grid gap-1 text-center calendar-grid" id="calendarDaysGrid">
+                                        <!-- Days dynamically rendered here -->
                                     </div>
                                 </div>
                             </div>

@@ -5,6 +5,7 @@
     tipoViaje: "",
     presupuesto: "",
     region: "",
+    destino: "",
     fechas: [],
     companero: "",
   };
@@ -274,7 +275,8 @@
       userAnswers[key] = value;
       
       if (key === "region") {
-        delete userAnswers.destino;
+        userAnswers.destino = "";
+        localStorage.removeItem("user_destination");
         document.querySelectorAll(".province-option").forEach(o => o.classList.remove("border-success", "bg-success-subtle", "border-2", "selected"));
       }
       
@@ -288,8 +290,8 @@
     if (currentStep === 2 && userAnswers.presupuesto) enabled = true;
     if (currentStep === 3 && userAnswers.region) enabled = true;
     if (currentStep === 4 && userAnswers.destino) enabled = true;
-    if (currentStep === 5 && userAnswers.fechas && userAnswers.fechas.length > 0) enabled = true;
-    if (currentStep === 6 && userAnswers.companero) enabled = true;
+    if (currentStep === 5 && userAnswers.companero) enabled = true;
+    if (currentStep === 6 && userAnswers.fechas && userAnswers.fechas.length === 2) enabled = true;
 
     if (enabled) {
       btnNext.removeAttribute("disabled");
@@ -354,7 +356,7 @@
   });
 
   btnNext.addEventListener("click", () => {
-    if (currentStep < 5) {
+    if (currentStep < totalSteps) {
       currentStep++;
       updateStepVisibility();
     } else {
@@ -442,20 +444,29 @@
 
     const destText = recommendations[userAnswers.region][selectedProfile];
     const resultDestinationsText = document.getElementById("resultDestinationsText");
-    resultDestinationsText.textContent = `Basado en tu interés por la región `;
+    resultDestinationsText.textContent = `Destino elegido: `;
+    
+    const strongDestino = document.createElement("strong");
+    strongDestino.textContent = userAnswers.destino || "Sin definir";
+    resultDestinationsText.appendChild(strongDestino);
+    
+    resultDestinationsText.appendChild(document.createElement("br"));
+    resultDestinationsText.appendChild(document.createTextNode(`Región: `));
     
     const strongRegion = document.createElement("strong");
     strongRegion.textContent = regionName;
     resultDestinationsText.appendChild(strongRegion);
     
-    resultDestinationsText.appendChild(document.createTextNode(` y tu perfil de `));
+    resultDestinationsText.appendChild(document.createElement("br"));
+    resultDestinationsText.appendChild(document.createElement("br"));
+    
+    resultDestinationsText.appendChild(document.createTextNode(`Basado en tu perfil de `));
     
     const strongProfile = document.createElement("strong");
     strongProfile.textContent = profile.title;
     resultDestinationsText.appendChild(strongProfile);
     
-    resultDestinationsText.appendChild(document.createTextNode(`, te recomendamos explorar:`));
-    resultDestinationsText.appendChild(document.createElement("br"));
+    resultDestinationsText.appendChild(document.createTextNode(`, también te recomendamos explorar:`));
     resultDestinationsText.appendChild(document.createElement("br"));
     
     const strongDest = document.createElement("strong");
@@ -472,6 +483,7 @@
       tipoViaje: "",
       presupuesto: "",
       region: "",
+      destino: "",
       fechas: [],
       companero: "",
     };
@@ -531,7 +543,7 @@
         patagonia: "Patagonia",
       }[regionKey] || "Patagonia";
     localStorage.setItem("user_region", regionLabel);
-    localStorage.setItem("user_destination", userAnswers.destino || "Mendoza");
+    localStorage.setItem("user_destination", userAnswers.destino || "Sin definir");
 
     if (userAnswers.fechas && userAnswers.fechas.length > 0) {
       const dateObjects = userAnswers.fechas.map(
