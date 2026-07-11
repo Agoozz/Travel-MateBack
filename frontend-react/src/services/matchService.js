@@ -15,5 +15,36 @@ export const matchService = {
       }
       throw err;
     }
+  },
+
+  async getMatches() {
+    try {
+      const response = await fetchAPI('/matches', {
+        method: 'GET'
+      });
+      return response.matches || [];
+    } catch (error) {
+      console.warn("Backend offline o error al obtener matches. Retornando array vacío.");
+      return [];
+    }
+  },
+
+  async getMatchStatus(targetUserId) {
+    try {
+      const matches = await this.getMatches();
+      const match = matches.find(m => 
+        (m.usuario1 && m.usuario1._id === targetUserId) || 
+        (m.usuario2 && m.usuario2._id === targetUserId)
+      );
+      
+      return {
+        isMatch: !!match,
+        status: match ? match.estado : 'none',
+        matchData: match || null
+      };
+    } catch (error) {
+      console.error("Error al verificar estado de match:", error);
+      return { isMatch: false, status: 'error', matchData: null };
+    }
   }
 };

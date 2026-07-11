@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Modals.css';
 
-export default function MatchResultModal({ matchUser, currentUser, onClose }) {
-  const navigate = useNavigate();
+export default function MatchResultModal({ matchUser, currentUser, onClose, onOpenChat }) {
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -68,7 +66,7 @@ export default function MatchResultModal({ matchUser, currentUser, onClose }) {
               className="btn btn-success rounded-pill py-2 px-4 fw-semibold shadow-sm"
               onClick={() => {
                 onClose();
-                navigate('/messages');
+                if (onOpenChat) onOpenChat(matchUser);
               }}
             >
               <i className="bi bi-chat-dots-fill me-2"></i>Enviar mensaje

@@ -9,6 +9,7 @@ import ProfileGrid from '../components/dashboard/ProfileGrid';
 import Pagination from '../components/dashboard/Pagination';
 import ProfileDetailsModal from '../components/dashboard/ProfileDetailsModal';
 import MatchResultModal from '../components/dashboard/MatchResultModal';
+import ChatPanel from '../components/chat/ChatPanel';
 
 import './Dashboard.css';
 
@@ -33,6 +34,7 @@ export default function Dashboard() {
 
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [matchResult, setMatchResult] = useState(null); // { user: ProfileObject } if match
+  const [activeChatUser, setActiveChatUser] = useState(null);
 
   const handleViewProfile = (profile) => {
     setSelectedProfile(profile);
@@ -108,8 +110,18 @@ export default function Dashboard() {
           matchUser={matchResult} 
           currentUser={user}
           onClose={() => setMatchResult(null)}
+          onOpenChat={(chatUser) => setActiveChatUser({
+            id: chatUser._id,
+            name: chatUser.nombre,
+            avatar: chatUser.avatar
+          })}
         />
       )}
+
+      <ChatPanel 
+        targetUser={activeChatUser} 
+        onClose={() => setActiveChatUser(null)} 
+      />
     </>
   );
 }
