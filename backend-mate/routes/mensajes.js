@@ -1,5 +1,5 @@
 const express = require("express");
-const Mensaje = require("../models/Mensaje");
+const mensajeService = require("../services/mensajeService");
 const verificarToken = require("../middleware/auth");
 
 const router = express.Router();
@@ -7,16 +7,7 @@ const router = express.Router();
 // GET /api/mensajes/:userId -> Obtener historial de chat con un usuario puntual
 router.get("/:userId", verificarToken, async (req, res) => {
   try {
-    const yo = req.usuario._id.toString();
-    const otro = req.params.userId;
-
-    const mensajes = await Mensaje.find({
-      $or: [
-        { emisor: yo, receptor: otro },
-        { emisor: otro, receptor: yo }
-      ]
-    }).sort({ createdAt: 1 });
-
+    const mensajes = await mensajeService.getMessages(req.usuario._id.toString(), req.params.userId);
     res.json(mensajes);
   } catch (error) {
     console.error("Error al obtener mensajes:", error);
@@ -28,22 +19,15 @@ router.get("/:userId", verificarToken, async (req, res) => {
 router.post("/", verificarToken, async (req, res) => {
   try {
     const { receptorId, texto } = req.body;
-    const yo = req.usuario._id.toString();
-
-    if (!receptorId || !texto) {
-      return res.status(400).json({ error: "Faltan datos obligatorios." });
-    }
-
-    const nuevoMensaje = await Mensaje.create({
-      emisor: yo,
-      receptor: receptorId,
-      texto
-    });
-
+    const nuevoMensaje = await mensajeService.sendMessage(req.usuario._id.toString(), receptorId, texto);
     res.json(nuevoMensaje);
   } catch (error) {
-    console.error("Error al enviar mensaje:", error);
-    res.status(500).json({ error: "Error al enviar mensaje." });
+    if (error.status) {
+      res.status(error.status).json({ error: error.message });
+    } else {
+      console.error("Error al enviar mensaje:", error);
+      res.status(500).json({ error: "Error al enviar mensaje." });
+    }
   }
 });
 

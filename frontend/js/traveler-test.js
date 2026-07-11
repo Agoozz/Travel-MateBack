@@ -36,22 +36,22 @@
     aventurero: {
       title: "Aventurero Indómito",
       desc: "Sos un explorador nato. Te motivan los desafíos físicos, la conexión profunda con la naturaleza salvaje y el trekking. No buscás lujos, sino experiencias auténticas y la libertad de moverte a tu propio ritmo con la mochila a cuestas.",
-      image: basePath + "images/resultado_aventurero.jpg",
+      image: basePath + "../assets/resultado_aventurero.jpg",
     },
     confort: {
       title: "Buscador de Confort y Relax",
       desc: "Para vos, viajar es sinónimo de descansar, mimarte y recargar energías en entornos cómodos y placenteros. Te encantan los buenos hoteles, spas, degustación de platos selectos y paseos organizados sin preocupaciones logísticas.",
-      image: basePath + "images/resultado_confort.jpg",
+      image: basePath + "../assets/resultado_confort.jpg",
     },
     social: {
       title: "Explorador Social",
       desc: "Buscás conectar con la gente, la música y la noche de cada lugar. Disfrutás compartir un fogón, recorrer bares locales, participar de fiestas tradicionales y hacer nuevos amigos en hostels y tours grupales.",
-      image: basePath + "images/resultado_social.jpg",
+      image: basePath + "../assets/resultado_social.jpg",
     },
     cultural: {
       title: "Explorador Cultural e Histórico",
       desc: "Te apasiona la historia local, las leyendas de cada pueblo, la arquitectura colonial, los museos y el patrimonio arqueológico. Buscás viajes enriquecedores que te dejen nuevos aprendizajes e historias que contar.",
-      image: basePath + "images/resultado_cultural.jpg",
+      image: basePath + "../assets/resultado_cultural.jpg",
     },
   };
 
@@ -573,7 +573,7 @@
       const resultTitle =
         document.getElementById("resultProfileTitle").innerText;
       const encodedTitle = encodeURIComponent(resultTitle);
-      window.location.href = `iniciar_sesion.html?mode=register&profile=${encodedTitle}`;
+      window.location.href = `pantallas/iniciar_sesion.html?mode=register&profile=${encodedTitle}`;
     });
   }
 
@@ -584,7 +584,7 @@
       const resultTitle =
         document.getElementById("resultProfileTitle").innerText;
       const encodedTitle = encodeURIComponent(resultTitle);
-      window.location.href = `iniciar_sesion.html?mode=login&profile=${encodedTitle}`;
+      window.location.href = `pantallas/iniciar_sesion.html?mode=login&profile=${encodedTitle}`;
     });
   }
 

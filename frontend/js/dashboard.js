@@ -6,12 +6,12 @@
 (function checkAuth() {
   if (!localStorage.getItem("user_name")) {
     document.body.style.display = "none";
-    window.location.replace("index.html");
+    window.location.replace("../index.html");
   }
   window.addEventListener("pageshow", function (event) {
     if (!localStorage.getItem("user_name")) {
       document.body.style.display = "none";
-      window.location.replace("index.html");
+      window.location.replace("../index.html");
     }
   });
 })();
@@ -274,13 +274,6 @@
       });
     });
 
-    document.querySelectorAll(".btn-logout-profile").forEach((btn) => {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        localStorage.clear();
-        window.location.href = "index.html";
-      });
-    });
 
     // Selectores del DOM (Búsqueda)
     const searchInput = document.getElementById("searchInput");
@@ -643,17 +636,11 @@
           }
         }, 1200);
       } catch (err) {
-        console.warn("Backend offline. Simulando match localmente.");
+        console.error("Error de conexión:", err);
         setTimeout(() => {
-          btn.textContent = " Enviado";
-          const checkIcon = document.createElement("i");
-          checkIcon.className = "bi bi-check-circle-fill";
-          btn.prepend(checkIcon);
+          btn.textContent = " Error";
           btn.classList.remove("btn-success");
-          btn.classList.add("btn-secondary");
-
-          removeCompanionByName(targetName);
-          simulateMatchAndChat(targetId, targetName, targetAvatarSrc);
+          btn.classList.add("btn-danger");
         }, 1200);
       }
     });
@@ -678,4 +665,12 @@
       });
     }
   }); // end perfilesListos listener
+
+document.querySelectorAll(".btn-logout-profile").forEach((btn) => {
+  btn.addEventListener("click", function (e) {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "../index.html";
+  });
+});
 })();

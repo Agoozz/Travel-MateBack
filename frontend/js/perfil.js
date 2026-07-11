@@ -6,12 +6,12 @@
 (function checkAuth() {
   if (!localStorage.getItem("user_name")) {
     document.body.style.display = "none";
-    window.location.replace("index.html");
+    window.location.replace("../index.html");
   }
   window.addEventListener("pageshow", function (event) {
     if (!localStorage.getItem("user_name")) {
       document.body.style.display = "none";
-      window.location.replace("index.html");
+      window.location.replace("../index.html");
     }
   });
 })();
@@ -421,9 +421,16 @@
   }
 
   // Ejecución inicial de vista
-  populateModals();
-  updateProfileProgress();
-  populatePreview();
+  if (localStorage.getItem("user_id") === "sin-backend") {
+    const profileContainer = document.getElementById("profilePreviewMode");
+    if (profileContainer) {
+      profileContainer.innerHTML = '<div class="alert alert-danger text-center w-100 mt-0 shadow-sm border-0">Servidor apagado. No se pudo cargar tu perfil.</div>';
+    }
+  } else {
+    populateModals();
+    updateProfileProgress();
+    populatePreview();
+  }
 
   if (window.location.search.includes("action=test")) {
     const testModalEl = document.getElementById("travelerTestModal");
@@ -502,7 +509,7 @@
     logoutBtn.addEventListener("click", function (e) {
       e.preventDefault();
       localStorage.clear();
-      window.location.replace("index.html");
+      window.location.replace("../index.html");
     });
   }
 })();
@@ -512,6 +519,6 @@ document.querySelectorAll(".btn-logout-profile").forEach((btn) => {
   btn.addEventListener("click", function (e) {
     e.preventDefault();
     localStorage.clear();
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   });
 });

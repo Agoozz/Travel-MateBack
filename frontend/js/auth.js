@@ -208,113 +208,17 @@ window.handleAuthSubmit = async function (event, type) {
     saveSession(data.token, data.usuario);
     showSuccessAndRedirect(type, alreadyTested);
   } catch (err) {
-    console.warn("Backend no detectado. Iniciando en modo local (Offline)...");
-
-    const mockUsers = {
-      "sofia@mate.com": {
-        nombre: "Sofía",
-        ubicacion: "Córdoba",
-        estilo: "confort",
-        bio: "Busco compañeros para un viaje relajado.",
-      },
-      "mateo@mate.com": {
-        nombre: "Mateo",
-        ubicacion: "Cafayate",
-        estilo: "mochilero",
-        bio: "¡Hola! Soy Mateo, probando el perfil completo en modo local.",
-      },
-      "martin@mate.com": {
-        nombre: "Martín",
-        ubicacion: "Neuquén",
-        estilo: "mochilero",
-        bio: "La vida es mejor en una carpa y con un fueguito.",
-      },
-      "nicolas@mate.com": {
-        nombre: "Nicolás",
-        ubicacion: "Buenos Aires",
-        estilo: "social",
-        bio: "Viajero apasionado, explorando lugares poco conocidos.",
-      },
-      "maria@mate.com": {
-        nombre: "María",
-        ubicacion: "Salta",
-        estilo: "cultural",
-        bio: "Disfruto los museos, la historia y la buena gastronomía.",
-      },
-      "juana@mate.com": {
-        nombre: "Juana",
-        ubicacion: "Mendoza",
-        estilo: "social",
-        bio: "Me encanta conocer gente nueva y salir de fiesta.",
-      },
-      "lucas@mate.com": {
-        nombre: "Lucas",
-        ubicacion: "Rosario",
-        estilo: "aventura",
-        bio: "Siempre con la mochila lista para el próximo destino.",
-      },
-      "camila@mate.com": {
-        nombre: "Camila",
-        ubicacion: "CABA",
-        estilo: "confort",
-        bio: "Organizo viajes grupales, ¡sumate a la aventura!",
-      },
-      "joaquin@mate.com": {
-        nombre: "Joaquín",
-        ubicacion: "La Plata",
-        estilo: "confort",
-        bio: "Prefiero hoteles lindos y excursiones organizadas.",
-      },
-      "lucia@mate.com": {
-        nombre: "Lucía",
-        ubicacion: "Santa Fe",
-        estilo: "mochilero",
-        bio: "Mochilera de corazón, escapadas de finde largo.",
-      },
+    // Si el backend está apagado, te dejamos entrar a la app (sin validar)
+    // para que puedas navegar por las pantallas vacías.
+    const fakeUsuario = {
+      _id: "sin-backend",
+      nombre: email ? email.split('@')[0] : "Invitado",
+      email: email
     };
-
-    let mockNombre =
-      type === "login"
-        ? "Viajero Explorador"
-        : form
-            .querySelector('input[placeholder="Ej: Sofía Rodríguez"]')
-            ?.value.trim() || "Nuevo Viajero";
-    let mockBio = "";
-    let mockUbicacion = "";
-    let mockEstilo = "mochilero";
-
-    if (type === "login") {
-      if (mockUsers[email] && password === "mate1234") {
-        const u = mockUsers[email];
-        mockNombre = u.nombre;
-        mockBio = u.bio;
-        mockUbicacion = u.ubicacion;
-        mockEstilo = u.estilo;
-      } else if (mockUsers[email] && password !== "mate1234") {
-        showError(
-          "Contraseña incorrecta para el perfil de prueba (es mate1234).",
-        );
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.innerText = "Ingresar";
-        }
-        return;
-      }
-    }
-
-    const mockUser = {
-      _id: "offline-" + Date.now(),
-      nombre: mockNombre,
-      email: email,
-      edad: 26,
-      ubicacion: mockUbicacion,
-      estiloViaje: mockEstilo,
-      progresoPerfil: mockNombre !== "Viajero Explorador" ? 85 : 45,
-      bio: mockBio,
-    };
-
-    saveSession("offline-token-xyz", mockUser);
-    showSuccessAndRedirect();
+    
+    const alreadyTested = !!localStorage.getItem("user_travel_style_key");
+    saveSession("token-vacio", fakeUsuario);
+    showSuccessAndRedirect(type, alreadyTested);
   }
 };
 
@@ -332,7 +236,7 @@ window.handleLogout = function (e) {
   }));
   localStorage.clear();
   chatData.forEach((c) => localStorage.setItem(c.key, c.val));
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 };
 
 // Eventos

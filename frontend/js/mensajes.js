@@ -5,11 +5,11 @@
 // Inicialización de seguridad (Guard)
 (function checkAuth() {
   if (!localStorage.getItem("user_name")) {
-    window.location.replace("index.html");
+    window.location.replace("../index.html");
   }
   window.addEventListener("pageshow", function (event) {
     if (event.persisted && !localStorage.getItem("user_name")) {
-      window.location.replace("index.html");
+      window.location.replace("../index.html");
     }
   });
 })();
@@ -75,35 +75,10 @@ async function loadContacts() {
       );
     });
   } catch (error) {
-    // 2. Fallback: cargar desde ChatManager (Local)
-    console.warn(
-      "Backend offline o error al cargar contactos. Activando modo Fallback local.",
-      error,
-    );
-    isBackendOnline = false;
-
-    const chats = ChatManager.getAllChats();
-    const userIds = Object.keys(chats).sort(
-      (a, b) => chats[b].lastUpdate - chats[a].lastUpdate,
-    );
-
-    if (userIds.length === 0) {
-      noChatsMsg.classList.remove("d-none");
-      contactsList.textContent = "";
-      return;
-    }
-
-    noChatsMsg.classList.add("d-none");
+    console.error("Error al cargar contactos (Servidor apagado):", error);
+    noChatsMsg.classList.remove("d-none");
+    noChatsMsg.textContent = "Servidor apagado. No se pudieron cargar los chats.";
     contactsList.textContent = "";
-
-    userIds.forEach((id) => {
-      const chat = chats[id];
-      const lastMsg =
-        chat.messages.length > 0
-          ? chat.messages[chat.messages.length - 1].text
-          : "";
-      renderContactItem(id, chat.name, chat.avatar, lastMsg);
-    });
   }
 }
 
@@ -192,17 +167,8 @@ async function loadMessages() {
       })),
     );
   } catch (error) {
-    // Fallback: local
-    const chat = ChatManager.getChatHistory(currentUserId);
-    if (chatHistory.length !== chat.messages.length) {
-      chatHistory = chat.messages;
-      renderMessages(
-        chatHistory.map((m) => ({
-          text: m.text,
-          type: m.sender,
-        })),
-      );
-    }
+    console.error("Error cargando mensajes (Servidor apagado):", error);
+    pageChatMessages.innerHTML = '<div class="alert alert-danger text-center mx-3 mt-3">Servidor apagado. No se pudieron cargar los mensajes.</div>';
   }
 }
 
@@ -255,56 +221,22 @@ pageChatForm.addEventListener("submit", async function (e) {
     pageChatInput.value = "";
 
     try {
-      if (!isBackendOnline) throw new Error("Fallback mode");
-
       const response = await fetch(`${API_BASE}/mensajes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ receptorId: currentUserId, texto: text }),
+        body: JSON.stringify({
+          receptorId: currentUserId,
+          texto: text,
+        }),
       });
 
-      if (!response.ok) throw new Error("Send failed");
-
-      // Refrescar mensajes
-      loadMessages();
+      if (!response.ok) throw new Error("Fetch failed");
     } catch (error) {
-      // Fallback: usar ChatManager
-      ChatManager.addMessage(
-        currentUserId,
-        targetName,
-        targetAvatarSrc,
-        text,
-        "sent",
-      );
-      loadContacts();
-
-      // Simular respuesta local solo en modo fallback
-      setTimeout(() => {
-        pageTypingIndicator.classList.remove("d-none");
-        pageTypingIndicator.classList.add("d-flex");
-        pageChatMessages.scrollTop = pageChatMessages.scrollHeight;
-
-        setTimeout(
-          () => {
-            pageTypingIndicator.classList.add("d-none");
-            pageTypingIndicator.classList.remove("d-flex");
-            const reply = ChatManager.generateReply(text);
-            ChatManager.addMessage(
-              currentUserId,
-              targetName,
-              targetAvatarSrc,
-              reply,
-              "received",
-            );
-            loadMessages();
-            loadContacts();
-          },
-          1500 + Math.random() * 1500,
-        );
-      }, 1000);
+      console.error("Error enviando mensaje (Servidor apagado):", error);
+      appendMessage("Error al enviar (Servidor apagado)", "received", false);
     }
   }
 });
@@ -313,7 +245,7 @@ document.querySelectorAll(".btn-logout-profile").forEach((btn) => {
   btn.addEventListener("click", function (e) {
     e.preventDefault();
     localStorage.clear();
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   });
 });
 
