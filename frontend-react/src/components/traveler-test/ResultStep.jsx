@@ -38,22 +38,18 @@ export default function ResultStep({ answers, onComplete }) {
     aventurero: {
       title: "Aventurero Indómito",
       desc: "Sos un explorador nato. Te motivan los desafíos físicos, la conexión profunda con la naturaleza salvaje y el trekking.",
-      image: "/assets/resultado_aventurero.jpg",
     },
     confort: {
       title: "Buscador de Confort y Relax",
       desc: "Para vos, viajar es sinónimo de descansar, mimarte y recargar energías en entornos cómodos y placenteros.",
-      image: "/assets/resultado_confort.jpg",
     },
     social: {
       title: "Explorador Social",
       desc: "Buscás conectar con la gente, la música y la noche de cada lugar. Disfrutás compartir un fogón y hacer amigos.",
-      image: "/assets/resultado_social.jpg",
     },
     cultural: {
       title: "Explorador Cultural e Histórico",
       desc: "Te apasiona la historia local, las leyendas, la arquitectura colonial y los museos. Buscás viajes enriquecedores.",
-      image: "/assets/resultado_cultural.jpg",
     }
   };
 

@@ -1,57 +1,77 @@
-# Travel Mate
+# Travel Mate (React + Node.js)
 
 Travel Mate es una aplicación web diseñada para conectar viajeros con intereses y presupuestos similares, permitiéndoles encontrar compañeros de viaje compatibles y chatear entre ellos.
 
 ## Arquitectura y Tecnologías
 
-El proyecto fue refactorizado para separar completamente el Frontend del Backend, cumpliendo estrictamente con las buenas prácticas de desarrollo:
+El proyecto ha sido refactorizado completamente, migrando el frontend desde Vanilla JS hacia una Single Page Application (SPA) moderna con React.
 
-- **Frontend:** HTML5, CSS3, Vanilla JavaScript (JS Puro). Estilizado 100% con Bootstrap 5 (sin archivos CSS adicionales que no sean estrictamente necesarios). Totalmente desacoplado del backend.
-- **Backend:** Node.js + Express (API REST).
+- **Frontend (`frontend-react/`):** React 18, Vite, React Router DOM, Bootstrap 5.
+- **Backend (`backend-mate/`):** Node.js + Express (API REST).
 - **Base de Datos:** MongoDB.
+- **Legacy (`frontend/`):** Se mantiene la versión Vanilla JS original como referencia histórica y paridad funcional.
 
 ## Requisitos Previos
 
-Para correr este proyecto en tu computadora de forma local, necesitas tener instalado:
-
-1. [Node.js](https://nodejs.org/es/) (Versión 20.19.0 o superior)
-2. [MongoDB Community Server](https://www.mongodb.com/try/download/community) corriendo localmente en el puerto `27017` (solo necesario si deseas correr el backend).
+1. [Node.js](https://nodejs.org/es/) (Versión 18+ o superior)
+2. [MongoDB Community Server](https://www.mongodb.com/try/download/community) corriendo localmente en el puerto `27017` (solo necesario para el backend).
 3. Git
 
-## Instrucciones para levantar el proyecto
+## Instrucciones de Desarrollo Local
 
 ### 1. Clonar el repositorio
-Abre una terminal y ejecuta:
 ```bash
-git clone -b sin-react https://github.com/Agoozz/Travel-MateBack.git
-cd Travel-MateBack
+git clone -b con-react https://github.com/Agoozz/Travel-MateBack.git
+cd Travel-MateReact
 ```
 
-### 2. Levantar el Frontend (Modo Independiente / Offline)
+### 2. Levantar el Backend y Base de Datos
 
-Una de las principales ventajas de esta arquitectura es que el Frontend puede funcionar de manera completamente autónoma sin necesidad de levantar ningún servidor.
-
-1. Navega a la carpeta `frontend`.
-2. Simplemente haz doble clic en el archivo `index.html` para abrirlo directamente en tu navegador web.
-3. ¡Listo! Puedes probar el registro, inicio de sesión, test del viajero y el chat. (La aplicación detectará que no hay backend y usará un modo "offline" simulado con `localStorage` y *fallback*).
-
-### 3. Levantar el Backend y Base de Datos (Opcional - Modo Online Completo)
-
-Si deseas probar la persistencia de datos real, el registro de usuarios en MongoDB y la comunicación del chat a través de la API REST, sigue estos pasos:
-
-1. Asegúrate de tener MongoDB ejecutándose localmente en tu computadora en el puerto `27017`.
+1. Asegúrate de tener MongoDB ejecutándose localmente (`mongodb://localhost:27017`).
 2. Abre una terminal y dirígete a la carpeta del backend:
    ```bash
    cd backend-mate
-   ```
-3. Instala las dependencias:
-   ```bash
    npm install
    ```
-4. Levanta el servidor backend:
+3. (Opcional) Si necesitas datos de prueba, puedes poblar la base de datos:
+   ```bash
+   npm run seed
+   ```
+4. Levanta el servidor:
    ```bash
    npm start
    ```
-   (El servidor correrá en `http://localhost:3000` y se conectará automáticamente a MongoDB).
+   *El servidor correrá en `http://localhost:3000`*.
 
-5. Vuelve a abrir el `index.html` de la carpeta `frontend` en tu navegador. Ahora la aplicación detectará automáticamente el servidor y realizará las peticiones HTTP (fetch) reales contra la base de datos para guardar perfiles y mensajes en vivo.
+### 3. Levantar el Frontend (React)
+
+1. En una nueva terminal, dirígete a la carpeta de React:
+   ```bash
+   cd frontend-react
+   npm install
+   ```
+2. Crea un archivo `.env` basado en el `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+   Asegúrate de que `VITE_API_BASE_URL` apunte a tu backend local (`http://localhost:3000/api`).
+3. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+   *La aplicación estará disponible en `http://localhost:5173`*.
+
+## Modo Offline (Demostración)
+
+La aplicación frontend está diseñada para tolerar fallas de red o caídas del servidor. Si el backend de Express no está corriendo, la aplicación React detectará esto automáticamente y entrará en un **"Modo Demostración" (Offline)**:
+
+- Permitirá el inicio de sesión con credenciales mock.
+- El perfil y el Test de Viajero se guardarán temporalmente en `localStorage`.
+- Los mensajes serán respondidos automáticamente por un Bot local simulando interacciones de compañeros de viaje, garantizando que el jurado o usuario final siempre pueda probar la experiencia completa de la interfaz.
+
+## Despliegue (Producción)
+
+Para desplegar el frontend en Vercel o Netlify:
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Environment Variables:** Configurar `VITE_API_BASE_URL` con la URL del backend en producción, o dejarlo apuntando localmente si es solo una maqueta frontend.

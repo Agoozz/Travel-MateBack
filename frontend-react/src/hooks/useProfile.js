@@ -30,9 +30,9 @@ export function useProfile() {
     setSuccessMessage("");
     
     try {
-      const updatedData = await profileService.updateMyProfile(profileData);
-      setProfile(updatedData);
-      setSuccessMessage("¡Perfil guardado correctamente!");
+      const { data, isOffline } = await profileService.updateMyProfile(profileData);
+      setProfile(data);
+      setSuccessMessage(isOffline ? "Guardado localmente (Modo Demostración)" : "¡Perfil guardado correctamente en el servidor!");
       
       // Auto-hide success message after 3 seconds
       setTimeout(() => setSuccessMessage(""), 3000);

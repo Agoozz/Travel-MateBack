@@ -46,3 +46,25 @@
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
+
+.match-modal-backdrop {
+  z-index: 1060;
+}
+
+.match-modal-dialog {
+  z-index: 1070;
+}
+
+.match-modal-bg {
+  background: linear-gradient(135deg, var(--bs-body-bg) 0%, var(--bs-success-bg-subtle) 100%);
+}
+
+.match-avatar {
+  width: 90px;
+  height: 90px;
+}
+
+.match-badge {
+  width: 30px;
+  height: 30px;
+}

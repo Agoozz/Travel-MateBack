@@ -8,6 +8,7 @@ import ProvinceStep from './ProvinceStep';
 import CompanionStep from './CompanionStep';
 import DateStep from './DateStep';
 import ResultStep from './ResultStep';
+import { profileService } from '../../services/profileService';
 import './TravelerTest.css';
 
 const initialAnswers = {
@@ -78,29 +79,38 @@ export default function TravelerTestModal({ show, onClose, onComplete }) {
     }
   };
 
-  const handleComplete = (selectedProfileKey, selectedProfileTitle) => {
-    // Save minimal test results to localStorage
-    localStorage.setItem("user_travel_style", selectedProfileTitle);
-    localStorage.setItem("user_travel_style_key", answers.tipoViaje || "mochilero");
-    localStorage.setItem("user_budget", answers.presupuesto || "economico");
-    localStorage.setItem("user_companion_style", answers.companero || "aventura");
-    
+  const handleComplete = async (selectedProfileKey, selectedProfileTitle) => {
     const regionKey = answers.region || "patagonia";
-    localStorage.setItem("user_regions", JSON.stringify([regionKey]));
     
-    const regionLabel = {
-      noa: "Noroeste (NOA)", nea: "Noreste (NEA)", cuyo: "Cuyo", pampeana: "Pampeana", patagonia: "Patagonia",
-    }[regionKey] || "Patagonia";
-    
-    localStorage.setItem("user_region", regionLabel);
-    localStorage.setItem("user_destination", answers.destino || "");
-
+    let startDate = "";
+    let endDate = "";
     if (answers.fechas && answers.fechas.length === 2) {
       const sorted = [...answers.fechas].sort((a, b) => new Date(a.year, a.month, a.day) - new Date(b.year, b.month, b.day));
       const format = (d) => `${d.year}-${String(d.month + 1).padStart(2, '0')}-${String(d.day).padStart(2, '0')}`;
-      localStorage.setItem("user_start_date", format(sorted[0]));
-      localStorage.setItem("user_end_date", format(sorted[1]));
+      startDate = format(sorted[0]);
+      endDate = format(sorted[1]);
     }
+
+    const payload = {
+      estiloViaje: answers.tipoViaje || "mochilero",
+      presupuesto: answers.presupuesto || "economico",
+      estiloCompanero: answers.companero || "aventura",
+      regiones: [regionKey],
+      destino: answers.destino || "",
+      fechaInicio: startDate,
+      fechaFin: endDate
+    };
+
+    // Esto guardará en backend si hay conexión, y en localStorage como fallback (y el título del test)
+    await profileService.updateMyProfile(payload);
+    
+    // Y guardamos manualmente el título legible para compatibilidad
+    localStorage.setItem("user_travel_style", selectedProfileTitle);
+
+    const regionLabel = {
+      noa: "Noroeste (NOA)", nea: "Noreste (NEA)", cuyo: "Cuyo", pampeana: "Pampeana", patagonia: "Patagonia",
+    }[regionKey] || "Patagonia";
+    localStorage.setItem("user_region", regionLabel);
 
     onComplete();
   };

@@ -15,19 +15,18 @@ export default function MatchResultModal({ matchUser, currentUser, onClose, onOp
 
   return (
     <>
-      <div className="react-modal-backdrop" onClick={onClose} style={{ zIndex: 1060 }}></div>
-      <div className="react-modal-dialog" role="dialog" aria-modal="true" style={{ zIndex: 1070 }}>
-        <div className="react-modal-content border-0 rounded-4 shadow-lg text-center p-4 p-md-5 bg-body" style={{ background: "linear-gradient(135deg, var(--bs-body-bg) 0%, var(--bs-success-bg-subtle) 100%)" }}>
+      <div className="react-modal-backdrop match-modal-backdrop" onClick={onClose}></div>
+      <div className="react-modal-dialog match-modal-dialog" role="dialog" aria-modal="true">
+        <div className="react-modal-content match-modal-bg border-0 rounded-4 shadow-lg text-center p-4 p-md-5 bg-body">
           
           <div className="mb-4 d-flex justify-content-center align-items-center gap-3">
             <div className="position-relative">
               <img 
                 src={currentUser?.avatar || "https://i.pravatar.cc/150?img=12"} 
                 alt="Tú"
-                className="rounded-circle border border-4 border-success shadow-sm object-fit-cover"
-                style={{ width: "90px", height: "90px" }}
+                className="match-avatar rounded-circle border border-4 border-success shadow-sm object-fit-cover"
               />
-              <span className="position-absolute bottom-0 end-0 bg-success text-white rounded-circle p-1 border border-2 border-white d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
+              <span className="match-badge position-absolute bottom-0 end-0 bg-success text-white rounded-circle p-1 border border-2 border-white d-flex align-items-center justify-content-center">
                 <i className="bi bi-heart-fill small"></i>
               </span>
             </div>
@@ -40,10 +39,9 @@ export default function MatchResultModal({ matchUser, currentUser, onClose, onOp
               <img 
                 src={matchUser.avatar || "https://i.pravatar.cc/150?img=11"} 
                 alt={matchUser.nombre}
-                className="rounded-circle border border-4 border-success shadow-sm object-fit-cover"
-                style={{ width: "90px", height: "90px" }}
+                className="match-avatar rounded-circle border border-4 border-success shadow-sm object-fit-cover"
               />
-              <span className="position-absolute bottom-0 start-0 bg-success text-white rounded-circle p-1 border border-2 border-white d-flex align-items-center justify-content-center" style={{ width: "30px", height: "30px" }}>
+              <span className="match-badge position-absolute bottom-0 start-0 bg-success text-white rounded-circle p-1 border border-2 border-white d-flex align-items-center justify-content-center">
                 <i className="bi bi-heart-fill small"></i>
               </span>
             </div>

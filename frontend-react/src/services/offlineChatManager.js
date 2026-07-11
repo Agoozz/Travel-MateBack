@@ -15,7 +15,7 @@ const loadChats = () => {
   try {
     const stored = localStorage.getItem(getStorageKey());
     return stored ? JSON.parse(stored) : {};
-  } catch (_e) {
+  } catch {
     return {};
   }
 };

@@ -26,7 +26,7 @@ export function useMessages() {
       setContacts(data);
       // isOfflineMode se setea si el primer contacto vino offline, o chequeando el flag global
       setIsOfflineMode(!messageService.isBackendOnline);
-    } catch (_err) {
+    } catch {
       setError("Error al cargar los contactos");
     } finally {
       setLoadingContacts(false);
@@ -89,7 +89,7 @@ export function useMessages() {
         c.id === selectedUser.id ? { ...c, lastMsg: text } : c
       ));
       
-    } catch (_err) {
+    } catch {
       setError("Error al enviar el mensaje");
       // Opcional: Revertir mensaje optimista si falla
       setMessages(prev => prev.filter(m => m.id !== optimisticMsg.id));

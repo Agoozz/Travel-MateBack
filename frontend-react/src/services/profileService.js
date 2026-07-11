@@ -39,6 +39,7 @@ export const profileService = {
   },
 
   async updateMyProfile(profileData) {
+    let isOffline = false;
     try {
       // 1. Call the backend API for the supported fields
       const payload = {
@@ -60,6 +61,7 @@ export const profileService = {
       }
     } catch (err) {
       console.warn("Backend offline o error al actualizar perfil. Guardando localmente.", err);
+      isOffline = true;
     }
 
     // 2. Save everything to localStorage for parity with Vanilla
@@ -78,6 +80,6 @@ export const profileService = {
     localStorage.setItem("user_languages", profileData.idiomas || "");
     localStorage.setItem("user_interests", profileData.intereses || "");
 
-    return this.getMyProfile();
+    return { data: this.getMyProfile(), isOffline };
   }
 };

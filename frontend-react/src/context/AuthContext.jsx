@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
+import { fetchAPI } from '../services/api';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -8,21 +10,24 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Restore session on load
-    const storedToken = localStorage.getItem('token');
-    const storedUserId = localStorage.getItem('user_id');
+    const restoreSession = async () => {
+      const storedToken = localStorage.getItem('token');
+      const storedUserId = localStorage.getItem('user_id');
+      
+      if (storedToken && storedUserId) {
+        try {
+          const userData = await fetchAPI('/usuarios/me');
+          setToken(storedToken);
+          setUser(userData);
+        } catch (error) {
+          console.warn("Token inválido o sesión expirada.", error);
+          logout();
+        }
+      }
+      setIsLoading(false);
+    };
     
-    if (storedToken && storedUserId) {
-      setToken(storedToken);
-      // Reconstruct user object from local storage for parity
-      setUser({
-        _id: storedUserId,
-        nombre: localStorage.getItem('user_name') || '',
-        email: localStorage.getItem('user_email') || '',
-        avatar: localStorage.getItem('user_avatar') || 'https://i.pravatar.cc/150?img=12',
-      });
-    }
-    setIsLoading(false);
+    restoreSession();
   }, []);
 
   const login = (newToken, userData) => {

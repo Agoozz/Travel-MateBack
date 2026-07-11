@@ -24,8 +24,8 @@ export const matchService = {
       });
       return response.matches || [];
     } catch (error) {
-      console.warn("Backend offline o error al obtener matches. Retornando array vacío.");
-      return [];
+      console.warn("Backend offline o error al obtener matches.");
+      throw error;
     }
   },
 

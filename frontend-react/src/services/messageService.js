@@ -72,7 +72,7 @@ export const messageService = {
         timestamp: m.fecha ? new Date(m.fecha).getTime() : Date.now()
       }));
 
-    } catch (_error) {
+    } catch {
       // Fallback
       const chat = offlineChatManager.getChatHistory(targetUserId);
       return chat.messages.map((m, index) => ({
@@ -93,11 +93,11 @@ export const messageService = {
 
       const data = await fetchAPI('/mensajes', {
         method: 'POST',
-        body: { receptorId: targetUserId, texto: text }
+        body: JSON.stringify({ receptorId: targetUserId, texto: text })
       });
       return { success: true, isOffline: false, data };
 
-    } catch (_error) {
+    } catch {
       // Fallback local
       offlineChatManager.addMessage(targetUserId, targetName, targetAvatar, text, 'sent');
       
