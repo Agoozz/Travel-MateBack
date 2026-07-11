@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Restore session on load
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
         avatar: localStorage.getItem('user_avatar') || 'https://i.pravatar.cc/150?img=12',
       });
     }
-    setLoading(false);
+    setIsLoading(false);
   }, []);
 
   const login = (newToken, userData) => {
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, isAuthenticated: !!token, loading }}>
+    <AuthContext.Provider value={{ token, user, login, logout, isAuthenticated: !!token, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

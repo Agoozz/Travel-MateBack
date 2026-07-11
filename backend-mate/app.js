@@ -22,7 +22,22 @@ const app = express();
 // Conectar a MongoDB
 conectarDB();
 // Middlewares
-app.use(cors());
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:4173',
+      process.env.FRONTEND_URL
+    ];
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 
