@@ -1,96 +1,16 @@
-// routes/usuarios.js
-
-const express         = require("express");
-const jwt             = require("jsonwebtoken");
-const Usuario         = require("../models/Usuario");
-const verificarToken  = require("../middleware/auth");
+const express = require("express");
+const verificarToken = require("../middleware/auth");
+const usuarioController = require("../controllers/usuarioController");
 
 const router = express.Router();
 
-// ─── Helper: generar JWT ─────────────────────────────────────
-const generarToken = (id) => {
-  return jwt.sign(
-    { id },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || "7d" }
-  );
-};
-
 // ─── POST /api/usuarios/register ─────────────────────────────
-router.post("/register", async (req, res) => {
-  try {
-    const { 
-      nombre, email, password,
-      estiloViaje, presupuesto, estiloCompanero, destino,
-      fechaInicio, fechaFin, regiones, progresoPerfil
-    } = req.body;
-
-    if (!nombre || !email || !password) {
-      return res.status(400).json({ error: "Nombre, email y contraseña son obligatorios." });
-    }
-
-    if (password.length < 6) {
-      return res.status(400).json({ error: "La contraseña debe tener al menos 6 caracteres." });
-    }
-
-    const existe = await Usuario.findOne({ email });
-    if (existe) {
-      return res.status(409).json({ error: "Ese email ya está registrado." });
-    }
-
-    const usuarioData = { nombre, email, password };
-    if (estiloViaje) usuarioData.estiloViaje = estiloViaje;
-    if (presupuesto) usuarioData.presupuesto = presupuesto;
-    if (estiloCompanero) usuarioData.estiloCompanero = estiloCompanero;
-    if (destino) usuarioData.destino = destino;
-    if (fechaInicio) usuarioData.fechaInicio = fechaInicio;
-    if (fechaFin) usuarioData.fechaFin = fechaFin;
-    if (regiones) usuarioData.regiones = regiones;
-    if (progresoPerfil) usuarioData.progresoPerfil = progresoPerfil;
-
-    const usuario = await Usuario.create(usuarioData);
-    const token   = generarToken(usuario._id);
-
-    res.status(201).json({ token, usuario });
-
-  } catch (error) {
-    console.error("Error en register:", error);
-    res.status(500).json({ error: "Error interno del servidor." });
-  }
-});
+router.post("/register", usuarioController.registrar);
 
 // ─── POST /api/usuarios/login ─────────────────────────────────
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email y contraseña son obligatorios." });
-    }
-
-    const usuario = await Usuario.findOne({ email });
-    if (!usuario) {
-      return res.status(401).json({ error: "Email o contraseña incorrectos." });
-    }
-
-    const esValido = await usuario.compararPassword(password);
-    if (!esValido) {
-      return res.status(401).json({ error: "Email o contraseña incorrectos." });
-    }
-
-    const token = generarToken(usuario._id);
-    res.json({ token, usuario });
-
-  } catch (error) {
-    console.error("Error en login:", error);
-    res.status(500).json({ error: "Error interno del servidor." });
-  }
-});
+router.post("/login", usuarioController.login);
 
 // ─── GET /api/usuarios/me ─────────────────────────────────────
-// Ruta protegida: devuelve el perfil del usuario logueado
-router.get("/me", verificarToken, (req, res) => {
-  res.json({ usuario: req.usuario });
-});
+router.get("/me", verificarToken, usuarioController.getMe);
 
 module.exports = router;
