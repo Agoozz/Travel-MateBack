@@ -47,8 +47,7 @@ function calcularProgreso(usuario) {
     "destino",
     "estiloCompanero",
     "fechaInicio",
-    "fechaFin",
-    "ubicacion"
+    "fechaFin"
   ];
   
   let validCount = 0;
