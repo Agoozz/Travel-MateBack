@@ -31,11 +31,12 @@ export default function Onboarding() {
   }, []);
 
   const handleTestComplete = (updatedUser) => {
+    console.log("Onboarding completion payload received:", updatedUser);
     if (updatedUser && updatedUser.progresoPerfil === 100) {
       updateUser(updatedUser);
       navigate('/dashboard', { replace: true });
     } else {
-      alert("No se pudo completar el perfil. Por favor, intenta de nuevo o verifica tu conexión.");
+      alert(`No se pudo completar el perfil (Progreso reportado: ${updatedUser?.progresoPerfil || 0}%). Por favor, intenta de nuevo o verifica tu conexión.`);
     }
   };
 

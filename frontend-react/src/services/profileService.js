@@ -63,6 +63,8 @@ export const profileService = {
           body: JSON.stringify(payload)
         });
         backendUser = response.usuario;
+      } else {
+        isOffline = true;
       }
     } catch (err) {
       console.warn("Backend offline o error al actualizar perfil. Guardando localmente.", err);
