@@ -35,6 +35,14 @@ export default function ChatHeader({ user, isOfflineMode, onClose }) {
           )}
         </div>
       </div>
+      {onClose && (
+        <button 
+          type="button" 
+          className="btn-close ms-auto" 
+          onClick={onClose}
+          aria-label="Cerrar chat"
+        ></button>
+      )}
     </div>
   );
 }

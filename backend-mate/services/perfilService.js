@@ -130,7 +130,11 @@ const actualizarPerfil = async (usuarioId, datosActualizacion) => {
     fechaFin,
     destino,
     estiloCompanero,
-    regiones
+    regiones,
+    edad,
+    avatar,
+    idiomas,
+    intereses
   } = datosActualizacion;
   
   if (nombre !== undefined) usuario.nombre = nombre;
@@ -143,6 +147,10 @@ const actualizarPerfil = async (usuarioId, datosActualizacion) => {
   if (destino !== undefined) usuario.destino = destino;
   if (estiloCompanero !== undefined) usuario.estiloCompanero = estiloCompanero;
   if (regiones !== undefined) usuario.regiones = regiones;
+  if (edad !== undefined) usuario.edad = edad;
+  if (avatar !== undefined) usuario.avatar = avatar;
+  if (idiomas !== undefined) usuario.idiomas = idiomas;
+  if (intereses !== undefined) usuario.intereses = intereses;
 
   usuario.progresoPerfil = calcularProgreso(usuario);
   

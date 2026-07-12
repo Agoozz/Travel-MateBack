@@ -1,60 +1,40 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useProfile } from '../hooks/useProfile';
-import ProfileSummary from '../components/profile/ProfileSummary';
-import ProfileForm from '../components/profile/ProfileForm';
-import TravelPreferences from '../components/profile/TravelPreferences';
-import AvailabilitySection from '../components/profile/AvailabilitySection';
-import ProfileProgress from '../components/profile/ProfileProgress';
-import SaveProfileButton from '../components/profile/SaveProfileButton';
-import ProfileFeedback from '../components/profile/ProfileFeedback';
+import { useAuth } from '../context/AuthContext';
+import ProfileHeader from '../components/profile/ProfileHeader';
+import ProfileAbout from '../components/profile/ProfileAbout';
+import ProfileTripDetails from '../components/profile/ProfileTripDetails';
+import ProfileTravelerType from '../components/profile/ProfileTravelerType';
+import ProfilePhotos from '../components/profile/ProfilePhotos';
+import EditProfileModal from '../components/profile/EditProfileModal';
+import EditTripModal from '../components/profile/EditTripModal';
 import TravelerTestModal from '../components/traveler-test/TravelerTestModal';
+import ProfileFeedback from '../components/profile/ProfileFeedback';
 
 export default function Profile() {
-  const { profile, loading, saving, error, successMessage, saveProfile, progress, reloadProfile } = useProfile();
-  const [formData, setFormData] = useState(null);
+  const { profile, loading, saving, error, successMessage, saveProfile, reloadProfile } = useProfile();
+  const { logout } = useAuth();
+  
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [showEditTrip, setShowEditTrip] = useState(false);
   const [showTestModal, setShowTestModal] = useState(false);
 
-  useEffect(() => {
-    if (profile) {
-      setFormData({ ...profile });
-    }
-  }, [profile]);
-
-  const handleChange = (name, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const handleSaveProfileInfo = async (formData) => {
+    const success = await saveProfile(formData);
+    if (success) setShowEditProfile(false);
   };
 
-  const handleSave = async () => {
-    if (!formData) return;
-    
-    // Basic validation
-    if (!formData.nombre || formData.nombre.trim() === "") {
-      alert("El nombre es obligatorio"); // A more integrated validation would be better, but we keep it simple as requested
-      return;
-    }
-    
-    if (formData.fechaInicio && formData.fechaFin) {
-      const start = new Date(formData.fechaInicio);
-      const end = new Date(formData.fechaFin);
-      if (end < start) {
-        alert("La fecha de vuelta no puede ser anterior a la de ida");
-        return;
-      }
-    }
-
-    await saveProfile(formData);
+  const handleSaveTripDetails = async (formData) => {
+    const success = await saveProfile(formData);
+    if (success) setShowEditTrip(false);
   };
 
-  const handleTestComplete = () => {
-    // When the test finishes, reload the profile from localStorage to reflect the changes in the UI
+  const handleTestComplete = (updatedProfile) => {
     reloadProfile();
     setShowTestModal(false);
   };
 
-  if (loading || !formData) {
+  if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center flex-column py-5 mt-5">
         <div className="spinner-border text-success mb-3" role="status" style={{ width: '3rem', height: '3rem' }}>
@@ -66,42 +46,63 @@ export default function Profile() {
   }
 
   return (
-    <div className="container-fluid py-4 max-w-1200 mx-auto fade-in">
-      <div className="row g-4 mb-4 align-items-center">
-        <div className="col-md-8">
-          <h2 className="fw-bold text-body-emphasis mb-1">Tu Espacio Personal</h2>
-          <p className="text-body-secondary mb-0">Gestioná tu información, afinidades y próximos destinos</p>
-        </div>
-      </div>
+    <div className="container-fluid max-w-1200 mx-auto">
+      <div className="row">
+        <main className="col-12 p-4 p-md-5 bg-body-tertiary min-vh-100">
+          
+          <ProfileFeedback error={error} successMessage={successMessage} />
 
-      <ProfileFeedback error={error} successMessage={successMessage} />
+          <div id="profilePreviewMode" className="row g-4 fade-in">
+            <div className="col-12">
+              <ProfileHeader profile={profile} onEdit={() => setShowEditProfile(true)} />
 
-      <div className="row g-4">
-        {/* Left Column - Preview and Progress */}
-        <div className="col-xl-4 col-lg-5">
-          <div className="sticky-top" style={{ top: "2rem", zIndex: 1 }}>
-            <ProfileProgress progress={progress} />
-            <ProfileSummary 
-              profile={formData} 
-              progress={progress} 
-              onTakeTest={() => setShowTestModal(true)} 
-            />
+              <div className="row g-4">
+                <div className="col-lg-6">
+                  <ProfileAbout bio={profile?.bio} />
+                  <ProfileTripDetails profile={profile} onEdit={() => setShowEditTrip(true)} />
+                </div>
+
+                <div className="col-lg-6">
+                  <ProfileTravelerType profile={profile} onRetakeTest={() => setShowTestModal(true)} />
+                  <ProfilePhotos />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        {/* Right Column - Forms */}
-        <div className="col-xl-8 col-lg-7">
-          <ProfileForm profileData={formData} onChange={handleChange} />
-          <TravelPreferences profileData={formData} onChange={handleChange} />
-          <AvailabilitySection profileData={formData} onChange={handleChange} />
-          <SaveProfileButton saving={saving} onClick={handleSave} disabled={false} />
-        </div>
+          <div className="mt-5 text-center fade-in">
+            <button
+              type="button"
+              className="btn btn-outline-danger border-2 rounded-pill fw-semibold px-4 py-2"
+              onClick={logout}
+            >
+              Cerrar Sesión
+            </button>
+          </div>
+        </main>
       </div>
 
-      <TravelerTestModal 
-        show={showTestModal} 
+      <EditProfileModal
+        show={showEditProfile}
+        profile={profile}
+        onClose={() => setShowEditProfile(false)}
+        onSave={handleSaveProfileInfo}
+        saving={saving}
+      />
+
+      <EditTripModal
+        show={showEditTrip}
+        profile={profile}
+        onClose={() => setShowEditTrip(false)}
+        onSave={handleSaveTripDetails}
+        saving={saving}
+      />
+
+      <TravelerTestModal
+        show={showTestModal}
         onClose={() => setShowTestModal(false)}
         onComplete={handleTestComplete}
+        isOnboarding={false}
       />
     </div>
   );

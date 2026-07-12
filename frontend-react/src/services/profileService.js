@@ -53,7 +53,11 @@ export const profileService = {
         fechaFin: profileData.fechaFin,
         destino: profileData.destino,
         estiloCompanero: profileData.estiloCompanero,
-        regiones: profileData.regiones
+        regiones: profileData.regiones,
+        edad: profileData.edad,
+        avatar: profileData.avatar,
+        idiomas: profileData.idiomas,
+        intereses: profileData.intereses
       };
       
       const token = localStorage.getItem("token");
