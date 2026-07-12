@@ -33,11 +33,15 @@ cd Travel-MateReact
    cd backend-mate
    npm install
    ```
-3. (Opcional) Si necesitas datos de prueba, puedes poblar la base de datos:
+3. Crea un archivo `.env` basado en el `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+4. (Opcional) Si necesitas datos de prueba, puedes poblar la base de datos:
    ```bash
    npm run seed
    ```
-4. Levanta el servidor:
+5. Levanta el servidor:
    ```bash
    npm start
    ```
@@ -60,14 +64,6 @@ cd Travel-MateReact
    npm run dev
    ```
    *La aplicación estará disponible en `http://localhost:5173`*.
-
-## Modo Offline (Demostración)
-
-La aplicación frontend está diseñada para tolerar fallas de red o caídas del servidor. Si el backend de Express no está corriendo, la aplicación React detectará esto automáticamente y entrará en un **"Modo Demostración" (Offline)**:
-
-- Permitirá el inicio de sesión con credenciales mock.
-- El perfil y el Test de Viajero se guardarán temporalmente en `localStorage`.
-- Los mensajes serán respondidos automáticamente por un Bot local simulando interacciones de compañeros de viaje, garantizando que el jurado o usuario final siempre pueda probar la experiencia completa de la interfaz.
 
 ## Despliegue (Producción)
 
