@@ -46,9 +46,9 @@ Si deseas probar la persistencia de datos real, el registro de usuarios en Mongo
    ```bash
    npm install
    ```
-4. Crea tu archivo de entorno:
-   ```bash
-   cp .env.example .env
+4. Crea tu archivo de entorno (en Windows):
+   ```cmd
+   copy .env.example .env
    ```
 4. Levanta el servidor backend:
    ```bash
