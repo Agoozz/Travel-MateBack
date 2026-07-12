@@ -33,9 +33,9 @@ cd Travel-MateReact
    cd backend-mate
    npm install
    ```
-3. Crea un archivo `.env` basado en el `.env.example`:
-   ```bash
-   cp .env.example .env
+3. Crea un archivo `.env` basado en el `.env.example` (en Windows):
+   ```cmd
+   copy .env.example .env
    ```
 4. (Opcional) Si necesitas datos de prueba, puedes poblar la base de datos:
    ```bash
@@ -54,9 +54,9 @@ cd Travel-MateReact
    cd frontend-react
    npm install
    ```
-2. Crea un archivo `.env` basado en el `.env.example`:
-   ```bash
-   cp .env.example .env
+2. Crea un archivo `.env` basado en el `.env.example` (en Windows):
+   ```cmd
+   copy .env.example .env
    ```
    Asegúrate de que `VITE_API_BASE_URL` apunte a tu backend local (`http://localhost:3000/api`).
 3. Inicia el servidor de desarrollo:
