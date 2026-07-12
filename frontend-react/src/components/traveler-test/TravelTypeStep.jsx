@@ -1,8 +1,9 @@
 export default function TravelTypeStep({ answers, setAnswers }) {
   const options = [
     { id: "mochilero", title: "Mochilero/Aventurero", desc: "Amo la naturaleza, acampar, trekking y la libertad.", icon: "bi-backpack" },
-    { id: "hotel", title: "Confort/Lujo", desc: "Busco los mejores hoteles, restaurantes y relax.", icon: "bi-building" },
-    { id: "organizado", title: "Planificado/Tour", desc: "Prefiero viajes con guías, tours y todo organizado.", icon: "bi-calendar2-check" }
+    { id: "confort", title: "Confort/Lujo", desc: "Busco los mejores hoteles, restaurantes y relax.", icon: "bi-building" },
+    { id: "social", title: "Social", desc: "Me encanta conocer gente, fiestas y salir de noche.", icon: "bi-people-fill" },
+    { id: "cultural", title: "Cultural", desc: "Prefiero museos, historia y gastronomía local.", icon: "bi-bank" }
   ];
 
   return (

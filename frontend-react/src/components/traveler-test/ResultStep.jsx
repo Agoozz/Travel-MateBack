@@ -60,8 +60,9 @@ export default function ResultStep({ answers, onComplete }) {
     let cultural = 0;
 
     if (answers.tipoViaje === "mochilero") { aventurero += 3; social += 1.5; } 
-    else if (answers.tipoViaje === "hotel") { confort += 3; cultural += 1; } 
-    else if (answers.tipoViaje === "organizado") { cultural += 3; confort += 1.5; }
+    else if (answers.tipoViaje === "confort") { confort += 3; cultural += 1; } 
+    else if (answers.tipoViaje === "cultural") { cultural += 3; confort += 1.5; }
+    else if (answers.tipoViaje === "social") { social += 3; aventurero += 1.5; }
 
     if (answers.presupuesto === "economico") { aventurero += 2; social += 1; } 
     else if (answers.presupuesto === "medio") { social += 2; cultural += 1.5; } 
