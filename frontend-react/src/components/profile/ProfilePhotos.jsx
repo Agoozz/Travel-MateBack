@@ -1,4 +1,8 @@
 import React from 'react';
+import rioNegroImg from '../../assets/rio_negro.jpg';
+import mendozaImg from '../../assets/mendoza.png';
+import saltaImg from '../../assets/salta.jpg';
+import neuquenImg from '../../assets/neuquen.jpg';
 
 export default function ProfilePhotos() {
   return (
@@ -16,7 +20,7 @@ export default function ProfilePhotos() {
       <div className="row g-2 mb-2">
         <div className="col-6">
           <img
-            src="/images/rio_negro.jpg"
+            src={rioNegroImg}
             alt="Río Negro"
             className="img-fluid rounded-4 w-100 object-fit-cover"
             style={{ height: "120px" }}
@@ -25,7 +29,7 @@ export default function ProfilePhotos() {
         </div>
         <div className="col-6">
           <img
-            src="/images/mendoza.png"
+            src={mendozaImg}
             alt="Mendoza"
             className="img-fluid rounded-4 w-100 object-fit-cover"
             style={{ height: "120px" }}
@@ -34,7 +38,7 @@ export default function ProfilePhotos() {
         </div>
         <div className="col-6">
           <img
-            src="/images/salta.jpg"
+            src={saltaImg}
             alt="Salta"
             className="img-fluid rounded-4 w-100 object-fit-cover"
             style={{ height: "120px" }}
@@ -43,7 +47,7 @@ export default function ProfilePhotos() {
         </div>
         <div className="col-6">
           <img
-            src="/images/neuquen.jpg"
+            src={neuquenImg}
             alt="Neuquén"
             className="img-fluid rounded-4 w-100 object-fit-cover"
             style={{ height: "120px" }}
