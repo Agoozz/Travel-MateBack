@@ -27,15 +27,13 @@ git clone -b sin-react https://github.com/Agoozz/Travel-MateBack.git
 cd Travel-MateBack
 ```
 
-### 2. Levantar el Frontend (Modo Independiente / Offline)
-
-Una de las principales ventajas de esta arquitectura es que el Frontend puede funcionar de manera completamente autónoma sin necesidad de levantar ningún servidor.
+### 2. Levantar el Frontend
 
 1. Navega a la carpeta `frontend`.
 2. Simplemente haz doble clic en el archivo `index.html` para abrirlo directamente en tu navegador web.
-3. ¡Listo! Puedes probar el registro, inicio de sesión, test del viajero y el chat. (La aplicación detectará que no hay backend y usará un modo "offline" simulado con `localStorage` y *fallback*).
+3. ¡Listo! Puedes interactuar con la aplicación.
 
-### 3. Levantar el Backend y Base de Datos (Opcional - Modo Online Completo)
+### 3. Levantar el Backend y Base de Datos
 
 Si deseas probar la persistencia de datos real, el registro de usuarios en MongoDB y la comunicación del chat a través de la API REST, sigue estos pasos:
 
@@ -47,6 +45,10 @@ Si deseas probar la persistencia de datos real, el registro de usuarios en Mongo
 3. Instala las dependencias:
    ```bash
    npm install
+   ```
+4. Crea tu archivo de entorno:
+   ```bash
+   cp .env.example .env
    ```
 4. Levanta el servidor backend:
    ```bash
