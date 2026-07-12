@@ -13,3 +13,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.avatar-lg {
+  width: 6.25rem;
+  height: 6.25rem;
+}

@@ -69,16 +69,16 @@ export default function Dashboard() {
       <div className="container-fluid p-0">
         <DashboardHeader 
           userName={user?.nombre || 'Viajero'} 
-          travelStyle={user?.estiloViaje || localStorage.getItem('user_travel_style_key')} 
+          travelStyle={user?.estiloViaje || localStorage.getItem('user_travel_style_key')}
+          searchValue={filters.search}
+          onSearchChange={(v) => handleFilterChange('search', v)}
         />
-        
-        <div className="row mb-4">
-          <div className="col-12 col-md-8 col-lg-6">
-            <SearchBar value={filters.search} onChange={(v) => handleFilterChange('search', v)} />
-          </div>
-        </div>
 
         <ProfileFilters filters={filters} onFilterChange={handleFilterChange} onClear={clearFilters} />
+
+        <h3 className="mt-4 mb-4 fw-bold text-body-emphasis fs-5">
+            Compañeres recomendades para vos
+        </h3>
 
         <ProfileGrid 
           profiles={currentProfiles} 

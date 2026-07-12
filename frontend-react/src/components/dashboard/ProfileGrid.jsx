@@ -32,9 +32,9 @@ export default function ProfileGrid({ profiles, loading, error, onViewProfile, o
   }
 
   return (
-    <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+    <div className="row">
       {profiles.map(profile => (
-        <div className="col" key={profile._id}>
+        <div className="col-12" key={profile._id}>
           <ProfileCard 
             profile={profile} 
             onViewProfile={onViewProfile} 
