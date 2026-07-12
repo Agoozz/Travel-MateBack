@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Dashboard from './pages/Dashboard';
+import Onboarding from './pages/Onboarding';
 import Profile from './pages/Profile';
 import Messages from './pages/Messages';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -19,6 +20,8 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
           <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+          
+          <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
           
           <Route element={<ProtectedRoute><PrivateLayout /></ProtectedRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />

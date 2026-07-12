@@ -40,6 +40,7 @@ export const profileService = {
 
   async updateMyProfile(profileData) {
     let isOffline = false;
+    let backendUser = null;
     try {
       // 1. Call the backend API for the supported fields
       const payload = {
@@ -49,19 +50,26 @@ export const profileService = {
         estiloViaje: profileData.estiloViaje,
         presupuesto: profileData.presupuesto,
         fechaInicio: profileData.fechaInicio,
-        fechaFin: profileData.fechaFin
+        fechaFin: profileData.fechaFin,
+        destino: profileData.destino,
+        estiloCompanero: profileData.estiloCompanero,
+        regiones: profileData.regiones
       };
       
       const token = localStorage.getItem("token");
       if (token && !token.startsWith("offline-")) {
-        await fetchAPI('/perfiles/me', {
+        const response = await fetchAPI('/perfiles/me', {
           method: 'PUT',
           body: JSON.stringify(payload)
         });
+        backendUser = response.usuario;
       }
     } catch (err) {
       console.warn("Backend offline o error al actualizar perfil. Guardando localmente.", err);
       isOffline = true;
+      if (err.message !== "Failed to fetch" && !err.message.includes("fetch")) {
+        throw err;
+      }
     }
 
     // 2. Save everything to localStorage for parity with Vanilla
@@ -79,7 +87,11 @@ export const profileService = {
     localStorage.setItem("user_end_date", profileData.fechaFin || "");
     localStorage.setItem("user_languages", profileData.idiomas || "");
     localStorage.setItem("user_interests", profileData.intereses || "");
+    
+    if (backendUser && backendUser.progresoPerfil) {
+      localStorage.setItem("user_profile_progress", backendUser.progresoPerfil);
+    }
 
-    return { data: this.getMyProfile(), isOffline };
+    return { data: backendUser || this.getMyProfile(), isOffline };
   }
 };

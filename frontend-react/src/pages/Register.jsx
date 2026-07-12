@@ -20,7 +20,7 @@ export default function Register() {
       // En modo local (y también con backend real si responde de inmediato)
       // simulamos el mismo flujo que Vanilla: Guardar sesión y redirigir
       login(data.token, data.usuario);
-      navigate('/dashboard');
+      navigate('/onboarding');
     } catch (err) {
       setError(err.message || "Ocurrió un error. Intentá de nuevo.");
     } finally {

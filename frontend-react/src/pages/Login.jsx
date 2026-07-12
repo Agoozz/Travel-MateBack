@@ -17,7 +17,12 @@ export default function Login() {
     try {
       const data = await authService.login(email, password);
       login(data.token, data.usuario);
-      navigate('/dashboard');
+      
+      if (data.usuario.progresoPerfil === 100) {
+        navigate('/dashboard');
+      } else {
+        navigate('/onboarding');
+      }
     } catch (err) {
       setError(err.message || "Ocurrió un error. Intentá de nuevo.");
     } finally {

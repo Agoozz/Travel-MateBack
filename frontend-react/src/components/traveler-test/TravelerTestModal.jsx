@@ -20,7 +20,7 @@ const initialAnswers = {
   companero: "",
 };
 
-export default function TravelerTestModal({ show, onClose, onComplete }) {
+export default function TravelerTestModal({ show, onClose, onComplete, isOnboarding = false }) {
   const totalSteps = 6;
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -51,6 +51,7 @@ export default function TravelerTestModal({ show, onClose, onComplete }) {
   // Handle escape key
   useEffect(() => {
     const handleEsc = (e) => {
+      if (isOnboarding) return;
       if (e.key === 'Escape' && show && !loading && currentStep <= totalSteps) {
         onClose();
       }
@@ -102,17 +103,30 @@ export default function TravelerTestModal({ show, onClose, onComplete }) {
     };
 
     // Esto guardará en backend si hay conexión, y en localStorage como fallback (y el título del test)
-    await profileService.updateMyProfile(payload);
-    
-    // Y guardamos manualmente el título legible para compatibilidad
-    localStorage.setItem("user_travel_style", selectedProfileTitle);
+    try {
+      const result = await profileService.updateMyProfile(payload);
+      
+      if (isOnboarding && result.isOffline) {
+        alert("Error de conexión: El backend está desconectado. No se puede completar el registro en modo demostración.");
+        setLoading(false);
+        setCurrentStep(totalSteps); // go back to result
+        return;
+      }
+      
+      // Y guardamos manualmente el título legible para compatibilidad
+      localStorage.setItem("user_travel_style", selectedProfileTitle);
 
-    const regionLabel = {
-      noa: "Noroeste (NOA)", nea: "Noreste (NEA)", cuyo: "Cuyo", pampeana: "Pampeana", patagonia: "Patagonia",
-    }[regionKey] || "Patagonia";
-    localStorage.setItem("user_region", regionLabel);
+      const regionLabel = {
+        noa: "Noroeste (NOA)", nea: "Noreste (NEA)", cuyo: "Cuyo", pampeana: "Pampeana", patagonia: "Patagonia",
+      }[regionKey] || "Patagonia";
+      localStorage.setItem("user_region", regionLabel);
 
-    onComplete();
+      onComplete(result.data);
+    } catch (error) {
+      alert("Hubo un error al guardar tu perfil. Inténtalo de nuevo.");
+      setLoading(false);
+      setCurrentStep(totalSteps);
+    }
   };
 
   const isNextDisabled = () => {
@@ -135,6 +149,7 @@ export default function TravelerTestModal({ show, onClose, onComplete }) {
         tabIndex="-1" 
         style={{ zIndex: 1055, overflowY: 'auto' }}
         onClick={(e) => {
+          if (isOnboarding) return;
           if (e.target === e.currentTarget && !loading && currentStep <= totalSteps) {
             onClose();
           }
@@ -148,7 +163,7 @@ export default function TravelerTestModal({ show, onClose, onComplete }) {
                 <i className="bi bi-compass-fill me-2"></i> 
                 {currentStep <= totalSteps ? 'Test de Viajero' : 'Tu Perfil Ideal'}
               </h5>
-              {currentStep <= totalSteps && !loading && (
+              {currentStep <= totalSteps && !loading && !isOnboarding && (
                 <button type="button" className="btn-close btn-close-white" onClick={onClose} aria-label="Close"></button>
               )}
             </div>

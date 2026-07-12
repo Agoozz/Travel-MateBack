@@ -38,6 +38,33 @@ function calcularAfinidad(userA, userB) {
   return Math.round(score);
 }
 
+function calcularProgreso(usuario) {
+  // Campos obligatorios para considerar el perfil completo
+  const requiredFields = [
+    "estiloViaje",
+    "presupuesto",
+    "regiones",
+    "destino",
+    "estiloCompanero",
+    "fechaInicio",
+    "fechaFin",
+    "ubicacion"
+  ];
+  
+  let validCount = 0;
+  requiredFields.forEach(field => {
+    const val = usuario[field];
+    if (Array.isArray(val) && val.length > 0) {
+      validCount++;
+    } else if (typeof val === 'string' && val.trim() !== '') {
+      validCount++;
+    }
+  });
+
+  const percent = Math.floor((validCount / requiredFields.length) * 100);
+  return percent === 100 ? 100 : percent;
+}
+
 const obtenerPerfilesConAfinidad = async (usuarioActualId) => {
   const usuarioActual = await Usuario.findById(usuarioActualId);
   if (!usuarioActual) {
@@ -70,9 +97,10 @@ const obtenerPerfilesConAfinidad = async (usuarioActualId) => {
     return null;
   }).filter(id => id !== null);
 
-  // Buscar usuarios que no sean el actual y que no estén en la lista de excluidos
+  // Buscar usuarios que no sean el actual, que tengan progreso 100, y que no estén en la lista de excluidos
   const otrosUsuarios = await Usuario.find({ 
-    _id: { $ne: usuarioActual._id, $nin: excludeIds } 
+    _id: { $ne: usuarioActual._id, $nin: excludeIds },
+    progresoPerfil: 100
   });
 
   const perfilesConAfinidad = otrosUsuarios.map(u => {
@@ -93,7 +121,18 @@ const actualizarPerfil = async (usuarioId, datosActualizacion) => {
     throw err;
   }
 
-  const { nombre, ubicacion, bio, estiloViaje, presupuesto, fechaInicio, fechaFin } = datosActualizacion;
+  const { 
+    nombre, 
+    ubicacion, 
+    bio, 
+    estiloViaje, 
+    presupuesto, 
+    fechaInicio, 
+    fechaFin,
+    destino,
+    estiloCompanero,
+    regiones
+  } = datosActualizacion;
   
   if (nombre !== undefined) usuario.nombre = nombre;
   if (ubicacion !== undefined) usuario.ubicacion = ubicacion;
@@ -102,6 +141,11 @@ const actualizarPerfil = async (usuarioId, datosActualizacion) => {
   if (presupuesto !== undefined) usuario.presupuesto = presupuesto;
   if (fechaInicio !== undefined) usuario.fechaInicio = fechaInicio;
   if (fechaFin !== undefined) usuario.fechaFin = fechaFin;
+  if (destino !== undefined) usuario.destino = destino;
+  if (estiloCompanero !== undefined) usuario.estiloCompanero = estiloCompanero;
+  if (regiones !== undefined) usuario.regiones = regiones;
+
+  usuario.progresoPerfil = calcularProgreso(usuario);
   
   await usuario.save();
 
