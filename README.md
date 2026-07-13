@@ -1,5 +1,7 @@
 # Travel Mate (React + Node.js)
 
+🚀 **Demo Frontend en Vercel:** [https://travel-mate-back.vercel.app/](https://travel-mate-back.vercel.app/)
+
 Travel Mate es una aplicación web diseñada para conectar viajeros con intereses y presupuestos similares, permitiéndoles encontrar compañeros de viaje compatibles y chatear entre ellos.
 
 ## Arquitectura y Tecnologías
@@ -67,7 +69,10 @@ cd Travel-MateReact
 
 ## Despliegue (Producción)
 
-Para desplegar el frontend en Vercel o Netlify:
+El frontend de la aplicación se encuentra actualmente desplegado y disponible en:
+👉 **[https://travel-mate-back.vercel.app/](https://travel-mate-back.vercel.app/)**
+
+Para replicar el despliegue del frontend en Vercel o Netlify:
 - **Build Command:** `npm run build`
 - **Output Directory:** `dist`
 - **Environment Variables:** Configurar `VITE_API_BASE_URL` con la URL del backend en producción, o dejarlo apuntando localmente si es solo una maqueta frontend.
