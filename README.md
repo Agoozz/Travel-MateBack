@@ -43,7 +43,19 @@ cd Travel-MateReact
    ```bash
    node seed.js
    ```
-5. Levanta el servidor:
+   tomas@mate.com
+   sofia@mate.com
+   martin@mate.com
+   caro@mate.com
+   juan@mate.com
+   lucia@mate.com
+   nico@mate.com
+   valentina@mate.com
+   ana@mate.com
+   felipe@mate.com
+   Contraseña para todos: mate1234
+   
+6. Levanta el servidor:
    ```bash
    npm start
    ```
