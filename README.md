@@ -41,7 +41,7 @@ cd Travel-MateReact
    ```
 4. (Opcional) Si necesitas datos de prueba, puedes poblar la base de datos:
    ```bash
-   npm run seed
+   node seed.js
    ```
 5. Levanta el servidor:
    ```bash
