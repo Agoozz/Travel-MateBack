@@ -47,7 +47,8 @@ cd Travel-MateReact
    ```bash
    npm start
    ```
-   *El servidor correrá en `http://localhost:3000`*.
+   *El servidor correrá por defecto en `http://localhost:3000`*.
+   *(Nota: Si el puerto 3000 está ocupado, puedes cambiarlo abriendo el archivo `.env` del backend y agregando `PORT=4000`. Recuerda actualizar también el `.env` del frontend para que apunte al nuevo puerto).*
 
 ### 3. Levantar el Frontend (React)
 
