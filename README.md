@@ -50,11 +50,15 @@ Si deseas probar la persistencia de datos real, el registro de usuarios en Mongo
    ```cmd
    copy .env.example .env
    ```
-4. Levanta el servidor backend:
+5. (Opcional) Si necesitas datos de prueba, puedes poblar la base de datos:
+   ```bash
+   node seed.js
+   ```
+6. Levanta el servidor backend:
    ```bash
    npm start
    ```
    *(El servidor correrá por defecto en `http://localhost:3000` y se conectará automáticamente a MongoDB).*
    *(Nota: Si el puerto 3000 está ocupado, puedes cambiarlo abriendo el archivo `.env` del backend y agregando `PORT=4000`. Recuerda actualizar la URL en la configuración del frontend para que apunte al nuevo puerto).*
 
-5. Vuelve a abrir el `index.html` de la carpeta `frontend` en tu navegador. Ahora la aplicación detectará automáticamente el servidor y realizará las peticiones HTTP (fetch) reales contra la base de datos para guardar perfiles y mensajes en vivo.
+7. Vuelve a abrir el `index.html` de la carpeta `frontend` en tu navegador. Ahora la aplicación detectará automáticamente el servidor y realizará las peticiones HTTP (fetch) reales contra la base de datos para guardar perfiles y mensajes en vivo.
